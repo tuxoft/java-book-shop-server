@@ -1,0 +1,761 @@
+swagger: "2.0"
+info:
+  description: "Сервер книжного магазина"
+  version: "1.0.0"
+  title: "Книжный магазин"
+host: "localhost"
+basePath: "/api"
+tags:
+- name: "product-controller"
+  description: "Контролер товаров"
+- name: "basket-controller"
+  description: "Контролер корзины"
+- name: "order-controller"
+  description: "Контролер заказов"
+schemes:
+- "http"
+paths:
+  /books:
+    get:
+      tags:
+      - "product-controller"
+      summary: "Получить книги"
+      description: "Получение списка книг с учетом пагинации и сортировки"
+      operationId: "getBookList"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "start"
+        in: "query"
+        type: "integer"
+        default: 0
+        description: "порядок книги, начиная с которого возвращать книги"
+      - name: "count"
+        in: "query"
+        type: "integer"
+        default: 10
+        description: "количество книг в ответе"
+      - name: "sort"
+        in: "query"
+        type: "string"
+        description: "сортировка (список полей через запятую)"
+      - name: "order"
+        in: "query"
+        type: "string"
+        description: "Порядок сортировки (a|d для каждого поля, где a - asc, d- desc)"
+        enum:
+          - "a"
+          - "d"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Book"
+        401:
+          description: Unauthorized
+    post:
+      tags:
+      - "product-controller"
+      summary: "Добавить книгу"
+      description: "добавление книги"
+      operationId: "createBook"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "добавляемая книга"
+        schema:
+            $ref: "#/definitions/Book"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Book"
+        401:
+          description: Unauthorized
+  /books/search:
+    get:
+      tags:
+      - "product-controller"
+      summary: "Поиск книг"
+      description: "Получение списка книг по поисковому запросу с учетом фильтров и пагинации"
+      operationId: "searchBooks"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "query"
+        in: "query"
+        type: "string"
+        description: "поисковая строка"
+        required: false
+      - name: "title"
+        in: "query"
+        type: "boolean"
+        description: "поиск по названию"
+        required: false
+      - name: "authors"
+        in: "query"
+        type: "boolean"
+        description: "поиск по авторам"
+        required: false
+      - name: "categories"
+        in: "query"
+        type: "boolean"
+        description: "поиск по категориям"
+        required: false
+      - name: "start"
+        in: "query"
+        type: "integer"
+        default: 0
+        description: "порядок книги, начиная с которого возвращать книги"
+      - name: "count"
+        in: "query"
+        type: "integer"
+        default: 10
+        description: "количество книг в ответе"
+      - name: "sort"
+        in: "query"
+        type: "string"
+        description: "сортировка (список полей через запятую)"
+      - name: "order"
+        in: "query"
+        type: "string"
+        description: "порядок сортировки (a|d для каждого поля, где a - asc, d- desc)"
+        enum:
+          - "a"
+          - "d"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Book"
+        401:
+          description: Unauthorized
+  /books/{id}:
+    get:
+      tags:
+      - "product-controller"
+      summary: "Получить книгу по id"
+      description: "Получение книги по id"
+      operationId: "getBookById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+        description: "id требуемой книги"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Book"
+        401:
+          description: Unauthorized
+    put:
+      tags:
+      - "product-controller"
+      summary: "Обновление книги"
+      description: "Обновление книги с указаным id"
+      operationId: "saveBook"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+        description: "id обновляемой книги"
+      - in: "body"
+        name: "body"
+        description: "обновляемая книга"
+        schema:
+            $ref: "#/definitions/Book"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Book"
+        401:
+          description: Unauthorized
+    delete:
+      tags:
+      - "product-controller"
+      summary: "Удаление книги"
+      description: "Удаление книги с указаным id"
+      operationId: "deleteBook"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+        description: "id удаляемой книги"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Book"
+        401:
+          description: Unauthorized
+  /categories:
+    get:
+      tags:
+      - "product-controller"
+      summary: "Получить список категорий"
+      description: "Получение списка категорий на которые деляться книги (жанры)"
+      operationId: "getCategoriesList"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Category"
+        401:
+          description: Unauthorized
+  /categories/books:
+    get:
+      tags:
+      - "product-controller"
+      summary: "Получить список книг по категории"
+      description: "Получение списка книг относяшихся к указанным категориям"
+      operationId: "getBookListByCategory"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "categoryList"
+        in: "query"
+        description: "массив id категорий"
+        type: "array"
+        items:
+          type: "integer"
+          format: "int64"
+      - name: "start"
+        in: "query"
+        type: "integer"
+        default: 0
+        description: "порядок книги, начиная с которого возвращать книги"
+      - name: "count"
+        in: "query"
+        type: "integer"
+        default: 10
+        description: "количество книг в ответе"
+      - name: "sort"
+        in: "query"
+        type: "string"
+        description: "сортировка (список полей через запятую)"
+      - name: "order"
+        in: "query"
+        type: "string"
+        description: "порядок сортировки (a|d для каждого поля, где a - asc, d- desc)"
+        enum:
+          - "a"
+          - "d"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Book"
+        401:
+          description: Unauthorized
+  /authors:
+    get:
+      tags:
+      - "product-controller"
+      summary: "Получить список авторов"
+      description: "Получение списка авторов с пагинацией и сортировкой"
+      operationId: "getAuthorsList"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "start"
+        in: "query"
+        type: "integer"
+        default: 0
+        description: "порядок автора, начиная с которого возвращать авторов"
+      - name: "count"
+        in: "query"
+        type: "integer"
+        default: 10
+        description: "количество авторов в ответе"
+      - name: "sort"
+        in: "query"
+        type: "string"
+        description: "сортировка (список полей через запятую)"
+      - name: "order"
+        in: "query"
+        type: "string"
+        description: "порядок сортировки (a|d для каждого поля, где a - asc, d- desc)"
+        enum:
+          - "a"
+          - "d"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Person"
+        401:
+          description: Unauthorized
+  /authors/books:
+    get:
+      tags:
+      - "product-controller"
+      summary: "Получить список книг по авторам"
+      description: "Получение списка книг относяшихся к указанным авторам"
+      operationId: "getBookListByAuthor"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorList"
+        in: "query"
+        description: "массив id авторов"
+        type: "array"
+        items:
+          type: "integer"
+          format: "int64"
+      - name: "start"
+        in: "query"
+        type: "integer"
+        default: 0
+        description: "порядок книги, начиная с которого возвращать книги"
+      - name: "count"
+        in: "query"
+        type: "integer"
+        default: 10
+        description: "количество книг в ответе"
+      - name: "sort"
+        in: "query"
+        type: "string"
+        description: "сортировка (список полей через запятую)"
+      - name: "order"
+        in: "query"
+        type: "string"
+        description: "порядок сортировки (a|d для каждого поля, где a - asc, d- desc)"
+        enum:
+          - "a"
+          - "d"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Book"
+        401:
+          description: Unauthorized
+  /basket:
+    get:
+      tags:
+      - "basket-controller"
+      summary: "Получить книги в корзине"
+      description: "Получение книг которые были добавленны данным пользователем в корзину"
+      operationId: "getBasket"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/OrderItem"
+        401:
+          description: Unauthorized
+    post:
+      tags:
+      - "basket-controller"
+      summary: "Добавить книгу в корзину"
+      description: "добавление книги в корзину"
+      operationId: "addItemInBasket"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "query"
+        description: "id добавляемой книги"
+        type: "integer"
+        format: "int64"
+      - name: "count"
+        in: "query"
+        description: "количество"
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+    put:
+      tags:
+      - "basket-controller"
+      summary: "Изменить количество для указанной книги в корзине"
+      description: "изменение количества для указанной книги"
+      operationId: "changeItemInBasket"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "query"
+        description: "id книги для которой надо изменить количество"
+        type: "integer"
+        format: "int64"
+      - name: "count"
+        in: "query"
+        description: "новое количество"
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+    delete:
+      tags:
+      - "basket-controller"
+      summary: "удалить книгу в корзине"
+      description: "удаление книги в корзине"
+      operationId: "deleteItemInBasket"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "query"
+        description: "id книги для которой надо изменить количество"
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+  /orders:
+    get:
+      tags:
+      - "order-controller"
+      summary: "Получить заказы"
+      description: "Получение оформленных заказов"
+      operationId: "getOrderList"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Order"
+        401:
+          description: Unauthorized
+    post:
+      tags:
+      - "order-controller"
+      summary: "Создать заказ"
+      description: "Создание заказа"
+      operationId: "createOrder"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "создаваемый заказ"
+        schema:
+            $ref: "#/definitions/Order"
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+  /orders/{id}:
+    put:
+      tags:
+      - "order-controller"
+      summary: "Изменить заказ"
+      description: "Изменение заказа"
+      operationId: "changeOrder"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        description: "id заказа который нужно изменить"
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        description: "изменяемый заказ"
+        schema:
+            $ref: "#/definitions/Order"
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+    delete:
+      tags:
+      - "order-controller"
+      summary: "удалить заказ"
+      description: "удаление заказа"
+      operationId: "deleteOrder"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        description: "id заказа который нужно изменить"
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  Publisher:
+    type: "object"
+    description: "издательство"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "уникальный идентификатор издательства"
+      deleted:
+        type: "boolean"
+        description: "признак удаления"
+      name:
+        type: "string"
+        description: "название издательства"
+      profile:
+        type: "string"
+        description: "???"
+  BookSeries:
+    type: "object"
+    description: "серия книг"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "уникальный идентификатор серии"
+      deleted:
+        type: "boolean"
+        description: "признак удаления"
+      name:
+        type: "string"
+        description: "название серии книг"
+      description:
+        type: "string"
+        description: "описание серии книг"
+  Person:
+    type: "object"
+    description: "автор"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "уникальный идентификатор автора"
+      firstName:
+        type: "string"
+        description: "Имя"
+      middleName:
+        type: "string"
+        description: "Отчество"
+      lastName:
+        type: "string"
+        description: "Фамилия"
+  BookAuthor:
+    type: "object"
+    description: "автор книги"
+    properties:
+      posititon:
+        type: "integer"
+        format: "int32"
+        description: "позиция в списке авторов"
+      person:
+        $ref: "#/definitions/Person"
+        description: "автор"
+      book:
+        $ref: "#/definitions/Book"
+        description: "книга"
+  City:
+    type: "object"
+    description: "город издания"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "уникальный идентификатор города"
+      deleted:
+        type: "boolean"
+      name:
+        type: "string"
+        description: "название города"
+      codeName:
+        type: "string"
+        description: "код города"
+  Language:
+    type: "object"
+    description: "язык книги"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "уникальный идентификатор языка"
+      deleted:
+        type: "boolean"
+      name:
+        type: "string"
+        description: "название языка"
+      codeName:
+        type: "string"
+        description: "код языка"
+  Category:
+    type: "object"
+    description: "категория(жанр) книги"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      text:
+        type: "string"
+  Book:
+    type: "object"
+    description: "книга"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "уникальный идентификатор книги"
+      title:
+        type: "string"
+        description: "название книги"
+      subtitle:
+        type: "string"
+      edition:
+        type: "integer"
+        format: "int32"
+        description: "номер издания"
+      ISBN:
+        type: "string"
+        description: "международный стандартный книжный номер"
+      UDC:
+        type: "string"
+        description: "индекс Универсальной десятичной классификации"
+      BBK:
+        type: "string"
+        description: "индекс Библиотечно - библиографической классификации"
+      cutterCode:
+        type: "string"
+        description: "авторский знак"
+      publicationYear:
+        type: "string"
+        format: "date-time"
+        description: "год издания"
+      circulation:
+        type: "integer"
+        format: "int32"
+        description: "тираж"
+      publisher:
+        $ref: "#/definitions/Publisher"
+      authors:
+        type: "array"
+        items:
+          $ref: "#/definitions/BookAuthor"
+      city:
+        $ref: "#/definitions/City"
+      language:
+        $ref: "#/definitions/Language"
+      bookSeries:
+        $ref: "#/definitions/BookSeries"
+        description: "серия книг"
+      categories:
+        type: "array"
+        description: "категории(жанр) книги"
+        items:
+          $ref: "#/definitions/Category"
+  OrderItem:
+    type: "object"
+    description: "Элемент корзины или заказа (одна позиция в корзине или заказе)"
+    properties:
+      book:
+        description: "Книга"
+        $ref: "#/definitions/Book"
+      count:
+        description: "Количество"
+        type: "integer"
+        format: "int32"
+  Order:
+    type: "object"
+    description: "Заказ"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "уникальный идентификатор заказа"
+      deleted:
+        type: "boolean"
+        description: "признак удаления"
+      firstName:
+        type: "string"
+        description: "имя получателя заказа"
+      lastName:
+        type: "string"
+        description: "фамилия получателя заказа"
+      email:
+        type: "string"
+        description: "email получателя заказа"
+      phoneNumber:
+        type: "string"
+        description: "телефон получателя заказа"
+      shippingAddress:
+        type: "string"
+        description: "адрес получателя заказа"
+      paymentMethod:
+        type: "string"
+        description: "способ оплаты заказа"
+      discount:
+        type: "number"
+        description: "скидка"
+      totalCost:
+        type: "number"
+        description: "итоговая стоимость"
+      status:
+        type: "string"
+        description: "Статус заказа"
+        enum:
+          - "payd"
+          - "shipping"
+          - "delivery"
+          - "unpaid"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
