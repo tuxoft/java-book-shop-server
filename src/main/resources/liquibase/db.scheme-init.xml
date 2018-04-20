@@ -1,0 +1,174 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="v.darmakheev" id="20.04.2018-1">
+        <createTable tableName="books">
+            <column name="id" type="BIGINT" remarks="уникальный идентификатор книги">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="title" type="VARCHAR(255)" remarks="название книги"/>
+            <column name="subtitle" type="VARCHAR(2000)" remarks="подзаголов"/>
+            <column name="edition" type="INT" remarks="номер издания"/>
+            <column name="isbn" type="VARCHAR(255)" remarks="международный стандартный книжный номер"/>
+            <column name="udc" type="VARCHAR(255)" remarks="индекс универсальной десятичной классификации"/>
+            <column name="bbk" type="VARCHAR(255)" remarks="индекс библиотечно - библиографической классификации"/>
+            <column name="cutter_code" type="VARCHAR(255)" remarks="авторский знак"/>
+            <column name="publication_year" type="INT" remarks="год издания"/>
+            <column name="circulation" type="INT" remarks="тираж"/>
+            <column name="price" type="DECIMAL" remarks="цена"/>
+            <column name="in_stock" type="INT" remarks="в наличии"/>
+            <column name="publisher_id" type="BIGINT" remarks="уникальный идентификатор издательства"/>
+            <column name="book_series_id" type="BIGINT" remarks="уникальный идентификатор книжной серии"/>
+            <column name="city_id" type="BIGINT" remarks="уникальный идентификатор города издания"/>
+            <column name="language_id" type="BIGINT" remarks="уникальный идентификатор языка издания"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-2">
+        <createTable tableName="authors">
+            <column name="id" type="BIGINT" remarks="уникальный идентификатор автора">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)" remarks="имя"/>
+            <column name="middle_name" type="VARCHAR(255)" remarks="отчество"/>
+            <column name="last_name" type="VARCHAR(255)" remarks="фамилия"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-3">
+        <createTable tableName="book_authors">
+            <column name="id" type="BIGINT" remarks="уникальный идентификатор записи">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="book_id" type="BIGINT" remarks="уникальный идентификатор книги"/>
+            <column name="author_id" type="BIGINT" remarks="уникальный идентификатор автора"/>
+            <column name="position" type="INT" remarks="позиция в списке авторов"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-4">
+        <addForeignKeyConstraint baseColumnNames="book_id"
+                                 baseTableName="book_authors"
+                                 constraintName="book_id_book_authors_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="books"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-5">
+        <addForeignKeyConstraint baseColumnNames="author_id"
+                                 baseTableName="book_authors"
+                                 constraintName="author_id_book_authors_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="authors"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-6">
+        <createTable tableName="publishers">
+            <column name="id" type="BIGINT" remarks="уникальный идентификатор издательства">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)" remarks="название издательства"/>
+            <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-7">
+        <addForeignKeyConstraint baseColumnNames="publisher_id"
+                                 baseTableName="books"
+                                 constraintName="publisher_id_books_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="publishers"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-8">
+        <createTable tableName="book_series">
+            <column name="id" type="BIGINT" remarks="уникальный идентификатор книжной серии">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)" remarks="название серии"/>
+            <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
+            <column name="publisher_id" type="BIGINT" remarks="уникальный идентификатор издательства"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-9">
+        <addForeignKeyConstraint baseColumnNames="publisher_id"
+                                 baseTableName="book_series"
+                                 constraintName="publisher_id_book_series_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="publishers"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-10">
+        <createTable tableName="cities">
+            <column name="id" type="BIGINT" remarks="уникальный идентификатор города">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)" remarks="название города"/>
+            <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
+            <column name="code_city" type="BIGINT" remarks="код города"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-11">
+        <addForeignKeyConstraint baseColumnNames="city_id"
+                                 baseTableName="books"
+                                 constraintName="city_id_books_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cities"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-12">
+        <createTable tableName="languages">
+            <column name="id" type="BIGINT" remarks="уникальный идентификатор языка издания">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)" remarks="название языка"/>
+            <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
+            <column name="code_language" type="BIGINT" remarks="код языка"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-13">
+        <addForeignKeyConstraint baseColumnNames="language_id"
+                                 baseTableName="books"
+                                 constraintName="language_id_books_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="languages"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-14">
+        <createTable tableName="categories">
+            <column name="id" type="BIGINT" remarks="уникальный идентификатор категории">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)" remarks="название категории"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-15">
+        <addForeignKeyConstraint baseColumnNames="category_id"
+                                 baseTableName="books"
+                                 constraintName="category_id_books_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="categories"/>
+    </changeSet>
+
+</databaseChangeLog>
+

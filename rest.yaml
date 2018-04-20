@@ -312,7 +312,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Person'
+              $ref: '#/definitions/Author'
         '401':
           description: Unauthorized
   /authors/books:
@@ -555,7 +555,7 @@ definitions:
       id:
         type: integer
         format: int64
-        description: уникальный идентификатор серии
+        description: уникальный идентификатор книжной серии
         example: 12345678
       deleted:
         type: boolean
@@ -569,7 +569,7 @@ definitions:
         type: string
         description: описание серии книг
         example: Бестселлеры для девушек проверенные временем
-  Person:
+  Author:
     type: object
     description: автор
     properties:
@@ -580,15 +580,15 @@ definitions:
         example: 12345678
       firstName:
         type: string
-        description: Имя
+        description: имя
         example: Александр
       middleName:
         type: string
-        description: Отчество
+        description: отчество
         example: Сергеевич
       lastName:
         type: string
-        description: Фамилия
+        description: фамилия
         example: Пушкин
   BookAuthor:
     type: object
@@ -598,8 +598,8 @@ definitions:
         type: integer
         format: int32
         description: позиция в списке авторов
-      person:
-        $ref: '#/definitions/Person'
+      author:
+        $ref: '#/definitions/Author'
         description: автор
       book:
         $ref: '#/definitions/Book'
@@ -611,7 +611,7 @@ definitions:
       id:
         type: integer
         format: int64
-        description: уникальный идентификатор города
+        description: уникальный идентификатор города издания
         example: 12345678
       deleted:
         type: boolean
@@ -620,7 +620,7 @@ definitions:
         type: string
         description: название города
         example: Москва
-      codeName:
+      codeCity:
         type: string
         description: код города
         example: 495
@@ -631,7 +631,7 @@ definitions:
       id:
         type: integer
         format: int64
-        description: уникальный идентификатор языка
+        description: уникальный идентификатор языка издания
         example: 12345678
       deleted:
         type: boolean
@@ -640,7 +640,7 @@ definitions:
         type: string
         description: название языка
         example: Русский
-      codeName:
+      codeLanguage:
         type: string
         description: код языка
         example: RUS
@@ -651,9 +651,11 @@ definitions:
       id:
         type: integer
         format: int64
+        description: уникальный идентификатор категории
         example: 12345678
       text:
         type: string
+        description: название категории
         example: Художественная литература
   Book:
     type: object
@@ -670,6 +672,7 @@ definitions:
         example: Капитанская дочка
       subtitle:
         type: string
+        description: подзаголовок
         example: Действие этого исторического романа разворачивается в далёкой оренбургской крепости во время восстания Емельяна Пугачёва, куда для службы приезжает молодой помещик Пётр Гринёв.
       edition:
         type: integer
@@ -682,11 +685,11 @@ definitions:
         example: 978-5-04-091745-7
       UDC:
         type: string
-        description: индекс Универсальной десятичной классификации
+        description: индекс универсальной десятичной классификации
         example: 821.161.1
       BBK:
         type: string
-        description: индекс Библиотечно - библиографической классификации
+        description: индекс библиотечно - библиографической классификации
         example: 84(2Рос=Рус)1я44
       cutterCode:
         type: string
