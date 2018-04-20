@@ -528,18 +528,6 @@ paths:
           description: OK
         401:
           description: Unauthorized
-securityDefinitions:
-  petstore_auth:
-    type: "oauth2"
-    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
-    flow: "implicit"
-    scopes:
-      write:pets: "modify pets in your account"
-      read:pets: "read your pets"
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
 definitions:
   Publisher:
     type: "object"
@@ -555,9 +543,6 @@ definitions:
       name:
         type: "string"
         description: "название издательства"
-      profile:
-        type: "string"
-        description: "???"
   BookSeries:
     type: "object"
     description: "серия книг"
@@ -684,16 +669,27 @@ definitions:
         type: "integer"
         format: "int32"
         description: "тираж"
+      price:
+        type: "number"
+        description: "цена"
+      inStock:
+        type: "integer"
+        format: "int32"
+        description: "в наличии"
       publisher:
         $ref: "#/definitions/Publisher"
+        description: "издательство"
       authors:
         type: "array"
         items:
           $ref: "#/definitions/BookAuthor"
+        description: "авторы книги"
       city:
         $ref: "#/definitions/City"
+        description: "город издания"
       language:
         $ref: "#/definitions/Language"
+        description: "язык издания"
       bookSeries:
         $ref: "#/definitions/BookSeries"
         description: "серия книг"
