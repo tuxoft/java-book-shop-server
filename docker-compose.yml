@@ -1,0 +1,17 @@
+version: '2'
+services:
+  rzhd-portal-hr-db:
+    image: "postgres:9.6.3"
+    ports:
+      - "6550:5432"
+    network_mode: "rzhd-portal"
+    container_name: "book-shop-bd"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "secret"
+      POSTGRES_DB: "book_shop"
+    volumes:
+      - "book-shop-postgresql:/var/lib/postgresql/data"
+volumes:
+  book-shop-postgresql:
+  

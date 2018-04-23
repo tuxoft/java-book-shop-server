@@ -19,8 +19,8 @@ paths:
     get:
       tags:
         - product-controller
-      summary: Получить книги
-      description: Получение списка книг с учетом пагинации и сортировки
+      summary: получить книги
+      description: получение списка книг с учетом пагинации и сортировки
       operationId: getBookList
       produces:
         - application/json
@@ -80,9 +80,9 @@ paths:
     get:
       tags:
         - product-controller
-      summary: Поиск книг
+      summary: поиск книг
       description: >-
-        Получение списка книг по поисковому запросу с учетом фильтров и
+        получение списка книг по поисковому запросу с учетом фильтров и
         пагинации
       operationId: searchBooks
       produces:
@@ -142,8 +142,8 @@ paths:
     get:
       tags:
         - product-controller
-      summary: Получить книгу по id
-      description: Получение книги по id
+      summary: получить книгу по id
+      description: получение книги по id
       operationId: getBookById
       produces:
         - application/json
@@ -164,8 +164,8 @@ paths:
     put:
       tags:
         - product-controller
-      summary: Обновление книги
-      description: Обновление книги с указаным id
+      summary: обновление книги
+      description: обновление книги с указаным id
       operationId: saveBook
       produces:
         - application/json
@@ -191,8 +191,8 @@ paths:
     delete:
       tags:
         - product-controller
-      summary: Удаление книги
-      description: Удаление книги с указаным id
+      summary: удаление книги
+      description: удаление книги с указаным id
       operationId: deleteBook
       produces:
         - application/json
@@ -214,8 +214,8 @@ paths:
     get:
       tags:
         - product-controller
-      summary: Получить список категорий
-      description: Получение списка категорий на которые деляться книги (жанры)
+      summary: получить список категорий
+      description: получение списка категорий на которые деляться книги (жанры)
       operationId: getCategoriesList
       produces:
         - application/json
@@ -232,8 +232,8 @@ paths:
     get:
       tags:
         - product-controller
-      summary: Получить список книг по категории
-      description: Получение списка книг относяшихся к указанным категориям
+      summary: получить список книг по категории
+      description: получение списка книг относяшихся к указанным категориям
       operationId: getBookListByCategory
       produces:
         - application/json
@@ -279,8 +279,8 @@ paths:
     get:
       tags:
         - product-controller
-      summary: Получить список авторов
-      description: Получение списка авторов с пагинацией и сортировкой
+      summary: получить список авторов
+      description: получение списка авторов с пагинацией и сортировкой
       operationId: getAuthorsList
       produces:
         - application/json
@@ -319,8 +319,8 @@ paths:
     get:
       tags:
         - product-controller
-      summary: Получить список книг по авторам
-      description: Получение списка книг относяшихся к указанным авторам
+      summary: получить список книг по авторам
+      description: получение списка книг относяшихся к указанным авторам
       operationId: getBookListByAuthor
       produces:
         - application/json
@@ -366,8 +366,8 @@ paths:
     get:
       tags:
         - basket-controller
-      summary: Получить книги в корзине
-      description: Получение книг которые были добавленны данным пользователем в корзину
+      summary: получить книги в корзине
+      description: получение книг которые были добавленны данным пользователем в корзину
       operationId: getBasket
       produces:
         - application/json
@@ -383,7 +383,7 @@ paths:
     post:
       tags:
         - basket-controller
-      summary: Добавить книгу в корзину
+      summary: добавить книгу в корзину
       description: добавление книги в корзину
       operationId: addItemInBasket
       produces:
@@ -407,7 +407,7 @@ paths:
     put:
       tags:
         - basket-controller
-      summary: Изменить количество для указанной книги в корзине
+      summary: изменить количество для указанной книги в корзине
       description: изменение количества для указанной книги
       operationId: changeItemInBasket
       produces:
@@ -451,8 +451,8 @@ paths:
     get:
       tags:
         - order-controller
-      summary: Получить заказы
-      description: Получение оформленных заказов
+      summary: получить заказы
+      description: получение оформленных заказов
       operationId: getOrderList
       produces:
         - application/json
@@ -468,8 +468,8 @@ paths:
     post:
       tags:
         - order-controller
-      summary: Создать заказ
-      description: Создание заказа
+      summary: создать заказ
+      description: создание заказа
       operationId: createOrder
       produces:
         - application/json
@@ -488,8 +488,8 @@ paths:
     put:
       tags:
         - order-controller
-      summary: Изменить заказ
-      description: Изменение заказа
+      summary: изменить заказ
+      description: изменение заказа
       operationId: changeOrder
       produces:
         - application/json
@@ -738,13 +738,13 @@ definitions:
           $ref: '#/definitions/Category'
   OrderItem:
     type: object
-    description: Элемент корзины или заказа (одна позиция в корзине или заказе)
+    description: элемент корзины или заказа (одна позиция в корзине или заказе)
     properties:
       book:
-        description: Книга
+        description: книга
         $ref: '#/definitions/Book'
       count:
-        description: Количество
+        description: количество
         type: integer
         format: int32
         example: 2
@@ -795,7 +795,7 @@ definitions:
         example: 198.05
       status:
         type: string
-        description: Статус заказа
+        description: статус заказа
         enum:
           - payd
           - shipping
