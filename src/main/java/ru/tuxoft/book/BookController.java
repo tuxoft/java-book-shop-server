@@ -19,7 +19,7 @@ public class BookController {
     BookService bookService;
 
     @RequestMapping(method = RequestMethod.GET, path = "/")
-    public List<BookDto> getPersonalData(
+    public List<BookDto> getBookList(
             @RequestParam(name = "start", defaultValue = "0") int start,
             @RequestParam(name = "count", defaultValue = "10") int count,
             @RequestParam(name = "sort", defaultValue = "title") String sort,

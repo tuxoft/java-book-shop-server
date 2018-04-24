@@ -1,7 +1,14 @@
-package ru.tuxoft.book.domain;
+package ru.tuxoft.book.dto;
 
-/**
- * Created by Valera on 24.04.2018.
- */
+import lombok.Data;
+
+@Data
 public class BookAuthorDto {
+
+    private Long id;
+
+    private AuthorDto author;
+
+    private Integer position;
+
 }

@@ -1,7 +1,79 @@
 package ru.tuxoft.book.domain;
 
-/**
- * Created by Valera on 23.04.2018.
- */
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
+@Data
+@NoArgsConstructor
+@Entity
+@Table(name = "books")
 public class BookVO {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "subtitle")
+    private String subtitle;
+
+    @Column(name = "edition")
+    private Integer edition;
+
+    @Column(name = "isbn")
+    private String ISBN;
+
+    @Column(name = "udc")
+    private String UDC;
+
+    @Column(name = "bbk")
+    private String BBK;
+
+    @Column(name = "cutter_code")
+    private String cutterCode;
+
+    @Column(name = "publication_year")
+    private Date publicationYear;
+
+    @Column(name = "circulation")
+    private Integer circulation;
+
+    @Column(name = "price")
+    private BigDecimal price;
+
+    @Column(name = "in_stock")
+    private Integer inStock;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    private List<BookAuthorsVO> bookAuthorsVOList;
+
+    @ManyToOne
+    @JoinColumn(name = "publisher_id")
+    private PublisherVO publisherVO;
+
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private CityVO cityVO;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private CategoryVO categoryVO;
+
+    @ManyToOne
+    @JoinColumn(name = "book_series_id")
+    private BookSeriesVO bookSeriesVO;
+
+    @ManyToOne
+    @JoinColumn(name = "language_id")
+    private LanguageVO languageVO;
+
 }
+

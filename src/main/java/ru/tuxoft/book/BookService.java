@@ -2,12 +2,14 @@ package ru.tuxoft.book;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import ru.tuxoft.book.domain.repository.BookRepository;
 import ru.tuxoft.book.dto.BookDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class BookService {
@@ -16,7 +18,7 @@ public class BookService {
     BookRepository bookRepository;
 
     public List<BookDto> getBookList(int start, int count, String sort, String order) {
-        List<BookDto> result = bookRepository.findAll().stream().map(e -> new BookDto(e));
+        return bookRepository.findAll(PageRequest.of(start, count)).stream().map(e -> new BookDto(e)).collect(Collectors.toList());
     }
 
 }

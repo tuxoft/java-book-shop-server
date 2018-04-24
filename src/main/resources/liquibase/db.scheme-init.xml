@@ -116,7 +116,7 @@
             </column>
             <column name="name" type="VARCHAR(255)" remarks="название города"/>
             <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
-            <column name="code_city" type="BIGINT" remarks="код города"/>
+            <column name="code_city" type="VARCHAR(255)" remarks="код города"/>
         </createTable>
     </changeSet>
     <changeSet author="v.darmakheev" id="20.04.2018-11">
@@ -137,7 +137,7 @@
             </column>
             <column name="name" type="VARCHAR(255)" remarks="название языка"/>
             <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
-            <column name="code_language" type="BIGINT" remarks="код языка"/>
+            <column name="code_language" type="VARCHAR(255)" remarks="код языка"/>
         </createTable>
     </changeSet>
     <changeSet author="v.darmakheev" id="20.04.2018-13">
@@ -157,6 +157,8 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(255)" remarks="название категории"/>
+            <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
+            <column name="code_category" type="VARCHAR(255)" remarks="код категории"/>
         </createTable>
     </changeSet>
     <changeSet author="v.darmakheev" id="20.04.2018-15">

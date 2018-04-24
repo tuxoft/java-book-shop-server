@@ -1,12 +1,15 @@
 package ru.tuxoft.book.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.tuxoft.book.domain.BookVO;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class BookDto {
 
     private Long id;
@@ -33,18 +36,20 @@ public class BookDto {
 
     private Integer inStock;
 
-    /*private PublisherDto publisher;
+    private String coverUrl;
 
     private List<BookAuthorDto> authors;
 
+    private PublisherDto publisher;
+
     private CityDto city;
 
-    private LanguageDto language;
+    private List<CategoryDto> categories;
 
     private BookSeriesDto bookSeries;
 
-    private List<CategoryDto> categories;
-*/
+    private LanguageDto language;
+
     public BookDto(BookVO bookVO) {
 
     }

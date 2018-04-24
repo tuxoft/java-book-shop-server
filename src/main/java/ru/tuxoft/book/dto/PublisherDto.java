@@ -1,7 +1,17 @@
 package ru.tuxoft.book.dto;
 
-/**
- * Created by Valera on 24.04.2018.
- */
+import lombok.Data;
+
+import java.util.List;
+
+@Data
 public class PublisherDto {
+
+    private Long id;
+
+    private String name;
+
+    private List<BookDto> bookList;
+
+    private List<BookSeriesDto> bookSeriesList;
 }
