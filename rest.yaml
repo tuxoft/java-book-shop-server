@@ -691,10 +691,6 @@ definitions:
         type: string
         description: индекс библиотечно - библиографической классификации
         example: 84(2Рос=Рус)1я44
-      cutterCode:
-        type: string
-        description: авторский знак
-        example: Пушкин А. С.
       publicationYear:
         type: string
         format: date-time

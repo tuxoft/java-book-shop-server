@@ -14,7 +14,6 @@
             <column name="isbn" type="VARCHAR(255)" remarks="международный стандартный книжный номер"/>
             <column name="udc" type="VARCHAR(255)" remarks="индекс универсальной десятичной классификации"/>
             <column name="bbk" type="VARCHAR(255)" remarks="индекс библиотечно - библиографической классификации"/>
-            <column name="cutter_code" type="VARCHAR(255)" remarks="авторский знак"/>
             <column name="publication_year" type="INT" remarks="год издания"/>
             <column name="circulation" type="INT" remarks="тираж"/>
             <column name="price" type="DECIMAL" remarks="цена"/>
@@ -23,7 +22,6 @@
             <column name="book_series_id" type="BIGINT" remarks="уникальный идентификатор книжной серии"/>
             <column name="city_id" type="BIGINT" remarks="уникальный идентификатор города издания"/>
             <column name="language_id" type="BIGINT" remarks="уникальный идентификатор языка издания"/>
-            <column name="category_id" type="BIGINT" remarks="уникальный идентификатор категории книги"/>
         </createTable>
     </changeSet>
     <changeSet author="v.darmakheev" id="20.04.2018-2">
@@ -162,6 +160,37 @@
         </createTable>
     </changeSet>
     <changeSet author="v.darmakheev" id="20.04.2018-15">
+        <createTable tableName="book_categories">
+            <column name="id" type="BIGINT" remarks="уникальный идентификатор записи">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="book_id" type="BIGINT" remarks="уникальный идентификатор книги"/>
+            <column name="category_id" type="BIGINT" remarks="уникальный идентификатор категории"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-16">
+        <addForeignKeyConstraint baseColumnNames="book_id"
+                                 baseTableName="book_categories"
+                                 constraintName="book_id_book_categories_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="books"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-17">
+        <addForeignKeyConstraint baseColumnNames="category_id"
+                                 baseTableName="book_categories"
+                                 constraintName="category_id_book_categories_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="categories"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="20.04.2018-18">
         <addForeignKeyConstraint baseColumnNames="category_id"
                                  baseTableName="books"
                                  constraintName="category_id_books_fkey"

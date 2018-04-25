@@ -26,7 +26,11 @@ public class CategoryVO {
     @Column(name = "code_category")
     private String codeCategory;
 
-    @OneToMany(mappedBy = "categoryVO", cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "book_categories",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
     private List<BookVO> bookVOList;
 
 

@@ -37,9 +37,6 @@ public class BookVO {
     @Column(name = "bbk")
     private String BBK;
 
-    @Column(name = "cutter_code")
-    private String cutterCode;
-
     @Column(name = "publication_year")
     private Date publicationYear;
 
@@ -63,9 +60,12 @@ public class BookVO {
     @JoinColumn(name = "city_id")
     private CityVO cityVO;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private CategoryVO categoryVO;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "book_categories",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<CategoryVO> categoryVOList;
 
     @ManyToOne
     @JoinColumn(name = "book_series_id")

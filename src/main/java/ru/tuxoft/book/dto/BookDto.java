@@ -26,8 +26,6 @@ public class BookDto {
 
     private String BBK;
 
-    private String cutterCode;
-
     private Date publicationYear;
 
     private Integer circulation;
