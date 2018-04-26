@@ -1,0 +1,151 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet author="v.darmakheev" id="data-init-1">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/authors.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="authors">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-2">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/publishers.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="publishers">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-3">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/book_series.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="book_series">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-4">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/cities.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="cities">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-5">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/languages.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="languages">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-6">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/categories.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="categories">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-7">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/books.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="books">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-8">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/book_authors.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="book_authors">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-9">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/book_categories.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="book_categories">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-10">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/basket.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="basket">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-11">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/basket_items.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="basket_items">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-12">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/orders.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="orders">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-13">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/order_items.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="order_items">
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>

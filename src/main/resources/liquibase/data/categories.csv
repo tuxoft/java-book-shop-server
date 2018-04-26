@@ -1,0 +1,31 @@
+id;name;deleted;code_category
+1;Художественная литература;false;bellesLettres
+2;Нехудожественная литература;false;noBellesLettres
+3;Детям и родителям;false;childParent
+4;Книги для подростков;false;forTeenagers
+5;Все для школы;false;forSchool
+6;Бизнес-литература;false;forBisness
+7;Комиксы;false;comics
+8;Кулинария;false;cooking
+9;Дом, досуг, хобби;false;homeHobby
+10;Путешествия, путеводители;false;forTraveler
+11;Профессиональная литература;false;professionalLettres
+12;Иностранные языки;false;foreignLanguage
+13;Фантастика и фэнтези;false;fantastic
+14;Детективы, триллеры;false;detectivThrillers
+15;Современная проза;false;modernProse
+16;Любовные романы;false;novels
+17;Исторический роман;false;historical
+18;Классика;false;classic
+19;Поэзия;false;poetry
+20;Юмор;false;humor
+21;Психология и саморазвитие;false;psychology
+22;Красота и здоровье;false;beautyHealth
+23;Искусство и культура;false;artCulture
+24;Спорт;false;sport
+25;Научно-популярные книги;false;science
+26;Биографии, мемуары;false;biographies
+27;Публицистика;false;publicism
+29;Финансы, инвестиции;false;finance
+30;Религия, эзотерика;false;religion
+31;Энциклопедии, справочники;false;encyclopedia

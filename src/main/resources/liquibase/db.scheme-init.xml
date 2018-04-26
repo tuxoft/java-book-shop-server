@@ -190,22 +190,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="categories"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-18">
-        <addForeignKeyConstraint baseColumnNames="category_id"
-                                 baseTableName="books"
-                                 constraintName="category_id_books_fkey"
-                                 deferrable="false"
-                                 initiallyDeferred="false"
-                                 onDelete="NO ACTION"
-                                 onUpdate="NO ACTION"
-                                 referencedColumnNames="id"
-                                 referencedTableName="categories"/>
-    </changeSet>
     <changeSet author="v.darmakheev" id="23.04.2018-1">
         <createTable tableName="orders">
             <column name="id" type="BIGINT" remarks="уникальный идентификатор заказа">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
+            <column name="user_id" type="BIGINT" remarks="уникальный идентификатор пользователя"/>
             <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
             <column name="first_name" type="VARCHAR(255)" remarks="имя получателя заказа"/>
             <column name="middle_name" type="VARCHAR(255)" remarks="отчество получателя заказа"/>
@@ -214,7 +204,10 @@
             <column name="phone_number" type="VARCHAR(255)" remarks="телефон получателя заказа"/>
             <column name="shipping_address" type="VARCHAR(255)" remarks="телефон получателя заказа"/>
             <column name="payment_method" type="VARCHAR(255)" remarks="способ оплаты заказа"/>
-            <column name="discount" type="VARCHAR(255)" remarks="скидка"/>
+            <column name="total_cost" type="DECIMAL" remarks="общая стоимость"/>
+            <column name="discount" type="DECIMAL" remarks="скидка"/>
+            <column name="to_pay" type="DECIMAL" remarks="к оплате"/>
+            <column name="pay_for" type="DECIMAL" remarks="оплачено"/>
             <column name="status" type="VARCHAR(255)" remarks="статус заказа"/>
         </createTable>
     </changeSet>
@@ -243,6 +236,46 @@
         <addForeignKeyConstraint baseColumnNames="book_id"
                                  baseTableName="order_items"
                                  constraintName="book_id_order_item_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="books"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="26.04.2018-1">
+        <createTable tableName="basket">
+            <column name="id" type="BIGINT" remarks="уникальный идентификатор корзины">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_id" type="BIGINT" remarks="уникальный идентификатор пользователя"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="26.04.2018-2">
+        <createTable tableName="basket_items">
+            <column name="id" type="BIGINT" remarks="уникальный идентификатор">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="basket_id" type="BIGINT" remarks="уникальный идентификатор корзины"/>
+            <column name="book_id" type="BIGINT" remarks="уникальный идентификатор книги"/>
+            <column name="count" type="INT" remarks="количетсво книг с указанным id в корзине"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="26.04.2018-3">
+        <addForeignKeyConstraint baseColumnNames="basket_id"
+                                 baseTableName="basket_items"
+                                 constraintName="basket_id_basket_items_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="basket"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="26.04.2018-4">
+        <addForeignKeyConstraint baseColumnNames="book_id"
+                                 baseTableName="basket_items"
+                                 constraintName="book_id_basket_items_fkey"
                                  deferrable="false"
                                  initiallyDeferred="false"
                                  onDelete="NO ACTION"

@@ -29,16 +29,16 @@ public class BookVO {
     private Integer edition;
 
     @Column(name = "isbn")
-    private String ISBN;
+    private String isbn;
 
     @Column(name = "udc")
-    private String UDC;
+    private String udc;
 
     @Column(name = "bbk")
-    private String BBK;
+    private String bbk;
 
     @Column(name = "publication_year")
-    private Date publicationYear;
+    private Integer publicationYear;
 
     @Column(name = "circulation")
     private Integer circulation;

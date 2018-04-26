@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -16,6 +17,9 @@ public class OrderVO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "deleted")
     private Boolean deleted = false;
@@ -41,8 +45,17 @@ public class OrderVO {
     @Column(name = "payment_method")
     private String paymentMethod;
 
+    @Column(name = "total_cost")
+    private BigDecimal totalCost;
+
     @Column(name = "discount")
     private String discount;
+
+    @Column(name = "to_pay")
+    private BigDecimal toPay;
+
+    @Column(name = "pay_for")
+    private BigDecimal payFor;
 
     @Column(name = "status")
     private String status;

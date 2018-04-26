@@ -26,6 +26,7 @@ public class PublisherVO {
     @OneToMany(mappedBy = "publisherVO", cascade = CascadeType.ALL)
     private List<BookVO> bookVOList;
 
+
     @OneToMany(mappedBy = "publisherVO", cascade = CascadeType.ALL)
     private List<BookSeriesVO> bookSeriesVOList;
 

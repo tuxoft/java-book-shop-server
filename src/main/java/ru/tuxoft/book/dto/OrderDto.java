@@ -2,6 +2,7 @@ package ru.tuxoft.book.dto;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -23,7 +24,13 @@ public class OrderDto {
 
     private String paymentMethod;
 
-    private String discount;
+    private BigDecimal totalCost;
+
+    private BigDecimal discount;
+
+    private BigDecimal toPay;
+
+    private BigDecimal payFor;
 
     private String status;
 
