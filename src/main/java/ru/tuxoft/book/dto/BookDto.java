@@ -2,6 +2,7 @@ package ru.tuxoft.book.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ru.tuxoft.book.domain.BookAuthorsVO;
 import ru.tuxoft.book.domain.BookVO;
 import ru.tuxoft.book.domain.CategoryVO;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Data
 @NoArgsConstructor
 public class BookDto {

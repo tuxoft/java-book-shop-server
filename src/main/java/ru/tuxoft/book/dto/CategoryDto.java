@@ -1,9 +1,11 @@
 package ru.tuxoft.book.dto;
 
+import lombok.Data;
 import ru.tuxoft.book.domain.CategoryVO;
 
 import java.util.List;
 
+@Data
 public class CategoryDto {
 
     private Long id;
