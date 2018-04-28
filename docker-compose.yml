@@ -4,7 +4,7 @@ services:
     image: "postgres:9.6.3"
     ports:
       - "6550:5432"
-    network_mode: "rzhd-portal"
+    network_mode: "book-shop"
     container_name: "book-shop-bd"
     environment:
       POSTGRES_USER: "postgres"
