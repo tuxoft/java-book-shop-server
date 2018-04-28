@@ -12,6 +12,20 @@ services:
       POSTGRES_DB: "book_shop"
     volumes:
       - "book-shop-postgresql:/var/lib/postgresql/data"
+  s3-cloudserver:
+    image: "scality/s3server"
+    ports:
+      - "6552:8000"
+    network_mode: "book-shop"
+    container_name: "s3-cloudserver"
+    environment:
+      SCALITY_ACCESS_KEY_ID: "file:admin"
+      SCALITY_SECRET_ACCESS_KEY: "password"
+    volumes:
+      - "s3-localData:/usr/src/app/localData"
+      - "s3-localMetadata:/usr/src/app/localMetadata"
 volumes:
   book-shop-postgresql:
+  s3-localData:
+  s3-localMetadata:
   

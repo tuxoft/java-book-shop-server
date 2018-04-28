@@ -2,7 +2,7 @@
 docker network create book-shop
 
 Для сборки пода с БД postgres выполнить
-docker-compouse up -d
+docker-compose up -d
 
 Приложение собирается через maven
 docker образ собирается при сборке приложения
