@@ -10,7 +10,9 @@ import com.amazonaws.services.s3.model.S3Object;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +34,9 @@ public class S3ServiceImpl implements S3Service {
 
     @Autowired
     private AmazonS3 s3client;
+
+    @Value("${s3.bucket}")
+    private String bucket;
 
     /**
      * Скачать файл из S3
@@ -156,6 +161,19 @@ public class S3ServiceImpl implements S3Service {
             log.error(ace.getMessage(), ace);
         }
         return keyName;
+    }
+
+    @Override
+    public String uploadFile(MultipartFile multipartFile) {
+        try {
+            byte[] content = multipartFile.getBytes();
+            String name = multipartFile.getName();
+            String contentType = multipartFile.getContentType();
+            return uploadFile(bucket, content, contentType, name);
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
     }
 
 }

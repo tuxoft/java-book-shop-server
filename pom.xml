@@ -82,6 +82,20 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>com.bazaarvoice.maven.plugins</groupId>
+				<artifactId>s3-upload-maven-plugin</artifactId>
+				<version>1.4</version>
+				<configuration>
+					<bucketName>bookshop</bucketName>
+					<source>src/main/resources/s3</source>
+					<destination>bookshop</destination>
+					<recursive>true</recursive>
+					<accessKey>admin</accessKey>
+					<secretKey>password</secretKey>
+					<endpoint>http://localhost:6552</endpoint>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

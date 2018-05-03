@@ -3,10 +3,8 @@ package ru.tuxoft.s3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -42,6 +40,12 @@ public class S3Controller {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/file/s3/save")
+    public ResponseEntity uploadPicture(@RequestParam("file") MultipartFile file) {
+        String key_name = s3Service.uploadFile(file);
+        return new ResponseEntity<>(key_name, HttpStatus.OK);
     }
 
 }

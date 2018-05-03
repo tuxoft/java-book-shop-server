@@ -1,6 +1,7 @@
 package ru.tuxoft.s3;
 
 import com.amazonaws.services.s3.model.S3Object;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
@@ -22,4 +23,5 @@ public interface S3Service {
 
     String uploadFile(String keyName, String bucketName, byte[] data, String contentType, String originalName);
 
+    String uploadFile(MultipartFile file);
 }

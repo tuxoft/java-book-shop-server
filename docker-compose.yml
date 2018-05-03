@@ -17,9 +17,9 @@ services:
     ports:
       - "6552:8000"
     network_mode: "book-shop"
-    container_name: "s3-cloudserver"
+    container_name: "s3.docker.test"
     environment:
-      SCALITY_ACCESS_KEY_ID: "file:admin"
+      SCALITY_ACCESS_KEY_ID: "admin"
       SCALITY_SECRET_ACCESS_KEY: "password"
     volumes:
       - "s3-localData:/usr/src/app/localData"
@@ -28,4 +28,3 @@ volumes:
   book-shop-postgresql:
   s3-localData:
   s3-localMetadata:
-  
