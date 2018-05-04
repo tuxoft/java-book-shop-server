@@ -1,2 +1,2 @@
-id;user_id;deleted;first_name;middle_name;last_name;email;phone_number;shipping_address;payment_method;total_cost;discount;to_pay;pay_for;status
-1;1;false;Владимир;Владимирович;Путин;prezident@mail.ru;+79000000001;100000, Москва, Кремль;visa;710;210;500;500;shipping
+user_id;deleted;first_name;middle_name;last_name;email;phone_number;shipping_address;payment_method;total_cost;discount;to_pay;pay_for;status
+1;false;Владимир;Владимирович;Путин;prezident@mail.ru;+79000000001;100000, Москва, Кремль;visa;710;210;500;500;shipping

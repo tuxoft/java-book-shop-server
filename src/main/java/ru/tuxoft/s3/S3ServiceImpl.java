@@ -59,7 +59,7 @@ public class S3ServiceImpl implements S3Service {
                 for (File f : dir.listFiles()) {
                     Long book_id = Long.valueOf(f.getName().substring(f.getName().lastIndexOf("_")+1,f.getName().lastIndexOf(".")));
                     Optional<BookVO> book = bookRepository.findById(book_id);
-                    if (book.isPresent() && book.get().getCoverFile() != null) {
+                    if (book.isPresent() && book.get().getCoverFile() == null) {
                         byte[] bytesArray = getFileAsBytesArray(f);
                         FileVO file = new FileVO(f);
                         file.setBucket(bucket);
@@ -72,6 +72,10 @@ public class S3ServiceImpl implements S3Service {
                     }
                 }
             }
+            S3InitVO s3InitVO = new S3InitVO();
+            s3InitVO.setId(1L);
+            s3InitVO.setInit(true);
+            s3InitRepository.saveAndFlush(s3InitVO);
         }
 
     }

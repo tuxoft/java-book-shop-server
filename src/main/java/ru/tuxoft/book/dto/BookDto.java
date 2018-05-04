@@ -93,6 +93,8 @@ public class BookDto {
         this.bookSeries = new BookSeriesDto(bookVO.getBookSeriesVO());
         this.language = bookVO.getLanguageVO().getName();
 
+        this.coverUrl = "/api/file/s3/" +bookVO.getCoverFile().getBucket() + "/" + bookVO.getCoverFile().getKey() + "." + bookVO.getCoverFile().getName().substring(bookVO.getCoverFile().getName().lastIndexOf(".")+1);
+
 
     }
 

@@ -1,4 +1,4 @@
-id;name;deleted;code_city
-1;Москва;false;495
-2;Санкт-Петербург;false;812
-3;Киев;false;38044
+name;deleted;code_city
+Москва;false;495
+Санкт-Петербург;false;812
+Киев;false;38044

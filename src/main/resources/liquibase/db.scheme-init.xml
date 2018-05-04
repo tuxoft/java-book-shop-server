@@ -5,7 +5,7 @@
 
     <changeSet author="v.darmakheev" id="scheme-init-1">
         <createTable tableName="books">
-            <column name="id" type="BIGINT" remarks="уникальный идентификатор книги">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор книги">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="title" type="VARCHAR(255)" remarks="название книги"/>
@@ -27,7 +27,7 @@
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-2">
         <createTable tableName="authors">
-            <column name="id" type="BIGINT" remarks="уникальный идентификатор автора">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор автора">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="first_name" type="VARCHAR(255)" remarks="имя"/>
@@ -37,7 +37,7 @@
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-3">
         <createTable tableName="book_authors">
-            <column name="id" type="BIGINT" remarks="уникальный идентификатор записи">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор записи">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="book_id" type="BIGINT" remarks="уникальный идентификатор книги"/>
@@ -69,7 +69,7 @@
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-6">
         <createTable tableName="publishers">
-            <column name="id" type="BIGINT" remarks="уникальный идентификатор издательства">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор издательства">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(255)" remarks="название издательства"/>
@@ -89,7 +89,7 @@
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-8">
         <createTable tableName="book_series">
-            <column name="id" type="BIGINT" remarks="уникальный идентификатор книжной серии">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор книжной серии">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(255)" remarks="название серии"/>
@@ -110,7 +110,7 @@
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-10">
         <createTable tableName="cities">
-            <column name="id" type="BIGINT" remarks="уникальный идентификатор города">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор города">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(255)" remarks="название города"/>
@@ -131,7 +131,7 @@
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-12">
         <createTable tableName="languages">
-            <column name="id" type="BIGINT" remarks="уникальный идентификатор языка издания">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор языка издания">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(255)" remarks="название языка"/>
@@ -152,7 +152,7 @@
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-14">
         <createTable tableName="categories">
-            <column name="id" type="BIGINT" remarks="уникальный идентификатор категории">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор категории">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(255)" remarks="название категории"/>
@@ -162,7 +162,7 @@
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-15">
         <createTable tableName="book_categories">
-            <column name="id" type="BIGINT" remarks="уникальный идентификатор записи">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор записи">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="book_id" type="BIGINT" remarks="уникальный идентификатор книги"/>
@@ -193,7 +193,7 @@
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-18">
         <createTable tableName="orders">
-            <column name="id" type="BIGINT" remarks="уникальный идентификатор заказа">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор заказа">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="user_id" type="BIGINT" remarks="уникальный идентификатор пользователя"/>
@@ -214,7 +214,7 @@
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-19">
         <createTable tableName="order_items">
-            <column name="id" type="BIGINT" remarks="уникальный идентификатор">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="order_id" type="BIGINT" remarks="уникальный идентификатор заказа"/>
@@ -246,7 +246,7 @@
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-22">
         <createTable tableName="basket">
-            <column name="id" type="BIGINT" remarks="уникальный идентификатор корзины">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор корзины">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="user_id" type="BIGINT" remarks="уникальный идентификатор пользователя"/>
@@ -254,7 +254,7 @@
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-23">
         <createTable tableName="basket_items">
-            <column name="id" type="BIGINT" remarks="уникальный идентификатор">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="basket_id" type="BIGINT" remarks="уникальный идентификатор корзины"/>
@@ -286,7 +286,7 @@
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-26">
         <createTable tableName="files">
-            <column name="id" type="BIGINT" remarks="уникальный идентификатор файла">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор файла">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(255)" remarks="оригинальное название файла"/>
@@ -310,7 +310,7 @@
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-28">
         <createTable tableName="s3init">
-            <column name="id" type="BIGINT" remarks="уникальный идентификатор">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="init" type="BOOLEAN" remarks="был ли проинициализирован s3"/>
