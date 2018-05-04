@@ -1,31 +1,31 @@
-name;deleted;code_category
-Художественная литература;false;bellesLettres
-Нехудожественная литература;false;noBellesLettres
-Детям и родителям;false;childParent
-Книги для подростков;false;forTeenagers
-Все для школы;false;forSchool
-Бизнес-литература;false;forBisness
-Комиксы;false;comics
-Кулинария;false;cooking
-Дом, досуг, хобби;false;homeHobby
-Путешествия, путеводители;false;forTraveler
-Профессиональная литература;false;professionalLettres
-Иностранные языки;false;foreignLanguage
-Фантастика и фэнтези;false;fantastic
-Детективы, триллеры;false;detectivThrillers
-Современная проза;false;modernProse
-Любовные романы;false;novels
-Исторический роман;false;historical
-Классика;false;classic
-Поэзия;false;poetry
-Юмор;false;humor
-Психология и саморазвитие;false;psychology
-Красота и здоровье;false;beautyHealth
-Искусство и культура;false;artCulture
-Спорт;false;sport
-Научно-популярные книги;false;science
-Биографии, мемуары;false;biographies
-Публицистика;false;publicism
-Финансы, инвестиции;false;finance
-Религия, эзотерика;false;religion
-Энциклопедии, справочники;false;encyclopedia
+id;name;deleted;code_category
+1;Художественная литература;false;bellesLettres
+2;Нехудожественная литература;false;noBellesLettres
+3;Детям и родителям;false;childParent
+4;Книги для подростков;false;forTeenagers
+5;Все для школы;false;forSchool
+6;Бизнес-литература;false;forBisness
+7;Комиксы;false;comics
+8;Кулинария;false;cooking
+9;Дом, досуг, хобби;false;homeHobby
+10;Путешествия, путеводители;false;forTraveler
+11;Профессиональная литература;false;professionalLettres
+12;Иностранные языки;false;foreignLanguage
+13;Фантастика и фэнтези;false;fantastic
+14;Детективы, триллеры;false;detectivThrillers
+15;Современная проза;false;modernProse
+16;Любовные романы;false;novels
+17;Исторический роман;false;historical
+18;Классика;false;classic
+19;Поэзия;false;poetry
+20;Юмор;false;humor
+21;Психология и саморазвитие;false;psychology
+22;Красота и здоровье;false;beautyHealth
+23;Искусство и культура;false;artCulture
+24;Спорт;false;sport
+25;Научно-популярные книги;false;science
+26;Биографии, мемуары;false;biographies
+27;Публицистика;false;publicism
+29;Финансы, инвестиции;false;finance
+30;Религия, эзотерика;false;religion
+31;Энциклопедии, справочники;false;encyclopedia
