@@ -8,7 +8,7 @@ basePath: /api
 tags:
   - name: product-controller
     description: Контролер товаров
-  - name: basket-controller
+  - name: cart-controller
     description: Контролер корзины
   - name: order-controller
     description: Контролер заказов
@@ -362,13 +362,13 @@ paths:
               $ref: '#/definitions/Book'
         '401':
           description: Unauthorized
-  /basket:
+  /cart:
     get:
       tags:
-        - basket-controller
+        - cart-controller
       summary: получить книги в корзине
       description: получение книг которые были добавленны данным пользователем в корзину
-      operationId: getBasket
+      operationId: getCart
       produces:
         - application/json
       responses:
@@ -382,10 +382,10 @@ paths:
           description: Unauthorized
     post:
       tags:
-        - basket-controller
+        - cart-controller
       summary: добавить книгу в корзину
       description: добавление книги в корзину
-      operationId: addItemInBasket
+      operationId: addItemInCart
       produces:
         - application/json
       parameters:
@@ -406,10 +406,10 @@ paths:
           description: Unauthorized
     put:
       tags:
-        - basket-controller
+        - cart-controller
       summary: изменить количество для указанной книги в корзине
       description: изменение количества для указанной книги
-      operationId: changeItemInBasket
+      operationId: changeItemInCart
       produces:
         - application/json
       parameters:
@@ -430,10 +430,10 @@ paths:
           description: Unauthorized
     delete:
       tags:
-        - basket-controller
+        - cart-controller
       summary: удалить книгу в корзине
       description: удаление книги в корзине
-      operationId: deleteItemInBasket
+      operationId: deleteItemInCart
       produces:
         - application/json
       parameters:

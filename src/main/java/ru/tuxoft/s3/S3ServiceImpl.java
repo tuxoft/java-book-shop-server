@@ -13,17 +13,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import ru.tuxoft.book.domain.BookVO;
+import ru.tuxoft.book.domain.FileVO;
+import ru.tuxoft.book.domain.S3InitVO;
+import ru.tuxoft.book.domain.repository.BookRepository;
+import ru.tuxoft.book.domain.repository.FileRepository;
+import ru.tuxoft.book.domain.repository.S3InitRepository;
 
+import javax.activation.MimetypesFileTypeMap;
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Сервис для работы с файловым хранилищем s3
@@ -37,6 +40,64 @@ public class S3ServiceImpl implements S3Service {
 
     @Value("${s3.bucket}")
     private String bucket;
+
+    @Autowired
+    private S3InitRepository s3InitRepository;
+
+    @Autowired
+    private BookRepository bookRepository;
+
+    @Autowired
+    private FileRepository fileRepository;
+
+    @PostConstruct
+    public void initialBootCover() {
+        Optional<S3InitVO> s3InitVOOptional = s3InitRepository.findById(1L);
+        if (s3InitVOOptional.isPresent() && !s3InitVOOptional.get().getInit()) {
+            File dir = new File("src/main/resources/s3/cover_books");
+            if (dir.isDirectory()) {
+                for (File f : dir.listFiles()) {
+                    Long book_id = Long.valueOf(f.getName().substring(f.getName().lastIndexOf("_")+1,f.getName().lastIndexOf(".")));
+                    Optional<BookVO> book = bookRepository.findById(book_id);
+                    if (book.isPresent() && book.get().getCoverFile() != null) {
+                        byte[] bytesArray = getFileAsBytesArray(f);
+                        FileVO file = new FileVO(f);
+                        file.setBucket(bucket);
+                        file.setKey(UUID.randomUUID().toString());
+                        uploadFile(file, bytesArray);
+                        fileRepository.saveAndFlush(file);
+                        BookVO bookVO = book.get();
+                        bookVO.setCoverFile(file);
+                        bookRepository.saveAndFlush(bookVO);
+                    }
+                }
+            }
+        }
+
+    }
+
+    private byte[] getFileAsBytesArray(File f) {
+        FileInputStream fileInputStream = null;
+        byte[] bytesArray = null;
+        try {
+            bytesArray = new byte[(int) f.length()];
+            fileInputStream = new FileInputStream(f);
+            fileInputStream.read(bytesArray);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fileInputStream != null) {
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        return bytesArray;
+    }
 
     /**
      * Скачать файл из S3
@@ -161,6 +222,11 @@ public class S3ServiceImpl implements S3Service {
             log.error(ace.getMessage(), ace);
         }
         return keyName;
+    }
+
+    @Override
+    public String uploadFile(FileVO file, byte[] data) {
+        return uploadFile(file.getKey(),file.getBucket(),data,file.getMimeType(),file.getName());
     }
 
     @Override

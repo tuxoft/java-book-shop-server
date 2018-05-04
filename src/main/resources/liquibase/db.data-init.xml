@@ -147,5 +147,16 @@
                 tableName="order_items">
         </loadData>
     </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-14">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/s3init.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="s3init">
+        </loadData>
+    </changeSet>
 
 </databaseChangeLog>

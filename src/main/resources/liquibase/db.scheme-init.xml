@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <changeSet author="v.darmakheev" id="20.04.2018-1">
+    <changeSet author="v.darmakheev" id="scheme-init-1">
         <createTable tableName="books">
             <column name="id" type="BIGINT" remarks="уникальный идентификатор книги">
                 <constraints nullable="false" primaryKey="true"/>
@@ -22,9 +22,10 @@
             <column name="book_series_id" type="BIGINT" remarks="уникальный идентификатор книжной серии"/>
             <column name="city_id" type="BIGINT" remarks="уникальный идентификатор города издания"/>
             <column name="language_id" type="BIGINT" remarks="уникальный идентификатор языка издания"/>
+            <column name="cover_file_id" type="BIGINT" remarks="идентификатор файла обложки"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-2">
+    <changeSet author="v.darmakheev" id="scheme-init-2">
         <createTable tableName="authors">
             <column name="id" type="BIGINT" remarks="уникальный идентификатор автора">
                 <constraints nullable="false" primaryKey="true"/>
@@ -34,7 +35,7 @@
             <column name="last_name" type="VARCHAR(255)" remarks="фамилия"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-3">
+    <changeSet author="v.darmakheev" id="scheme-init-3">
         <createTable tableName="book_authors">
             <column name="id" type="BIGINT" remarks="уникальный идентификатор записи">
                 <constraints nullable="false" primaryKey="true"/>
@@ -44,7 +45,7 @@
             <column name="position" type="INT" remarks="позиция в списке авторов"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-4">
+    <changeSet author="v.darmakheev" id="scheme-init-4">
         <addForeignKeyConstraint baseColumnNames="book_id"
                                  baseTableName="book_authors"
                                  constraintName="book_id_book_authors_fkey"
@@ -55,7 +56,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="books"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-5">
+    <changeSet author="v.darmakheev" id="scheme-init-5">
         <addForeignKeyConstraint baseColumnNames="author_id"
                                  baseTableName="book_authors"
                                  constraintName="author_id_book_authors_fkey"
@@ -66,7 +67,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="authors"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-6">
+    <changeSet author="v.darmakheev" id="scheme-init-6">
         <createTable tableName="publishers">
             <column name="id" type="BIGINT" remarks="уникальный идентификатор издательства">
                 <constraints nullable="false" primaryKey="true"/>
@@ -75,7 +76,7 @@
             <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-7">
+    <changeSet author="v.darmakheev" id="scheme-init-7">
         <addForeignKeyConstraint baseColumnNames="publisher_id"
                                  baseTableName="books"
                                  constraintName="publisher_id_books_fkey"
@@ -86,7 +87,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="publishers"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-8">
+    <changeSet author="v.darmakheev" id="scheme-init-8">
         <createTable tableName="book_series">
             <column name="id" type="BIGINT" remarks="уникальный идентификатор книжной серии">
                 <constraints nullable="false" primaryKey="true"/>
@@ -96,7 +97,7 @@
             <column name="publisher_id" type="BIGINT" remarks="уникальный идентификатор издательства"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-9">
+    <changeSet author="v.darmakheev" id="scheme-init-9">
         <addForeignKeyConstraint baseColumnNames="publisher_id"
                                  baseTableName="book_series"
                                  constraintName="publisher_id_book_series_fkey"
@@ -107,7 +108,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="publishers"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-10">
+    <changeSet author="v.darmakheev" id="scheme-init-10">
         <createTable tableName="cities">
             <column name="id" type="BIGINT" remarks="уникальный идентификатор города">
                 <constraints nullable="false" primaryKey="true"/>
@@ -117,7 +118,7 @@
             <column name="code_city" type="VARCHAR(255)" remarks="код города"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-11">
+    <changeSet author="v.darmakheev" id="scheme-init-11">
         <addForeignKeyConstraint baseColumnNames="city_id"
                                  baseTableName="books"
                                  constraintName="city_id_books_fkey"
@@ -128,7 +129,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="cities"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-12">
+    <changeSet author="v.darmakheev" id="scheme-init-12">
         <createTable tableName="languages">
             <column name="id" type="BIGINT" remarks="уникальный идентификатор языка издания">
                 <constraints nullable="false" primaryKey="true"/>
@@ -138,7 +139,7 @@
             <column name="code_language" type="VARCHAR(255)" remarks="код языка"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-13">
+    <changeSet author="v.darmakheev" id="scheme-init-13">
         <addForeignKeyConstraint baseColumnNames="language_id"
                                  baseTableName="books"
                                  constraintName="language_id_books_fkey"
@@ -149,7 +150,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="languages"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-14">
+    <changeSet author="v.darmakheev" id="scheme-init-14">
         <createTable tableName="categories">
             <column name="id" type="BIGINT" remarks="уникальный идентификатор категории">
                 <constraints nullable="false" primaryKey="true"/>
@@ -159,7 +160,7 @@
             <column name="code_category" type="VARCHAR(255)" remarks="код категории"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-15">
+    <changeSet author="v.darmakheev" id="scheme-init-15">
         <createTable tableName="book_categories">
             <column name="id" type="BIGINT" remarks="уникальный идентификатор записи">
                 <constraints nullable="false" primaryKey="true"/>
@@ -168,7 +169,7 @@
             <column name="category_id" type="BIGINT" remarks="уникальный идентификатор категории"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-16">
+    <changeSet author="v.darmakheev" id="scheme-init-16">
         <addForeignKeyConstraint baseColumnNames="book_id"
                                  baseTableName="book_categories"
                                  constraintName="book_id_book_categories_fkey"
@@ -179,7 +180,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="books"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="20.04.2018-17">
+    <changeSet author="v.darmakheev" id="scheme-init-17">
         <addForeignKeyConstraint baseColumnNames="category_id"
                                  baseTableName="book_categories"
                                  constraintName="category_id_book_categories_fkey"
@@ -190,7 +191,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="categories"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="23.04.2018-1">
+    <changeSet author="v.darmakheev" id="scheme-init-18">
         <createTable tableName="orders">
             <column name="id" type="BIGINT" remarks="уникальный идентификатор заказа">
                 <constraints nullable="false" primaryKey="true"/>
@@ -211,7 +212,7 @@
             <column name="status" type="VARCHAR(255)" remarks="статус заказа"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="23.04.2018-2">
+    <changeSet author="v.darmakheev" id="scheme-init-19">
         <createTable tableName="order_items">
             <column name="id" type="BIGINT" remarks="уникальный идентификатор">
                 <constraints nullable="false" primaryKey="true"/>
@@ -221,7 +222,7 @@
             <column name="count" type="INT" remarks="количетсво книг с указанным id в заказе"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="23.04.2018-3">
+    <changeSet author="v.darmakheev" id="scheme-init-20">
         <addForeignKeyConstraint baseColumnNames="order_id"
                                  baseTableName="order_items"
                                  constraintName="order_id_order_item_fkey"
@@ -232,7 +233,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="orders"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="23.04.2018-4">
+    <changeSet author="v.darmakheev" id="scheme-init-21">
         <addForeignKeyConstraint baseColumnNames="book_id"
                                  baseTableName="order_items"
                                  constraintName="book_id_order_item_fkey"
@@ -243,7 +244,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="books"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="26.04.2018-1">
+    <changeSet author="v.darmakheev" id="scheme-init-22">
         <createTable tableName="basket">
             <column name="id" type="BIGINT" remarks="уникальный идентификатор корзины">
                 <constraints nullable="false" primaryKey="true"/>
@@ -251,7 +252,7 @@
             <column name="user_id" type="BIGINT" remarks="уникальный идентификатор пользователя"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="26.04.2018-2">
+    <changeSet author="v.darmakheev" id="scheme-init-23">
         <createTable tableName="basket_items">
             <column name="id" type="BIGINT" remarks="уникальный идентификатор">
                 <constraints nullable="false" primaryKey="true"/>
@@ -261,7 +262,7 @@
             <column name="count" type="INT" remarks="количетсво книг с указанным id в корзине"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="26.04.2018-3">
+    <changeSet author="v.darmakheev" id="scheme-init-24">
         <addForeignKeyConstraint baseColumnNames="basket_id"
                                  baseTableName="basket_items"
                                  constraintName="basket_id_basket_items_fkey"
@@ -272,7 +273,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="basket"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="26.04.2018-4">
+    <changeSet author="v.darmakheev" id="scheme-init-25">
         <addForeignKeyConstraint baseColumnNames="book_id"
                                  baseTableName="basket_items"
                                  constraintName="book_id_basket_items_fkey"
@@ -283,6 +284,37 @@
                                  referencedColumnNames="id"
                                  referencedTableName="books"/>
     </changeSet>
-
+    <changeSet author="v.darmakheev" id="scheme-init-26">
+        <createTable tableName="files">
+            <column name="id" type="BIGINT" remarks="уникальный идентификатор файла">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)" remarks="оригинальное название файла"/>
+            <column name="bucket" type="VARCHAR(255)" remarks="Бакет файла в s3"/>
+            <column name="key" type="VARCHAR(255)" remarks="ключ файла в s3"/>
+            <column name="mime_type" type="VARCHAR(255)" remarks="тип контента"/>
+            <column name="file_size" type="BIGINT" remarks="размер файла"/>
+            <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-27">
+        <addForeignKeyConstraint baseColumnNames="cover_file_id"
+                                 baseTableName="books"
+                                 constraintName="cover_file_id_books_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="files"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-28">
+        <createTable tableName="s3init">
+            <column name="id" type="BIGINT" remarks="уникальный идентификатор">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="init" type="BOOLEAN" remarks="был ли проинициализирован s3"/>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>
 

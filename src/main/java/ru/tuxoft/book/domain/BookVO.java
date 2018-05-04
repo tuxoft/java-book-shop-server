@@ -49,6 +49,10 @@ public class BookVO {
     @Column(name = "in_stock")
     private Integer inStock;
 
+    @ManyToOne
+    @JoinColumn(name = "cover_file_id")
+    private FileVO coverFile;
+
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<BookAuthorsVO> bookAuthorsVOList;
 
