@@ -14,13 +14,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tuxoft.book.domain.BookVO;
-import ru.tuxoft.book.domain.FileVO;
-import ru.tuxoft.book.domain.S3InitVO;
+import ru.tuxoft.s3.domain.FileVO;
+import ru.tuxoft.s3.domain.S3InitVO;
 import ru.tuxoft.book.domain.repository.BookRepository;
-import ru.tuxoft.book.domain.repository.FileRepository;
-import ru.tuxoft.book.domain.repository.S3InitRepository;
+import ru.tuxoft.s3.domain.repository.FileRepository;
+import ru.tuxoft.s3.domain.repository.S3InitRepository;
 
-import javax.activation.MimetypesFileTypeMap;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;

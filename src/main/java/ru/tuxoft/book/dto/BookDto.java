@@ -83,7 +83,9 @@ public class BookDto {
 
         this.publisher = new PublisherDto(bookVO.getPublisherVO());
 
-        this.city = bookVO.getCityVO().getName();
+        if (bookVO.getCityVO() != null) {
+            this.city = bookVO.getCityVO().getName();
+        }
 
         this.categories = new ArrayList<>();
         for (CategoryVO categoryVO: bookVO.getCategoryVOList()) {
@@ -91,9 +93,14 @@ public class BookDto {
         }
 
         this.bookSeries = new BookSeriesDto(bookVO.getBookSeriesVO());
-        this.language = bookVO.getLanguageVO().getName();
 
-        this.coverUrl = "/api/file/s3/" +bookVO.getCoverFile().getBucket() + "/" + bookVO.getCoverFile().getKey() + "." + bookVO.getCoverFile().getName().substring(bookVO.getCoverFile().getName().lastIndexOf(".")+1);
+        if (bookVO.getLanguageVO() != null) {
+            this.language = bookVO.getLanguageVO().getName();
+        }
+
+        if (bookVO.getCoverFile() != null) {
+            this.coverUrl = "/api/file/s3/" + bookVO.getCoverFile().getBucket() + "/" + bookVO.getCoverFile().getKey() + "." + bookVO.getCoverFile().getName().substring(bookVO.getCoverFile().getName().lastIndexOf(".") + 1);
+        }
 
 
     }

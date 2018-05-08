@@ -107,22 +107,22 @@
         <loadData
                 encoding="UTF-8"
                 relativeToChangelogFile="true"
-                file="data/basket.csv"
+                file="data/cart.csv"
                 quotchar="'"
                 schemaName="public"
                 separator=";"
-                tableName="basket">
+                tableName="cart">
         </loadData>
     </changeSet>
     <changeSet author="v.darmakheev" id="data-init-11">
         <loadData
                 encoding="UTF-8"
                 relativeToChangelogFile="true"
-                file="data/basket_items.csv"
+                file="data/cart_items.csv"
                 quotchar="'"
                 schemaName="public"
                 separator=";"
-                tableName="basket_items">
+                tableName="cart_items">
         </loadData>
     </changeSet>
     <changeSet author="v.darmakheev" id="data-init-12">

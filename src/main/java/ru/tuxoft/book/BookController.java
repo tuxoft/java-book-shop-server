@@ -2,6 +2,8 @@ package ru.tuxoft.book;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.tuxoft.book.dto.AuthorDto;
 import ru.tuxoft.book.dto.BookDto;
@@ -27,10 +29,14 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/books/{id}")
-    public BookDto getBookById(
+    public ResponseEntity getBookById(
             @PathVariable("id") Long id
     ) {
-        return bookService.getBookById(id);
+        try {
+            return new ResponseEntity<>(bookService.getBookById(id),HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/categories")
@@ -39,14 +45,18 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/categories/{id}/books")
-    public List<BookDto> getBookByCategory(
+    public ResponseEntity getBookByCategory(
             @PathVariable("id") Long id,
             @RequestParam(name = "start", defaultValue = "0") int start,
             @RequestParam(name = "count", defaultValue = "10") int count,
             @RequestParam(name = "sort", defaultValue = "title") String sort,
             @RequestParam(name = "order", defaultValue = "a") String order
     ) {
-        return bookService.getBookByCategory(id, start, count, sort, order);
+        try {
+            return new ResponseEntity<>(bookService.getBookByCategory(id, start, count, sort, order),HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/authors")
@@ -60,14 +70,18 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/authors/{id}/books")
-    public List<BookDto> getAuthorsByCategory(
+    public ResponseEntity getAuthorsByCategory(
             @PathVariable("id") Long id,
             @RequestParam(name = "start", defaultValue = "0") int start,
             @RequestParam(name = "count", defaultValue = "10") int count,
             @RequestParam(name = "sort", defaultValue = "title") String sort,
             @RequestParam(name = "order", defaultValue = "a") String order
     ) {
-        return bookService.getBookByAuthor(id, start, count, sort, order);
+        try {
+            return new ResponseEntity<>(bookService.getBookByAuthor(id, start, count, sort, order),HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
 }

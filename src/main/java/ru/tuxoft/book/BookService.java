@@ -35,12 +35,12 @@ public class BookService {
         return bookRepository.findAll(PageRequest.of(start, count)).stream().map(e -> new BookDto(e)).collect(Collectors.toList());
     }
 
-    public BookDto getBookById(Long id) {
+    public BookDto getBookById(Long id) throws IllegalArgumentException {
         Optional<BookVO> bookOptional = bookRepository.findById(id);
         if (bookOptional.isPresent()){
             return new BookDto(bookOptional.get());
         } else {
-            return null;
+            throw new IllegalArgumentException("Ошибка запроса книги. Книги с указанным id в БД не обнаружено");
         }
     }
 
@@ -49,12 +49,12 @@ public class BookService {
     }
 
 
-    public List<BookDto> getBookByCategory(Long id, int start, int count, String sort, String order) {
+    public List<BookDto> getBookByCategory(Long id, int start, int count, String sort, String order) throws IllegalArgumentException {
         Optional<CategoryVO> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isPresent()) {
             return categoryOptional.get().getBookVOList().stream().map(e -> new BookDto(e)).collect(Collectors.toList());
         } else {
-            return null;
+            throw new IllegalArgumentException("Ошибка запроса книги. Категории с указанным id в БД не обнаружено");
         }
 
     }
@@ -63,12 +63,12 @@ public class BookService {
         return authorRepository.findAll(PageRequest.of(start, count)).stream().map(e -> new AuthorDto(e)).collect(Collectors.toList());
     }
 
-    public List<BookDto> getBookByAuthor(Long id, int start, int count, String sort, String order) {
+    public List<BookDto> getBookByAuthor(Long id, int start, int count, String sort, String order) throws IllegalArgumentException {
         Optional<AuthorVO> authorOptional = authorRepository.findById(id);
         if (authorOptional.isPresent()) {
             return authorOptional.get().getBookAuthorsVOList().stream().map(e -> new BookDto(e.getBook())).collect(Collectors.toList());
         } else {
-            return null;
+            throw new IllegalArgumentException("Ошибка запроса книги. Автора с указанным id в БД не обнаружено");
         }
     }
 }

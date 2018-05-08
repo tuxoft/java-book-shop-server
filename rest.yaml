@@ -12,6 +12,8 @@ tags:
     description: Контролер корзины
   - name: order-controller
     description: Контролер заказов
+  - name: s3-controller
+    description: Файловый контроллер
 schemes:
   - http
 paths:
@@ -159,6 +161,11 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Book'
+        '404':
+          description: Not Found
+          schema:
+            type: string
+            example: Ошибка запроса книги. Книги с указанным id в БД не обнаружено
         '401':
           description: Unauthorized
     put:
@@ -228,7 +235,7 @@ paths:
               $ref: '#/definitions/Category'
         '401':
           description: Unauthorized
-  /categories/books:
+  /categories/{id}/books:
     get:
       tags:
         - product-controller
@@ -238,13 +245,12 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: categoryList
-          in: query
-          description: массив id категорий
-          type: array
-          items:
-            type: integer
-            format: int64
+        - name: id
+          in: path
+          required: true
+          description: id категории
+          type: integer
+          format: int64
         - name: start
           in: query
           type: integer
@@ -273,6 +279,11 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Book'
+        '404':
+          description: Not Found
+          schema:
+            type: string
+            example: Ошибка запроса книги. Категории с указанным id в БД не обнаружено
         '401':
           description: Unauthorized
   /authors:
@@ -315,7 +326,7 @@ paths:
               $ref: '#/definitions/Author'
         '401':
           description: Unauthorized
-  /authors/books:
+  /authors/{id}/books:
     get:
       tags:
         - product-controller
@@ -325,13 +336,12 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: authorList
-          in: query
-          description: массив id авторов
-          type: array
-          items:
-            type: integer
-            format: int64
+        - name: id
+          in: path
+          required: true
+          description: id автора
+          type: string
+          format: int64
         - name: start
           in: query
           type: integer
@@ -360,6 +370,11 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Book'
+        '404':
+          description: Not Found
+          schema:
+            type: string
+            example: Ошибка запроса книги. Автора с указанным id в БД не обнаружено
         '401':
           description: Unauthorized
   /cart:
@@ -402,6 +417,15 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/OrderItem'
+        '404':
+          description: Not Found
+          schema:
+            type: string
+            example: Ошибка добавления в корзину. Книги с указанным id в БД не обнаружено
         '401':
           description: Unauthorized
     put:
@@ -426,6 +450,15 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/OrderItem'
+        '404':
+          description: Not Found
+          schema:
+            type: string
+            example: Ошибка добавления в корзину. Книги с указанным id в БД не обнаружено
         '401':
           description: Unauthorized
     delete:
@@ -445,6 +478,15 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/OrderItem'
+        '404':
+          description: Not Found
+          schema:
+            type: string
+            example: Ошибка удаления из корзины. Книги с указанным id в корзине не обнаружено
         '401':
           description: Unauthorized
   /orders:
@@ -528,6 +570,69 @@ paths:
       responses:
         '200':
           description: OK
+        '401':
+          description: Unauthorized
+  /file/s3/{backet}/{s3key}.{ext}:
+    get:
+      tags:
+        - s3-controller
+      summary: получить файл
+      description: получение файла из хранилища s3 по ссылке
+      operationId: writeFile
+      produces:
+        - application/json
+      parameters:
+        - name: backet
+          in: path
+          required: true
+          description: bucket в котором находится запрашиваемый файл
+          type: string
+        - name: s3key
+          in: path
+          type: string
+          required: true
+          description: ключ файла в хранилище
+        - name: ext
+          in: path
+          type: string
+          required: true
+          description: расширение файла
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Book'
+        '404':
+          description: Not Found
+        '401':
+          description: Unauthorized
+  /file/s3/save:
+    post:
+      tags:
+        - s3-controller
+      summary: сохранить файл
+      description: сохранение файла в хранилище s3
+      operationId: saveFile
+      produces:
+        - application/json
+      consumes:
+         - multipart/form-data
+      parameters:
+        - name: file
+          in: formData
+          type: file
+          description: мультипарт файл для сохранения
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+            description: ключ в хранилище s3
+            example: 11123-12312-2312
+        '404':
+          description: Not Found
         '401':
           description: Unauthorized
 definitions:

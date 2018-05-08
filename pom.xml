@@ -74,6 +74,11 @@
 			<artifactId>aws-java-sdk</artifactId>
 			<version>1.11.263</version>
 		</dependency>
+		<dependency>
+			<groupId>org.lazyluke</groupId>
+			<artifactId>log4jdbc-remix</artifactId>
+			<version>0.2.7</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -2,7 +2,7 @@ package ru.tuxoft.s3;
 
 import com.amazonaws.services.s3.model.S3Object;
 import org.springframework.web.multipart.MultipartFile;
-import ru.tuxoft.book.domain.FileVO;
+import ru.tuxoft.s3.domain.FileVO;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;

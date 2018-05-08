@@ -1,17 +1,16 @@
-package ru.tuxoft.book.domain;
+package ru.tuxoft.cart.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "orders")
-public class BasketVO {
+@Table(name = "cart")
+public class CartVO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +18,9 @@ public class BasketVO {
     private Long id;
 
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
 
-    @OneToMany(mappedBy = "basketVO", cascade = CascadeType.ALL)
-    private List<BasketItemVO> basketItemVOList;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    private List<CartItemVO> cartItemVOList;
 
 }

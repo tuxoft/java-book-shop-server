@@ -1,7 +1,8 @@
-package ru.tuxoft.book.domain;
+package ru.tuxoft.s3.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.tuxoft.book.domain.BookVO;
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.persistence.*;
@@ -15,7 +16,8 @@ import java.util.List;
 public class FileVO {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "files_seq_gen")
+    @SequenceGenerator(name = "files_seq_gen", sequenceName = "files_id_seq")
     @Column(name = "id")
     private Long id;
 
