@@ -16,8 +16,7 @@ import java.util.List;
 public class FileVO {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "files_seq_gen")
-    @SequenceGenerator(name = "files_seq_gen", sequenceName = "files_id_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

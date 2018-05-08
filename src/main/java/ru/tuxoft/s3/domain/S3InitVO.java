@@ -12,8 +12,7 @@ import javax.persistence.*;
 public class S3InitVO {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "s3init_seq_gen")
-    @SequenceGenerator(name = "s3init_seq_gen", sequenceName = "s3init_id_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
