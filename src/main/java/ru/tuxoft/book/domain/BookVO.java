@@ -49,6 +49,21 @@ public class BookVO {
     @Column(name = "in_stock")
     private Integer inStock;
 
+    @Column(name = "weight")
+    private Integer weight;
+
+    @Column(name = "age_limit")
+    private String ageLimit;
+
+    @Column(name = "format")
+    private String format;
+
+    @Column(name = "cover_type")
+    private String coverType;
+
+    @Column(name = "page_count")
+    private Integer pageCount;
+
     @ManyToOne
     @JoinColumn(name = "cover_file_id")
     private FileVO coverFile;

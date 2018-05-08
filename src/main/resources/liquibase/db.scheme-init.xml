@@ -18,6 +18,11 @@
             <column name="circulation" type="INT" remarks="тираж"/>
             <column name="price" type="DECIMAL" remarks="цена"/>
             <column name="in_stock" type="INT" remarks="в наличии"/>
+            <column name="weight" type="INT" remarks="вес в граммах"/>
+            <column name="age_limit" type="VARCHAR(255)" remarks="возрастное ограничение"/>
+            <column name="format" type="VARCHAR(255)" remarks="формат книги"/>
+            <column name="cover_type" type="VARCHAR(255)" remarks="тип обложки"/>
+            <column name="page_count" type="INT" remarks="количество страниц"/>
             <column name="publisher_id" type="BIGINT" remarks="уникальный идентификатор издательства"/>
             <column name="book_series_id" type="BIGINT" remarks="уникальный идентификатор книжной серии"/>
             <column name="city_id" type="BIGINT" remarks="уникальный идентификатор города издания"/>

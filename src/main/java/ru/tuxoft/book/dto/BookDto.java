@@ -39,6 +39,16 @@ public class BookDto {
 
     private Integer inStock;
 
+    private Integer weight;
+
+    private String ageLimit;
+
+    private String format;
+
+    private String coverType;
+
+    private Integer pageCount;
+
     private String coverUrl;
 
     private List<BookAuthorDto> authors;
@@ -75,6 +85,16 @@ public class BookDto {
         this.price = bookVO.getPrice();
 
         this.inStock = bookVO.getInStock();
+
+        this.weight = bookVO.getWeight();
+
+        this.ageLimit = bookVO.getAgeLimit();
+
+        this.format = bookVO.getFormat();
+
+        this.coverType = bookVO.getCoverType();
+
+        this.pageCount = bookVO.getPageCount();
 
         this.authors = new ArrayList<>();
         for (BookAuthorsVO authorVO: bookVO.getBookAuthorsVOList()) {
