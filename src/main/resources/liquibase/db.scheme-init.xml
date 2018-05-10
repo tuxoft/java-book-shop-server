@@ -162,7 +162,7 @@
             </column>
             <column name="name" type="VARCHAR(255)" remarks="название категории"/>
             <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
-            <column name="code_category" type="VARCHAR(255)" remarks="код категории"/>
+            <column name="parent_id" type="BIGINT" remarks="родительская категория"/>
         </createTable>
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-15">

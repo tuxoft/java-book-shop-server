@@ -9,4 +9,6 @@ import java.util.List;
 public interface CategoryRepository extends JpaRepository<CategoryVO,Long> {
 
     List<CategoryVO> findByIdIn(List<Long> categoryList);
+
+    List<CategoryVO> findByParentId(Long parentId);
 }

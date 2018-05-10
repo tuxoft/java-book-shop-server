@@ -12,7 +12,7 @@ public class CategoryDto {
 
     private String name;
 
-    private String codeCategory;
+    private Long parentId;
 
     private List<BookDto> bookList;
 
@@ -22,7 +22,7 @@ public class CategoryDto {
 
         this.name = categoryVO.getName();
 
-        this.codeCategory = categoryVO.getCodeCategory();
+        this.parentId = categoryVO.getParentId();
 
     }
 }

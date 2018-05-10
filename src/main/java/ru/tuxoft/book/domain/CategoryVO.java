@@ -23,8 +23,8 @@ public class CategoryVO {
     @Column(name = "deleted")
     private Boolean deleted = false;
 
-    @Column(name = "code_category")
-    private String codeCategory;
+    @Column(name = "parent_id")
+    private Long parentId;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "book_categories",

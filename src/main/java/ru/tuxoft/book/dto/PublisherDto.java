@@ -1,11 +1,13 @@
 package ru.tuxoft.book.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.tuxoft.book.domain.PublisherVO;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class PublisherDto {
 
     private Long id;

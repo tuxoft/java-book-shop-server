@@ -1,0 +1,58 @@
+[
+  {
+    "name": "В наших магазинах",
+    "url": "",
+    "subItems": [
+      {
+        "name": "Адреса магазинов",
+        "url": "/shops"
+      },
+      {
+        "name": "Услуги",
+        "url": "/services"
+      },
+      {
+        "name": "Наши партнеры",
+        "url": "/partners"
+      },
+      {
+        "name": "О компании",
+        "url": "/about"
+      },
+      {
+        "name": "Хотите у нас работать?",
+        "url": "/want_to_work_for_us"
+      }
+    ]
+  },
+  {
+    "name": "В интернет-магазине",
+    "url": "",
+    "subItems": [
+      {
+        "name": "Доставка и оплата",
+        "url": "/delivery"
+      },
+      {
+        "name": "Акции",
+        "url": "/actions"
+      },
+      {
+        "name": "Книги",
+        "url": "/catalog/books"
+      },
+      {
+        "name": "Сувениры",
+        "url": "/souvenirs"
+      },
+      {
+        "name": "Правила продажи",
+        "url": "/sell_rules"
+      },
+      {
+        "name": "Политика конфиденциальности",
+        "url": "/policy_conf"
+      }
+    ]
+  }
+]
