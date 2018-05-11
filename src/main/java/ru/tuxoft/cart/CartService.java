@@ -32,6 +32,9 @@ public class CartService {
     }
 
     public CartDto addOrChangeBookToCart(String userId, Long bookId, int count) throws IllegalArgumentException {
+        if (count<1) {
+            throw new IllegalArgumentException("Ошибка добавления в корзину. Нельзя добавлять меньше 1 книги");
+        }
         CartVO cart = cartRepository.findByUserId(userId);
         boolean find = false;
         for (CartItemVO cartItemVO: cart.getCartItemVOList()) {

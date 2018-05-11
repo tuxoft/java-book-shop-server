@@ -3,6 +3,7 @@ package ru.tuxoft.book;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import ru.tuxoft.book.domain.AuthorVO;
 import ru.tuxoft.book.domain.BookVO;
@@ -17,6 +18,7 @@ import ru.tuxoft.book.dto.CategoryDto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -52,11 +54,27 @@ public class BookService {
     public List<BookDto> getBookByCategory(Long id, int start, int count, String sort, String order) throws IllegalArgumentException {
         Optional<CategoryVO> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isPresent()) {
-            return categoryOptional.get().getBookVOList().stream().map(e -> new BookDto(e)).collect(Collectors.toList());
+            List<Long> idList = new ArrayList<>();
+            idList.add(id);
+            idList.addAll(getAllChildrenByCategoryId(id));
+            List<BookVO> result = categoryRepository.findBookVOListByIdIn(idList, PageRequest.of(start, count));
+            return result.stream().map(e -> new BookDto(e)).collect(Collectors.toList());
         } else {
             throw new IllegalArgumentException("Ошибка запроса книги. Категории с указанным id в БД не обнаружено");
         }
 
+    }
+
+    private List<Long> getAllChildrenByCategoryId(Long id) {
+        List<Long> childrenIds = categoryRepository.findIdByParentId(id);
+        if (childrenIds != null && childrenIds.size() > 0) {
+            List<Long> childrenChildrenIds = new ArrayList<>();
+            for (Long childrenId: childrenIds) {
+                childrenChildrenIds.addAll(getAllChildrenByCategoryId(childrenId));
+            }
+            childrenIds.addAll(childrenChildrenIds);
+        }
+        return childrenIds;
     }
 
     public List<AuthorDto> getAuthorList(int start, int count, String sort, String order) {
