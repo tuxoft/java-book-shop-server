@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.tuxoft.cart.dto.CartDto;
 
 import javax.xml.ws.Response;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -56,6 +57,17 @@ public class CartController {
     ) {
         try {
             return new ResponseEntity<>(cartService.deleteBookToCart(userId, bookId),HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, path = "/cart/list")
+    public ResponseEntity deleteBookToCart(
+            @RequestParam(name = "ids") List<Long> bookIdList
+    ) {
+        try {
+            return new ResponseEntity<>(cartService.deleteBookToCart(userId, bookIdList),HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

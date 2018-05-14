@@ -112,7 +112,9 @@ public class BookDto {
             this.categories.add(new CategoryDto(categoryVO));
         }
 
-        this.bookSeries = new BookSeriesDto(bookVO.getBookSeriesVO());
+        if (bookVO.getBookSeriesVO() != null) {
+            this.bookSeries = new BookSeriesDto(bookVO.getBookSeriesVO());
+        }
 
         if (bookVO.getLanguageVO() != null) {
             this.language = bookVO.getLanguageVO().getName();

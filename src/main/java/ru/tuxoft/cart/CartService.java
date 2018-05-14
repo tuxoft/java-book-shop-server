@@ -11,6 +11,7 @@ import ru.tuxoft.cart.domain.repository.CartItemRepository;
 import ru.tuxoft.cart.domain.repository.CartRepository;
 import ru.tuxoft.cart.dto.CartDto;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -69,6 +70,26 @@ public class CartService {
             cartItemRepository.delete(cart.getCartItemVOList().remove(deleteIndex));
         } else {
             throw new IllegalArgumentException("Ошибка удаления из корзины. Книги с указанным id в корзине не обнаружено");
+        }
+        cartRepository.saveAndFlush(cart);
+        return new CartDto(cart);
+    }
+
+    public CartDto deleteBookToCart(String userId, List<Long> bookIdList) throws IllegalArgumentException {
+        CartVO cart = cartRepository.findByUserId(userId);
+        for (Long bookId: bookIdList) {
+            int deleteIndex = -1;
+            for (int i = 0; i < cart.getCartItemVOList().size(); i++) {
+                if (cart.getCartItemVOList().get(i).getBook().getId() == bookId) {
+                    deleteIndex = i;
+                    break;
+                }
+            }
+            if (deleteIndex != -1) {
+                cartItemRepository.delete(cart.getCartItemVOList().remove(deleteIndex));
+            } else {
+                throw new IllegalArgumentException("Ошибка удаления из корзины. Книги с указанным id в корзине не обнаружено");
+            }
         }
         cartRepository.saveAndFlush(cart);
         return new CartDto(cart);
