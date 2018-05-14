@@ -25,7 +25,7 @@ public class ContentController {
         return contentService.getMenu(userId);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/carouselList")
+    @RequestMapping(method = RequestMethod.GET, path = "/categoryCarousels")
     public List<CategoryDto> getCategoriesListForCarousel() {
         return contentService.getCategoriesListForCarousel(userId);
     }

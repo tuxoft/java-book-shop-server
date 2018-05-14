@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.tuxoft.book.domain.CategoryVO;
 import ru.tuxoft.book.domain.repository.CategoryRepository;
+import ru.tuxoft.book.dto.BookDto;
 import ru.tuxoft.book.dto.CategoryDto;
 import ru.tuxoft.content.dto.MenuDto;
 import ru.tuxoft.content.dto.MenuItemDto;
@@ -64,6 +65,11 @@ public class ContentService {
 
 
     public List<CategoryDto> getCategoriesListForCarousel(String userId) {
-        return categoryRepository.findByParentId(3L).stream().map(e -> new CategoryDto(e)).collect(Collectors.toList());
+        return categoryRepository.findByParentId(3L).stream().map(e -> {
+            CategoryDto categoryDto = new CategoryDto(e);
+            List <BookDto> bookDtoList = e.getBookVOList().stream().map(bookVO -> new BookDto(bookVO)).collect(Collectors.toList());
+            categoryDto.setBookList(bookDtoList);
+            return categoryDto;
+        }).collect(Collectors.toList());
     }
 }
