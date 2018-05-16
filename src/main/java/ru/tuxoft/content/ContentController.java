@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.tuxoft.book.dto.CategoryDto;
 import ru.tuxoft.content.dto.MenuDto;
+import ru.tuxoft.content.dto.PromoPictureDto;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,5 +29,10 @@ public class ContentController {
     @RequestMapping(method = RequestMethod.GET, path = "/categoryCarousels")
     public List<CategoryDto> getCategoriesListForCarousel() {
         return contentService.getCategoriesListForCarousel(userId);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/promoPictures")
+    public List<PromoPictureDto> getPromoPictures() {
+        return contentService.getPromoPictures(userId);
     }
 }

@@ -321,7 +321,28 @@
             <column name="init" type="BOOLEAN" remarks="был ли проинициализирован s3"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-29" dbms="postgresql">
+    <changeSet author="v.darmakheev" id="scheme-init-29">
+        <createTable tableName="promo_pictures">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор слайдера">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="url" type="VARCHAR(255)" remarks="ссылка на которую ведет слайдер"/>
+            <column name="picture_file_id" type="BIGINT" remarks="id файла картинки слайдера"/>
+            <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-30">
+        <addForeignKeyConstraint baseColumnNames="picture_file_id"
+                                 baseTableName="promo_pictures"
+                                 constraintName="picture_id_promo_pictures_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="files"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-31" dbms="postgresql">
         <sql>
             ALTER SEQUENCE authors_id_seq RESTART with 1000000;
             ALTER SEQUENCE book_authors_id_seq RESTART with 1000000;
@@ -337,6 +358,7 @@
             ALTER SEQUENCE order_items_id_seq RESTART with 1000000;
             ALTER SEQUENCE orders_id_seq RESTART with 1000000;
             ALTER SEQUENCE publishers_id_seq RESTART with 1000000;
+            ALTER SEQUENCE promo_pictures_id_seq RESTART with 1000000;
             ALTER SEQUENCE s3init_id_seq RESTART with 1000000;
         </sql>
     </changeSet>

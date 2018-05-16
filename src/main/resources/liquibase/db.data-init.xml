@@ -151,6 +151,17 @@
         <loadData
                 encoding="UTF-8"
                 relativeToChangelogFile="true"
+                file="data/promo_pictures.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="promo_pictures">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-15">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
                 file="data/s3init.csv"
                 quotchar="'"
                 schemaName="public"

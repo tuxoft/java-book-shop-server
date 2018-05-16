@@ -9,8 +9,10 @@ import ru.tuxoft.book.domain.CategoryVO;
 import ru.tuxoft.book.domain.repository.CategoryRepository;
 import ru.tuxoft.book.dto.BookDto;
 import ru.tuxoft.book.dto.CategoryDto;
+import ru.tuxoft.content.domain.repository.PromoPictureRepository;
 import ru.tuxoft.content.dto.MenuDto;
 import ru.tuxoft.content.dto.MenuItemDto;
+import ru.tuxoft.content.dto.PromoPictureDto;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +26,9 @@ public class ContentService {
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    PromoPictureRepository promoPictureRepository;
 
     public MenuDto getMenu(String userId) throws IOException {
         MenuDto menu = new MenuDto();
@@ -67,9 +72,13 @@ public class ContentService {
     public List<CategoryDto> getCategoriesListForCarousel(String userId) {
         return categoryRepository.findByParentId(3L).stream().map(e -> {
             CategoryDto categoryDto = new CategoryDto(e);
-            List <BookDto> bookDtoList = e.getBookVOList().stream().map(bookVO -> new BookDto(bookVO)).collect(Collectors.toList());
+            List<BookDto> bookDtoList = e.getBookVOList().stream().map(bookVO -> new BookDto(bookVO)).collect(Collectors.toList());
             categoryDto.setBookList(bookDtoList);
             return categoryDto;
         }).collect(Collectors.toList());
+    }
+
+    public List<PromoPictureDto> getPromoPictures(String userId) {
+        return promoPictureRepository.findByDeletedIsFalse().stream().map(promoPictureVO -> new PromoPictureDto(promoPictureVO)).collect(Collectors.toList());
     }
 }

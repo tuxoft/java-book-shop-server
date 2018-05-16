@@ -51,14 +51,16 @@ public class BookService {
     }
 
 
-    public List<BookDto> getBookByCategory(Long id, int start, int count, String sort, String order) throws IllegalArgumentException {
+    public CategoryDto getBookByCategory(Long id, int start, int count, String sort, String order) throws IllegalArgumentException {
         Optional<CategoryVO> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isPresent()) {
             List<Long> idList = new ArrayList<>();
             idList.add(id);
             idList.addAll(getAllChildrenByCategoryId(id));
-            List<BookVO> result = categoryRepository.findBookVOListByIdIn(idList, PageRequest.of(start, count));
-            return result.stream().map(e -> new BookDto(e)).collect(Collectors.toList());
+            List<BookVO> bookList = categoryRepository.findBookVOListByIdIn(idList, PageRequest.of(start, count));
+            CategoryDto result = new CategoryDto(categoryOptional.get());
+            result.setBookList(bookList.stream().map(e -> new BookDto(e)).collect(Collectors.toList()));
+            return result;
         } else {
             throw new IllegalArgumentException("Ошибка запроса книги. Категории с указанным id в БД не обнаружено");
         }

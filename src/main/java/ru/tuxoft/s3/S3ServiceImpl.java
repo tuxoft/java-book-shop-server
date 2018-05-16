@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tuxoft.book.domain.BookVO;
+import ru.tuxoft.content.domain.PromoPictureVO;
+import ru.tuxoft.content.domain.repository.PromoPictureRepository;
 import ru.tuxoft.s3.domain.FileVO;
 import ru.tuxoft.s3.domain.S3InitVO;
 import ru.tuxoft.book.domain.repository.BookRepository;
@@ -49,34 +51,63 @@ public class S3ServiceImpl implements S3Service {
     @Autowired
     private FileRepository fileRepository;
 
+    @Autowired
+    private PromoPictureRepository promoPictureRepository;
+
     @PostConstruct
-    public void initialBootCover() {
+    public void initialBoot() {
         Optional<S3InitVO> s3InitVOOptional = s3InitRepository.findById(1L);
         if (s3InitVOOptional.isPresent() && !s3InitVOOptional.get().getInit()) {
-            File dir = new File("src/main/resources/s3/cover_books");
-            if (dir.isDirectory()) {
-                for (File f : dir.listFiles()) {
-                    Long book_id = Long.valueOf(f.getName().substring(f.getName().lastIndexOf("_")+1,f.getName().lastIndexOf(".")));
-                    Optional<BookVO> book = bookRepository.findById(book_id);
-                    if (book.isPresent() && book.get().getCoverFile() == null) {
-                        byte[] bytesArray = getFileAsBytesArray(f);
-                        FileVO file = new FileVO(f);
-                        file.setBucket(bucket);
-                        file.setKey(UUID.randomUUID().toString());
-                        uploadFile(file, bytesArray);
-                        fileRepository.saveAndFlush(file);
-                        BookVO bookVO = book.get();
-                        bookVO.setCoverFile(file);
-                        bookRepository.saveAndFlush(bookVO);
-                    }
-                }
-            }
+            coverBooksInitial();
+            promoPicturesInitial();
             S3InitVO s3InitVO = new S3InitVO();
             s3InitVO.setId(1L);
             s3InitVO.setInit(true);
             s3InitRepository.saveAndFlush(s3InitVO);
         }
+    }
 
+    private void promoPicturesInitial() {
+        File dir = new File("src/main/resources/s3/promo_pictures");
+        if (dir.isDirectory()) {
+            for (File f : dir.listFiles()) {
+                Long promoPictureId = Long.valueOf(f.getName().substring(f.getName().lastIndexOf("_")+1,f.getName().lastIndexOf(".")));
+                Optional<PromoPictureVO> promoPicture = promoPictureRepository.findById(promoPictureId);
+                if (promoPicture.isPresent() && promoPicture.get().getPicture() == null) {
+                    byte[] bytesArray = getFileAsBytesArray(f);
+                    FileVO file = new FileVO(f);
+                    file.setBucket(bucket);
+                    file.setKey(UUID.randomUUID().toString());
+                    uploadFile(file, bytesArray);
+                    fileRepository.saveAndFlush(file);
+                    PromoPictureVO promoPictureVO = promoPicture.get();
+                    promoPictureVO.setPicture(file);
+                    promoPictureRepository.saveAndFlush(promoPictureVO);
+                }
+            }
+        }
+
+    }
+
+    private void coverBooksInitial() {
+        File dir = new File("src/main/resources/s3/cover_books");
+        if (dir.isDirectory()) {
+            for (File f : dir.listFiles()) {
+                Long book_id = Long.valueOf(f.getName().substring(f.getName().lastIndexOf("_")+1,f.getName().lastIndexOf(".")));
+                Optional<BookVO> book = bookRepository.findById(book_id);
+                if (book.isPresent() && book.get().getCoverFile() == null) {
+                    byte[] bytesArray = getFileAsBytesArray(f);
+                    FileVO file = new FileVO(f);
+                    file.setBucket(bucket);
+                    file.setKey(UUID.randomUUID().toString());
+                    uploadFile(file, bytesArray);
+                    fileRepository.saveAndFlush(file);
+                    BookVO bookVO = book.get();
+                    bookVO.setCoverFile(file);
+                    bookRepository.saveAndFlush(bookVO);
+                }
+            }
+        }
     }
 
     private byte[] getFileAsBytesArray(File f) {
