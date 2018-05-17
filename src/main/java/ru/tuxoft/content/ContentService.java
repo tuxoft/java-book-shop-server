@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -80,5 +81,32 @@ public class ContentService {
 
     public List<PromoPictureDto> getPromoPictures(String userId) {
         return promoPictureRepository.findByDeletedIsFalse().stream().map(promoPictureVO -> new PromoPictureDto(promoPictureVO)).collect(Collectors.toList());
+    }
+
+    public List<MenuItemDto> getCategoryNavigationMenuItemList(Long categoryId, String userId) {
+        List<MenuItemDto> result = new ArrayList<>();
+        Optional<CategoryVO> category = categoryRepository.findById(categoryId);
+        if (category.isPresent()) {
+            MenuItemDto menuItem = new MenuItemDto(category.get());
+            menuItem.setUrl("/categories/"+category.get().getId());
+            result.add(0, menuItem);
+            Long parentId = category.get().getParentId();
+            if (parentId != null) {
+                do {
+                    Optional<CategoryVO> parentCategory = categoryRepository.findById(parentId);
+                    if (parentCategory.isPresent()) {
+                        MenuItemDto nextMenuItem = new MenuItemDto(parentCategory.get());
+                        nextMenuItem.setUrl("/categories/" + parentCategory.get().getId());
+                        result.add(0, nextMenuItem);
+                        parentId = parentCategory.get().getParentId();
+                    } else {
+                        throw new IllegalArgumentException("Ошибка запроса навигационного меню. В БД не найден parentId");
+                    }
+                } while (parentId != null);
+            }
+        } else {
+            throw new IllegalArgumentException("Ошибка запроса навигационного меню. Категории с указанным id в БД не обнаружено");
+        }
+        return result;
     }
 }

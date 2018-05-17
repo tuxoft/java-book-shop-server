@@ -14,6 +14,8 @@ tags:
     description: Контролер заказов
   - name: s3-controller
     description: Файловый контроллер
+  - name: content-controller
+    description: Контент контроллер
 schemes:
   - http
 paths:
@@ -390,9 +392,7 @@ paths:
         '200':
           description: OK
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/OrderItem'
+            $ref: '#/definitions/Cart'
         '401':
           description: Unauthorized
     post:
@@ -418,9 +418,7 @@ paths:
         '200':
           description: OK
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/OrderItem'
+            $ref: '#/definitions/Cart'
         '404':
           description: Not Found
           schema:
@@ -451,9 +449,7 @@ paths:
         '200':
           description: OK
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/OrderItem'
+            $ref: '#/definitions/Cart'
         '404':
           description: Not Found
           schema:
@@ -479,9 +475,7 @@ paths:
         '200':
           description: OK
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/OrderItem'
+            $ref: '#/definitions/Cart'
         '404':
           description: Not Found
           schema:
@@ -600,10 +594,6 @@ paths:
       responses:
         '200':
           description: OK
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Book'
         '404':
           description: Not Found
         '401':
@@ -618,7 +608,7 @@ paths:
       produces:
         - application/json
       consumes:
-         - multipart/form-data
+        - multipart/form-data
       parameters:
         - name: file
           in: formData
@@ -633,6 +623,83 @@ paths:
             example: 11123-12312-2312
         '404':
           description: Not Found
+        '401':
+          description: Unauthorized
+  /menu:
+    get:
+      tags:
+        - content-controller
+      summary: получить меню (для заголовка и футера)
+      description: получение данных для меню
+      operationId: getMenu
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Menu'
+        '401':
+          description: Unauthorized
+  /categoryCarousels:
+    get:
+      tags:
+        - content-controller
+      summary: получить список категорий для отображения в каруселях на главной странице
+      description: получение список категорий для отображения в каруселях на главной странице
+      operationId: getCategoriesListForCarousels
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+        '401':
+          description: Unauthorized
+  /promoPictures:
+    get:
+      tags:
+        - content-controller
+      summary: получить список промокартинок для отображения в промо блоке на главной странице
+      description: получение списка промокартинок для отображения в промо блоке на главной странице
+      operationId: getPromoPictures
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PromoPicture'
+        '401':
+          description: Unauthorized
+  /navigationMenu/{id}:
+    get:
+      tags:
+        - content-controller
+      summary: получить хлебные крошки для конкретной книги
+      description: получение хлебных крошtr для конкретной книги
+      operationId: getCategoryNavigationMenuItemList
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id книги для которой получаем хлебные крошки
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/MenuItem'
         '401':
           description: Unauthorized
 definitions:
@@ -706,9 +773,6 @@ definitions:
       author:
         $ref: '#/definitions/Author'
         description: автор
-      book:
-        $ref: '#/definitions/Book'
-        description: книга
   City:
     type: object
     description: город издания
@@ -718,9 +782,6 @@ definitions:
         format: int64
         description: уникальный идентификатор города издания
         example: 12345678
-      deleted:
-        type: boolean
-        example: false
       name:
         type: string
         description: название города
@@ -738,9 +799,6 @@ definitions:
         format: int64
         description: уникальный идентификатор языка издания
         example: 12345678
-      deleted:
-        type: boolean
-        example: false
       name:
         type: string
         description: название языка
@@ -749,6 +807,11 @@ definitions:
         type: string
         description: код языка
         example: RUS
+      bookList:
+        type: array
+        description: книги на данном языке
+        items:
+          $ref: '#/definitions/Book'
   Category:
     type: object
     description: категория(жанр) книги
@@ -758,10 +821,15 @@ definitions:
         format: int64
         description: уникальный идентификатор категории
         example: 12345678
-      text:
+      name:
         type: string
         description: название категории
         example: Художественная литература
+      parentId:
+        type: integer
+        format: int64
+        description: уникальный идентификатор родительской категории
+        example: 12345673
   Book:
     type: object
     description: книга
@@ -784,15 +852,15 @@ definitions:
         format: int32
         description: номер издания
         example: 2
-      ISBN:
+      isbn:
         type: string
         description: международный стандартный книжный номер
         example: 978-5-04-091745-7
-      UDC:
+      udc:
         type: string
         description: индекс универсальной десятичной классификации
         example: 821.161.1
-      BBK:
+      bbk:
         type: string
         description: индекс библиотечно - библиографической классификации
         example: 84(2Рос=Рус)1я44
@@ -815,6 +883,30 @@ definitions:
         format: int32
         description: в наличии
         example: 231
+      weight:
+        type: integer
+        format: int32
+        description: вес в граммах
+        example: 320
+      ageLimit:
+        type: string
+        description: возрастное ограничение
+        example: 18+
+      format:
+        type: string
+        description: формат
+        example: 20.7 x 13.2 x 2
+      coverType:
+        type: string
+        description: тип обложки
+        example: Твердая бумажная
+      coverUrl:
+        type: string
+        description: url картинки обложки
+        example: /api/file/s3/bookshop/26fc75dc-4892-45c1-abcc-5a1a9043aada.jpg
+      pageCount:
+        type: integer
+        description: количество страниц
       publisher:
         $ref: '#/definitions/Publisher'
         description: издательство
@@ -837,6 +929,27 @@ definitions:
         description: категории(жанр) книги
         items:
           $ref: '#/definitions/Category'
+  CartItem:
+    type: object
+    description: элемент корзины (одна позиция в корзине)
+    properties:
+      book:
+        description: книга
+        $ref: '#/definitions/Book'
+      count:
+        description: количество
+        type: integer
+        format: int32
+        example: 2
+  Cart:
+    type: object
+    description: корзина
+    properties:
+      cartItemList:
+        type: array
+        description: список элементов корзины
+        items:
+          $ref: '#/definitions/CartItem'
   OrderItem:
     type: object
     description: элемент корзины или заказа (одна позиция в корзине или заказе)
@@ -903,6 +1016,45 @@ definitions:
           - delivery
           - unpaid
         example: shipping
+  MenuItem:
+    type: object
+    description: элемент меню
+    properties:
+      name:
+        type: string
+        description: отображаемое название пукта меню
+      url:
+        type: string
+        description: ссылка пункта меню
+      subItems:
+        type: array
+        description: список подпунктов меню
+        items:
+          $ref:  '#/definitions/MenuItem'
+  Menu:
+    type: object
+    description: меню
+    properties:
+      top:
+        type: array
+        description: меню из хедера
+        items:
+          $ref:  '#/definitions/MenuItem'
+      footer:
+        type: array
+        description: меню из футтера
+        items:
+          $ref:  '#/definitions/MenuItem'
+  PromoPicture:
+    type: object
+    description: элемент promo слайдера
+    properties:
+      url:
+        type: string
+        description: ссылка для перехода при клике на блок
+      pictureUrl:
+        type: string
+        description: ссылка для получения картинки блока
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
