@@ -681,8 +681,8 @@ paths:
     get:
       tags:
         - content-controller
-      summary: получить хлебные крошки для конкретной книги
-      description: получение хлебных крошtr для конкретной книги
+      summary: получить хлебные крошки для конкретной категории
+      description: получение хлебных крошtr для конкретной категории
       operationId: getCategoryNavigationMenuItemList
       produces:
         - application/json
@@ -690,7 +690,7 @@ paths:
         - name: id
           in: path
           required: true
-          description: id книги для которой получаем хлебные крошки
+          description: id категории для которой получаем хлебные крошки
           type: integer
           format: int64
       responses:
