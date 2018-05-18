@@ -9,7 +9,7 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="title" type="VARCHAR(255)" remarks="название книги"/>
-            <column name="subtitle" type="VARCHAR(2000)" remarks="подзаголов"/>
+            <column name="description" type="VARCHAR(2000)" remarks="описание"/>
             <column name="edition" type="INT" remarks="номер издания"/>
             <column name="isbn" type="VARCHAR(255)" remarks="международный стандартный книжный номер"/>
             <column name="udc" type="VARCHAR(255)" remarks="индекс универсальной десятичной классификации"/>
@@ -20,7 +20,7 @@
             <column name="in_stock" type="INT" remarks="в наличии"/>
             <column name="weight" type="INT" remarks="вес в граммах"/>
             <column name="age_limit" type="VARCHAR(255)" remarks="возрастное ограничение"/>
-            <column name="format" type="VARCHAR(255)" remarks="формат книги"/>
+            <column name="dimensions" type="VARCHAR(255)" remarks="размеры книги"/>
             <column name="cover_type" type="VARCHAR(255)" remarks="тип обложки"/>
             <column name="page_count" type="INT" remarks="количество страниц"/>
             <column name="publisher_id" type="BIGINT" remarks="уникальный идентификатор издательства"/>

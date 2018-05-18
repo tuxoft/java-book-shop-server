@@ -1,4 +1,4 @@
-﻿id;title;edition;isbn;udc;bbk;publication_year;circulation;price;in_stock;weight;age_limit;format;cover_type;page_count;publisher_id;city_id;book_series_id;language_id;subtitle
+﻿id;title;edition;isbn;udc;bbk;publication_year;circulation;price;in_stock;weight;age_limit;dimensions;cover_type;page_count;publisher_id;city_id;book_series_id;language_id;description
 1;Человек-невидимка;1;978-5-04-093908-4;821.111-9;84(4Вел)-80;2018;2000;450;5;210;12+;20.7 x 13 x 1.7;Твердая глянцевая;192;1;1;1;1;'Можно ли делать физические тела невидимыми? Звучит невероятно!
 Гениальный ученый Гриффин находит способ. Желая ослепить весь мир этим открытием, он проводит эксперимент на себе. Невидимость должна была позволить Гриффину осуществить самые дерзкие и фантастические планы, но обернулась настоящим кошмаром. 
 Сможет ли он вернуть человеческий облик? Или же превратится в безумца, опасного для общества? 

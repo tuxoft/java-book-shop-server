@@ -12,9 +12,12 @@ import java.util.List;
 @NoArgsConstructor
 public class CartDto {
 
+    private String id;
+
     private List<CartItemDto> cartItemList;
 
     public CartDto(CartVO cartVO) {
+        this.id = cartVO.getUserId();
         if (cartVO.getCartItemVOList() != null) {
             cartItemList = new ArrayList<>();
             for (CartItemVO cartItemVO: cartVO.getCartItemVOList()) {

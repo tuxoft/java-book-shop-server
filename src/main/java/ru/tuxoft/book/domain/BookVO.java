@@ -22,8 +22,8 @@ public class BookVO {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "subtitle")
-    private String subtitle;
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "edition")
     private Integer edition;
@@ -55,8 +55,8 @@ public class BookVO {
     @Column(name = "age_limit")
     private String ageLimit;
 
-    @Column(name = "format")
-    private String format;
+    @Column(name = "dimensions")
+    private String dimensions;
 
     @Column(name = "cover_type")
     private String coverType;

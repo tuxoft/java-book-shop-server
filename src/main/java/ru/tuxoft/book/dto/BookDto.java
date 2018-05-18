@@ -21,7 +21,7 @@ public class BookDto {
 
     private String title;
 
-    private String subtitle;
+    private String description;
 
     private Integer edition;
 
@@ -43,7 +43,7 @@ public class BookDto {
 
     private String ageLimit;
 
-    private String format;
+    private String dimensions;
 
     private String coverType;
 
@@ -68,7 +68,7 @@ public class BookDto {
 
         this.title = bookVO.getTitle();
 
-        this.subtitle = bookVO.getSubtitle();
+        this.description = bookVO.getDescription();
 
         this.edition = bookVO.getEdition();
 
@@ -90,7 +90,7 @@ public class BookDto {
 
         this.ageLimit = bookVO.getAgeLimit();
 
-        this.format = bookVO.getFormat();
+        this.dimensions = bookVO.getDimensions();
 
         this.coverType = bookVO.getCoverType();
 

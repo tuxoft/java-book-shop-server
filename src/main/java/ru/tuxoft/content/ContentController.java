@@ -38,8 +38,13 @@ public class ContentController {
         return contentService.getPromoPictures(userId);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/navigationMenu/{id}")
-    public List<MenuItemDto> getCategoryNavigationMenuItemList(@PathVariable("id") Long categoryId) {
-        return contentService.getCategoryNavigationMenuItemList(categoryId, userId);
+    @RequestMapping(method = RequestMethod.GET, path = "/navigationMenuTop/{id}")
+    public List<MenuItemDto> getCategoryNavigationMenuTopItemList(@PathVariable("id") Long categoryId) {
+        return contentService.getCategoryNavigationMenuTopItemList(categoryId, userId);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/navigationMenuLeft/{id}")
+    public List<MenuItemDto> getCategoryNavigationMenuLeftItemList(@PathVariable("id") Long categoryId) {
+        return contentService.getCategoryNavigationMenuLeftItemList(categoryId, userId);
     }
 }

@@ -16,7 +16,10 @@ public class MenuItemDto {
 
     private List<MenuItemDto> subItems;
 
-    public MenuItemDto(CategoryVO menuItem) {
+    public MenuItemDto(CategoryVO menuItem, Boolean needSetUrl) {
         this.name = menuItem.getName();
+        if (needSetUrl) {
+            this.url = "/categories/" + menuItem.getId();
+        }
     }
 }

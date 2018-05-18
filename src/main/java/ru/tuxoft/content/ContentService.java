@@ -44,7 +44,7 @@ public class ContentService {
     }
 
     private List<MenuItemDto> getMenuFooterList() throws IOException {
-        List<MenuItemDto> result = new ArrayList<>();
+        List<MenuItemDto> result;
 
         InputStream is = ContentController.class.getClassLoader().getResourceAsStream("menu/footer.json");
         ObjectMapper mapper = new ObjectMapper();
@@ -58,11 +58,12 @@ public class ContentService {
 
         List<CategoryVO> menuItems = categoryRepository.findByParentId(categoryId);
         for (CategoryVO menuItem: menuItems) {
-            MenuItemDto menuItemDto = new MenuItemDto(menuItem);
+            MenuItemDto menuItemDto;
             if (countEnclosureLevel>1) {
+                menuItemDto = new MenuItemDto(menuItem, false);
                 menuItemDto.setSubItems(getMenuItemByCategory(menuItem.getId(), countEnclosureLevel - 1));
             } else {
-                menuItemDto.setUrl("/categories/"+menuItem.getId());
+                menuItemDto = new MenuItemDto(menuItem, true);
             }
             result.add(menuItemDto);
         }
@@ -83,20 +84,18 @@ public class ContentService {
         return promoPictureRepository.findByDeletedIsFalse().stream().map(promoPictureVO -> new PromoPictureDto(promoPictureVO)).collect(Collectors.toList());
     }
 
-    public List<MenuItemDto> getCategoryNavigationMenuItemList(Long categoryId, String userId) {
+    public List<MenuItemDto> getCategoryNavigationMenuTopItemList(Long categoryId, String userId) {
         List<MenuItemDto> result = new ArrayList<>();
         Optional<CategoryVO> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {
-            MenuItemDto menuItem = new MenuItemDto(category.get());
-            menuItem.setUrl("/categories/"+category.get().getId());
+            MenuItemDto menuItem = new MenuItemDto(category.get(), true);
             result.add(0, menuItem);
             Long parentId = category.get().getParentId();
             if (parentId != null) {
                 do {
                     Optional<CategoryVO> parentCategory = categoryRepository.findById(parentId);
                     if (parentCategory.isPresent()) {
-                        MenuItemDto nextMenuItem = new MenuItemDto(parentCategory.get());
-                        nextMenuItem.setUrl("/categories/" + parentCategory.get().getId());
+                        MenuItemDto nextMenuItem = new MenuItemDto(parentCategory.get(), true);
                         result.add(0, nextMenuItem);
                         parentId = parentCategory.get().getParentId();
                     } else {
@@ -104,6 +103,26 @@ public class ContentService {
                     }
                 } while (parentId != null);
             }
+        } else {
+            throw new IllegalArgumentException("Ошибка запроса навигационного меню. Категории с указанным id в БД не обнаружено");
+        }
+        return result;
+    }
+
+    public List<MenuItemDto> getCategoryNavigationMenuLeftItemList(Long categoryId, String userId) {
+        List<MenuItemDto> result = new ArrayList<>();
+
+        Optional<CategoryVO> category = categoryRepository.findById(categoryId);
+        if (category.isPresent()) {
+            MenuItemDto menuItem = new MenuItemDto(category.get(), true);
+            List<CategoryVO> childCategoryList = categoryRepository.findByParentId(categoryId);
+            if (childCategoryList.size()>0) {
+                for (CategoryVO childCategory: childCategoryList) {
+                    MenuItemDto childMenuItem = new MenuItemDto(childCategory, true);
+                    menuItem.getSubItems().add(childMenuItem);
+                }
+            }
+            result.add(menuItem);
         } else {
             throw new IllegalArgumentException("Ошибка запроса навигационного меню. Категории с указанным id в БД не обнаружено");
         }
