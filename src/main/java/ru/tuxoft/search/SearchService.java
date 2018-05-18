@@ -65,7 +65,7 @@ public class SearchService {
             log.debug("Select SQL: {}", select);
 
             try (PreparedStatement ps = conn.prepareStatement(select, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
-                ps.setString(1, query);
+                ps.setString(1, tsquery.toString());
                 try (ResultSet rs = ps.executeQuery()) {
                     boolean hasMore = true;
                     if (start != 0) {

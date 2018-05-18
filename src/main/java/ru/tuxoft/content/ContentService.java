@@ -121,8 +121,9 @@ public class ContentService {
                     MenuItemDto childMenuItem = new MenuItemDto(childCategory, true);
                     menuItem.getSubItems().add(childMenuItem);
                 }
+                result.add(menuItem);
             }
-            result.add(menuItem);
+
         } else {
             throw new IllegalArgumentException("Ошибка запроса навигационного меню. Категории с указанным id в БД не обнаружено");
         }

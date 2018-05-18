@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.tuxoft.book.domain.CategoryVO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -21,5 +22,7 @@ public class MenuItemDto {
         if (needSetUrl) {
             this.url = "/categories/" + menuItem.getId();
         }
+
+        this.subItems = new ArrayList<>();
     }
 }
