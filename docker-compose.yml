@@ -24,7 +24,35 @@ services:
     volumes:
       - "s3-localData:/usr/src/app/localData"
       - "s3-localMetadata:/usr/src/app/localMetadata"
+  sso-db:
+      image: "postgres:9.6.3"
+      ports:
+        - "5433:5432"
+      network_mode: "book-shop"
+      container_name: "sso-db"
+      environment:
+        POSTGRES_USER: "postgres"
+        POSTGRES_PASSWORD: "secret"
+        POSTGRES_DB: "ssoDB"
+      volumes:
+        - "sso-postgresql:/var/lib/postgresql/data"
+  keycloak:
+      image: "jboss/keycloak-postgres:3.2.1.Final"
+      ports:
+        - "8080:8080"
+      network_mode: "book-shop"
+      container_name: "keycloak"
+      environment:
+        KEYCLOAK_USER: "admin"
+        KEYCLOAK_PASSWORD: "admin"
+        PROXY_ADDRESS_FORWARDING: "true"
+        POSTGRES_DATABASE: "ssoDB"
+        POSTGRES_USER: "postgres"
+        POSTGRES_PASSWORD: "secret"
+        POSTGRES_PORT_5432_TCP_ADDR: "sso-db"
+        POSTGRES_PORT_5432_TCP_PORT: 5432
 volumes:
+  sso-postgresql:
   book-shop-postgresql:
   s3-localData:
   s3-localMetadata:
