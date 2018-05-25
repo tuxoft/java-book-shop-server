@@ -166,13 +166,11 @@ public class AdminService {
     }
 
     public void setBookAuthors(BookVO book) {
+        bookAuthorsRepository.deleteByBookId(book.getId());
         for (BookAuthorsVO bookAuthors: book.getBookAuthors()) {
-            BookAuthorsVO findBookAuthors = bookAuthorsRepository.findByBookIdAndAuthorId(book.getId(), bookAuthors.getAuthor().getId());
-            if (findBookAuthors == null) {
-                findBookAuthors = new BookAuthorsVO();
-                findBookAuthors.setBook(book);
-                findBookAuthors.setAuthor(authorRepository.findById(bookAuthors.getId()).get());
-            }
+            BookAuthorsVO findBookAuthors = new BookAuthorsVO();
+            findBookAuthors.setBook(book);
+            findBookAuthors.setAuthor(authorRepository.findById(bookAuthors.getAuthor().getId()).get());
             findBookAuthors.setPosition(bookAuthors.getPosition());
             bookAuthorsRepository.saveAndFlush(findBookAuthors);
         }
