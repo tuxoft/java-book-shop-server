@@ -5,4 +5,5 @@ import ru.tuxoft.s3.domain.FileVO;
 
 public interface FileRepository extends JpaRepository<FileVO, Long>{
 
+    FileVO findByKey(String key);
 }

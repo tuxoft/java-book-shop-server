@@ -18,11 +18,4 @@ public class PublisherDto {
 
     private List<BookSeriesDto> bookSeriesList;
 
-    public PublisherDto(PublisherVO publisherVO) {
-
-        this.id = publisherVO.getId();
-
-        this.name = publisherVO.getName();
-
-    }
 }

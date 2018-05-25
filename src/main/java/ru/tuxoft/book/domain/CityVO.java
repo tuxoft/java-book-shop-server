@@ -2,6 +2,7 @@ package ru.tuxoft.book.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.tuxoft.book.dto.CityDto;
 
 import javax.persistence.*;
 import java.util.List;
@@ -26,7 +27,7 @@ public class CityVO {
     @Column(name = "code_city")
     private String codeCity;
 
-    @OneToMany(mappedBy = "cityVO", cascade = CascadeType.ALL)
-    private List<BookVO> bookVOList;
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
+    private List<BookVO> bookList;
 
 }

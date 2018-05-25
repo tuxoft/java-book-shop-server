@@ -26,7 +26,7 @@ public class LanguageVO {
     @Column(name = "code_language")
     private String codeLanguage;
 
-    @OneToMany(mappedBy = "languageVO", cascade = CascadeType.ALL)
-    private List<BookVO> bookVOList;
+    @OneToMany(mappedBy = "language", cascade = CascadeType.ALL)
+    private List<BookVO> bookList;
 
 }

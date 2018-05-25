@@ -31,7 +31,6 @@ public class CategoryVO {
             joinColumns = @JoinColumn(name = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
-    private List<BookVO> bookVOList;
-
+    private List<BookVO> bookList;
 
 }

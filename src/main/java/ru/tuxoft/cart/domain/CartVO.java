@@ -21,6 +21,6 @@ public class CartVO {
     private String userId;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    private List<CartItemVO> cartItemVOList;
+    private List<CartItemVO> cartItemList;
 
 }

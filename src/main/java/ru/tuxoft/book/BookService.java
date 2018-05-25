@@ -1,10 +1,12 @@
 package ru.tuxoft.book;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.tuxoft.book.domain.AuthorVO;
 import ru.tuxoft.book.domain.BookVO;
 import ru.tuxoft.book.domain.CategoryVO;
@@ -14,14 +16,22 @@ import ru.tuxoft.book.domain.repository.CategoryRepository;
 import ru.tuxoft.book.dto.AuthorDto;
 import ru.tuxoft.book.dto.BookDto;
 import ru.tuxoft.book.dto.CategoryDto;
+import ru.tuxoft.book.mapper.AuthorMapper;
+import ru.tuxoft.book.mapper.BookMapper;
+import ru.tuxoft.book.mapper.CategoryMapper;
+import ru.tuxoft.paging.ListResult;
+import ru.tuxoft.paging.Meta;
+import ru.tuxoft.paging.Paging;
 
+import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Component
+@Service
+@Slf4j
 public class BookService {
 
     @Autowired
@@ -33,38 +43,51 @@ public class BookService {
     @Autowired
     AuthorRepository authorRepository;
 
-    public List<BookDto> getBookList(int start, int count, String sort, String order) {
-        return bookRepository.findAll(PageRequest.of(start, count)).stream().map(e -> new BookDto(e)).collect(Collectors.toList());
+    @Autowired
+    BookMapper bookMapper;
+
+    @Autowired
+    CategoryMapper categoryMapper;
+
+    @Autowired
+    AuthorMapper authorMapper;
+
+    public ListResult<BookDto> getBookList(int start, int pageSize, String sort, String order) {
+        int page = start / pageSize;
+        ListResult<BookDto> result = new ListResult<>(new Meta((int) bookRepository.count(), new Paging(start, pageSize)), new ArrayList<>());
+        List<BookDto> data = bookRepository.findAll(PageRequest.of(page, pageSize)).stream().map(e -> bookMapper.bookVOToBookDto(e)).collect(Collectors.toList());
+        result.setData(data);
+        return result;
     }
 
     public BookDto getBookById(Long id) throws IllegalArgumentException {
         Optional<BookVO> bookOptional = bookRepository.findById(id);
         if (bookOptional.isPresent()){
-            return new BookDto(bookOptional.get());
+            return bookMapper.bookVOToBookDto(bookOptional.get());
         } else {
             throw new IllegalArgumentException("Ошибка запроса книги. Книги с указанным id в БД не обнаружено");
         }
     }
 
     public List<CategoryDto> getCategoryList() {
-        return categoryRepository.findAll().stream().map(e -> new CategoryDto(e)).collect(Collectors.toList());
+        return categoryRepository.findAll().stream().map(e -> categoryMapper.categoryVOToCategoryDto(e)).collect(Collectors.toList());
     }
 
 
-    public CategoryDto getBookByCategory(Long id, int start, int count, String sort, String order) throws IllegalArgumentException {
+    public ListResult<BookDto> getBookByCategory(Long id, int start, int pageSize, String sort, String order) throws IllegalArgumentException {
         Optional<CategoryVO> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isPresent()) {
+            int page = start / pageSize;
             List<Long> idList = new ArrayList<>();
             idList.add(id);
             idList.addAll(getAllChildrenByCategoryId(id));
-            List<BookVO> bookList = categoryRepository.findBookVOListByIdIn(idList, PageRequest.of(start, count));
-            CategoryDto result = new CategoryDto(categoryOptional.get());
-            result.setBookList(bookList.stream().map(e -> new BookDto(e)).collect(Collectors.toList()));
+            List<BookVO> bookList = bookRepository.findBookByCategoryIdIn(idList, PageRequest.of(page, pageSize));
+            ListResult<BookDto> result = new ListResult<>(new Meta(bookRepository.countBookByCategoryIdIn(idList).intValue(), new Paging(start, pageSize)), new ArrayList<>());
+            result.setData(bookList.stream().map(e -> bookMapper.bookVOToBookDto(e)).collect(Collectors.toList()));
             return result;
         } else {
             throw new IllegalArgumentException("Ошибка запроса книги. Категории с указанным id в БД не обнаружено");
         }
-
     }
 
     private List<Long> getAllChildrenByCategoryId(Long id) {
@@ -80,13 +103,18 @@ public class BookService {
     }
 
     public List<AuthorDto> getAuthorList(int start, int count, String sort, String order) {
-        return authorRepository.findAll(PageRequest.of(start, count)).stream().map(e -> new AuthorDto(e)).collect(Collectors.toList());
+        return authorRepository.findAll(PageRequest.of(start, count)).stream().map(e -> authorMapper.toDto(e)).collect(Collectors.toList());
     }
 
-    public List<BookDto> getBookByAuthor(Long id, int start, int count, String sort, String order) throws IllegalArgumentException {
+    public ListResult<BookDto> getBookByAuthor(Long id, int start, int pageSize, String sort, String order) throws IllegalArgumentException {
         Optional<AuthorVO> authorOptional = authorRepository.findById(id);
         if (authorOptional.isPresent()) {
-            return authorOptional.get().getBookAuthorsVOList().stream().map(e -> new BookDto(e.getBook())).collect(Collectors.toList());
+            int page = start / pageSize;
+            List <BookDto> bookList = authorOptional.get().getBookAuthorsList().stream().map(e -> bookMapper.bookVOToBookDto(e.getBook())).collect(Collectors.toList());
+            ListResult<BookDto> bookListResult = new ListResult<>(new Meta(bookList.size(), new Paging(start, pageSize)), new ArrayList<>());
+            bookListResult.setData(bookList.subList(start, start + pageSize));
+            return bookListResult;
+
         } else {
             throw new IllegalArgumentException("Ошибка запроса книги. Автора с указанным id в БД не обнаружено");
         }

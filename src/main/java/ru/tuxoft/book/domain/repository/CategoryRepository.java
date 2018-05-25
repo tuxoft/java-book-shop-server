@@ -19,6 +19,12 @@ public interface CategoryRepository extends JpaRepository<CategoryVO,Long> {
     @Query("select c.id from CategoryVO c where c.parentId=(:parentId)")
     List<Long> findIdByParentId(@Param("parentId") Long id);
 
-    @Query("select distinct c.bookVOList from CategoryVO c where c.id in (:idList)")
+    @Query("select distinct c.bookList from CategoryVO c where c.id in (:idList)")
     List<BookVO> findBookVOListByIdIn(@Param("idList") List<Long> idList, Pageable pageable);
+
+    @Query("select count(*) from CategoryVO c where lower(c.name) like %:query%")
+    Integer findCountByNameLike(@Param("query") String query);
+
+    @Query("select c from CategoryVO c where lower(c.name) like %:query% order by c.name asc")
+    List<CategoryVO> findByNameLike(@Param("query") String query, Pageable pageable);
 }

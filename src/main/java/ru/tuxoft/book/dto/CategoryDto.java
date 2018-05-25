@@ -1,11 +1,14 @@
 package ru.tuxoft.book.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.tuxoft.book.domain.CategoryVO;
+import ru.tuxoft.paging.ListResult;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class CategoryDto {
 
     private Long id;
@@ -16,13 +19,4 @@ public class CategoryDto {
 
     private List<BookDto> bookList;
 
-    public CategoryDto(CategoryVO categoryVO) {
-
-        this.id = categoryVO.getId();
-
-        this.name = categoryVO.getName();
-
-        this.parentId = categoryVO.getParentId();
-
-    }
 }

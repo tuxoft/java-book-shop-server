@@ -60,6 +60,6 @@ public class OrderVO {
     @Column(name = "status")
     private String status;
 
-    @OneToMany(mappedBy = "orderVO", cascade = CascadeType.ALL)
-    private List<OrderItemVO> orderItemVOList;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItemVO> orderItemList;
 }

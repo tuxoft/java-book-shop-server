@@ -27,6 +27,6 @@ public class AuthorVO {
     private String lastName;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
-    private List<BookAuthorsVO> bookAuthorsVOList;
+    private List<BookAuthorsVO> bookAuthorsList;
 
 }

@@ -13,8 +13,4 @@ public class CartItemDto {
 
     private Integer count;
 
-    public CartItemDto(CartItemVO cartItemVO) {
-        this.book = new BookDto(cartItemVO.getBook());
-        this.count = cartItemVO.getCount();
-    }
 }

@@ -22,7 +22,7 @@ public class OrderItemVO {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private OrderVO orderVO;
+    private OrderVO order;
 
     @Column(name = "count")
     private Integer count;

@@ -74,6 +74,28 @@
         <loadData
                 encoding="UTF-8"
                 relativeToChangelogFile="true"
+                file="data/age_limits.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="age_limits">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-8">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/cover_types.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="cover_types">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-9">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
                 file="data/books.csv"
                 quotchar="'"
                 schemaName="public"
@@ -81,7 +103,7 @@
                 tableName="books">
         </loadData>
     </changeSet>
-    <changeSet author="v.darmakheev" id="data-init-8">
+    <changeSet author="v.darmakheev" id="data-init-10">
         <loadData
                 encoding="UTF-8"
                 relativeToChangelogFile="true"
@@ -92,7 +114,7 @@
                 tableName="book_authors">
         </loadData>
     </changeSet>
-    <changeSet author="v.darmakheev" id="data-init-9">
+    <changeSet author="v.darmakheev" id="data-init-11">
         <loadData
                 encoding="UTF-8"
                 relativeToChangelogFile="true"
@@ -103,7 +125,7 @@
                 tableName="book_categories">
         </loadData>
     </changeSet>
-    <changeSet author="v.darmakheev" id="data-init-10">
+    <changeSet author="v.darmakheev" id="data-init-12">
         <loadData
                 encoding="UTF-8"
                 relativeToChangelogFile="true"
@@ -114,7 +136,7 @@
                 tableName="cart">
         </loadData>
     </changeSet>
-    <changeSet author="v.darmakheev" id="data-init-11">
+    <changeSet author="v.darmakheev" id="data-init-13">
         <loadData
                 encoding="UTF-8"
                 relativeToChangelogFile="true"
@@ -125,7 +147,7 @@
                 tableName="cart_items">
         </loadData>
     </changeSet>
-    <changeSet author="v.darmakheev" id="data-init-12">
+    <changeSet author="v.darmakheev" id="data-init-14">
         <loadData
                 encoding="UTF-8"
                 relativeToChangelogFile="true"
@@ -136,7 +158,7 @@
                 tableName="orders">
         </loadData>
     </changeSet>
-    <changeSet author="v.darmakheev" id="data-init-13">
+    <changeSet author="v.darmakheev" id="data-init-15">
         <loadData
                 encoding="UTF-8"
                 relativeToChangelogFile="true"
@@ -147,7 +169,7 @@
                 tableName="order_items">
         </loadData>
     </changeSet>
-    <changeSet author="v.darmakheev" id="data-init-14">
+    <changeSet author="v.darmakheev" id="data-init-16">
         <loadData
                 encoding="UTF-8"
                 relativeToChangelogFile="true"
@@ -158,7 +180,7 @@
                 tableName="promo_pictures">
         </loadData>
     </changeSet>
-    <changeSet author="v.darmakheev" id="data-init-15">
+    <changeSet author="v.darmakheev" id="data-init-17">
         <loadData
                 encoding="UTF-8"
                 relativeToChangelogFile="true"

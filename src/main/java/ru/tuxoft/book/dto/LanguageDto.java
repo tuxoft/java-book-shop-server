@@ -2,6 +2,7 @@ package ru.tuxoft.book.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.tuxoft.book.domain.LanguageVO;
 
 import java.util.List;
 

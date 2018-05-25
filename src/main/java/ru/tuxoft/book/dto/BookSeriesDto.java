@@ -18,12 +18,4 @@ public class BookSeriesDto {
 
     private List<BookDto> bookList;
 
-    public BookSeriesDto(BookSeriesVO bookSeriesVO) {
-
-        this.id = bookSeriesVO.getId();
-
-        this.name = bookSeriesVO.getName();
-
-        this.publisherId = bookSeriesVO.getPublisherVO().getId();
-    }
 }

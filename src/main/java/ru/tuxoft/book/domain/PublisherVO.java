@@ -2,6 +2,7 @@ package ru.tuxoft.book.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.tuxoft.book.dto.PublisherDto;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,11 +24,11 @@ public class PublisherVO {
     @Column(name = "deleted")
     private Boolean deleted = false;
 
-    @OneToMany(mappedBy = "publisherVO", cascade = CascadeType.ALL)
-    private List<BookVO> bookVOList;
+    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+    private List<BookVO> bookList;
 
 
-    @OneToMany(mappedBy = "publisherVO", cascade = CascadeType.ALL)
-    private List<BookSeriesVO> bookSeriesVOList;
+    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+    private List<BookSeriesVO> bookSeriesList;
 
 }

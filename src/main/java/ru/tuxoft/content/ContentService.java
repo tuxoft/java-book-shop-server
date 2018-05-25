@@ -5,14 +5,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.tuxoft.book.domain.CategoryVO;
 import ru.tuxoft.book.domain.repository.CategoryRepository;
 import ru.tuxoft.book.dto.BookDto;
 import ru.tuxoft.book.dto.CategoryDto;
+import ru.tuxoft.book.mapper.BookMapper;
+import ru.tuxoft.book.mapper.CategoryMapper;
 import ru.tuxoft.content.domain.repository.PromoPictureRepository;
 import ru.tuxoft.content.dto.MenuDto;
 import ru.tuxoft.content.dto.MenuItemDto;
 import ru.tuxoft.content.dto.PromoPictureDto;
+import ru.tuxoft.paging.ListResult;
+import ru.tuxoft.paging.Meta;
+import ru.tuxoft.paging.Paging;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 @Slf4j
 public class ContentService {
 
@@ -30,6 +36,12 @@ public class ContentService {
 
     @Autowired
     PromoPictureRepository promoPictureRepository;
+
+    @Autowired
+    BookMapper bookMapper;
+
+    @Autowired
+    CategoryMapper categoryMapper;
 
     public MenuDto getMenu(String userId) throws IOException {
         MenuDto menu = new MenuDto();
@@ -73,8 +85,8 @@ public class ContentService {
 
     public List<CategoryDto> getCategoriesListForCarousel(String userId) {
         return categoryRepository.findByParentId(3L).stream().map(e -> {
-            CategoryDto categoryDto = new CategoryDto(e);
-            List<BookDto> bookDtoList = e.getBookVOList().stream().map(bookVO -> new BookDto(bookVO)).collect(Collectors.toList());
+            CategoryDto categoryDto = categoryMapper.categoryVOToCategoryDto(e);
+            List<BookDto> bookDtoList = e.getBookList().stream().map(bookVO -> bookMapper.bookVOToBookDto(bookVO)).collect(Collectors.toList());
             categoryDto.setBookList(bookDtoList);
             return categoryDto;
         }).collect(Collectors.toList());

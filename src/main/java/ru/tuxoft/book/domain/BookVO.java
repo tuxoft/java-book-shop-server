@@ -2,11 +2,13 @@ package ru.tuxoft.book.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.tuxoft.book.dto.BookDto;
 import ru.tuxoft.s3.domain.FileVO;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -52,14 +54,16 @@ public class BookVO {
     @Column(name = "weight")
     private Integer weight;
 
-    @Column(name = "age_limit")
-    private String ageLimit;
+    @ManyToOne
+    @JoinColumn(name = "age_limit_id")
+    private AgeLimitVO ageLimit;
 
     @Column(name = "dimensions")
     private String dimensions;
 
-    @Column(name = "cover_type")
-    private String coverType;
+    @ManyToOne
+    @JoinColumn(name = "cover_type_id")
+    private CoverTypeVO coverType;
 
     @Column(name = "page_count")
     private Integer pageCount;
@@ -69,30 +73,30 @@ public class BookVO {
     private FileVO coverFile;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
-    private List<BookAuthorsVO> bookAuthorsVOList;
+    private List<BookAuthorsVO> bookAuthors;
 
     @ManyToOne
     @JoinColumn(name = "publisher_id")
-    private PublisherVO publisherVO;
+    private PublisherVO publisher;
 
     @ManyToOne
     @JoinColumn(name = "city_id")
-    private CityVO cityVO;
+    private CityVO city;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "book_categories",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private List<CategoryVO> categoryVOList;
+    private List<CategoryVO> categories;
 
     @ManyToOne
     @JoinColumn(name = "book_series_id")
-    private BookSeriesVO bookSeriesVO;
+    private BookSeriesVO bookSeries;
 
     @ManyToOne
     @JoinColumn(name = "language_id")
-    private LanguageVO languageVO;
+    private LanguageVO language;
 
 }
 

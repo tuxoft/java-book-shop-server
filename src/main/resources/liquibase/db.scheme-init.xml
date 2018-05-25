@@ -19,9 +19,9 @@
             <column name="price" type="DECIMAL" remarks="цена"/>
             <column name="in_stock" type="INT" remarks="в наличии"/>
             <column name="weight" type="INT" remarks="вес в граммах"/>
-            <column name="age_limit" type="VARCHAR(255)" remarks="возрастное ограничение"/>
+            <column name="age_limit_id" type="BIGINT" remarks="уникальный идентификатор возрастного ограничения"/>
             <column name="dimensions" type="VARCHAR(255)" remarks="размеры книги"/>
-            <column name="cover_type" type="VARCHAR(255)" remarks="тип обложки"/>
+            <column name="cover_type_id" type="BIGINT" remarks="уникальный идентификатор типа обложки"/>
             <column name="page_count" type="INT" remarks="количество страниц"/>
             <column name="publisher_id" type="BIGINT" remarks="уникальный идентификатор издательства"/>
             <column name="book_series_id" type="BIGINT" remarks="уникальный идентификатор книжной серии"/>
@@ -197,6 +197,46 @@
                                  referencedTableName="categories"/>
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-18">
+        <createTable tableName="age_limits">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор ограничения возраста">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)" remarks="название"/>
+            <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-19">
+        <addForeignKeyConstraint baseColumnNames="age_limit_id"
+                                 baseTableName="books"
+                                 constraintName="age_limit_id_books_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="age_limits"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-20">
+        <createTable tableName="cover_types">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор типа обложки">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)" remarks="название"/>
+            <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-21">
+        <addForeignKeyConstraint baseColumnNames="cover_type_id"
+                                 baseTableName="books"
+                                 constraintName="cover_type_id_books_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cover_types"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-22">
         <createTable tableName="orders">
             <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор заказа">
                 <constraints nullable="false" primaryKey="true"/>
@@ -217,7 +257,7 @@
             <column name="status" type="VARCHAR(255)" remarks="статус заказа"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-19">
+    <changeSet author="v.darmakheev" id="scheme-init-23">
         <createTable tableName="order_items">
             <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор">
                 <constraints nullable="false" primaryKey="true"/>
@@ -227,7 +267,7 @@
             <column name="count" type="INT" remarks="количетсво книг с указанным id в заказе"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-20">
+    <changeSet author="v.darmakheev" id="scheme-init-24">
         <addForeignKeyConstraint baseColumnNames="order_id"
                                  baseTableName="order_items"
                                  constraintName="order_id_order_item_fkey"
@@ -238,7 +278,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="orders"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-21">
+    <changeSet author="v.darmakheev" id="scheme-init-25">
         <addForeignKeyConstraint baseColumnNames="book_id"
                                  baseTableName="order_items"
                                  constraintName="book_id_order_item_fkey"
@@ -249,7 +289,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="books"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-22">
+    <changeSet author="v.darmakheev" id="scheme-init-26">
         <createTable tableName="cart">
             <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор корзины">
                 <constraints nullable="false" primaryKey="true"/>
@@ -257,7 +297,7 @@
             <column name="user_id" type="VARCHAR(255)" remarks="уникальный идентификатор пользователя"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-23">
+    <changeSet author="v.darmakheev" id="scheme-init-27">
         <createTable tableName="cart_items">
             <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор">
                 <constraints nullable="false" primaryKey="true"/>
@@ -267,7 +307,7 @@
             <column name="count" type="INT" remarks="количетсво книг с указанным id в корзине"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-24">
+    <changeSet author="v.darmakheev" id="scheme-init-28">
         <addForeignKeyConstraint baseColumnNames="cart_id"
                                  baseTableName="cart_items"
                                  constraintName="cart_id_cart_items_fkey"
@@ -278,7 +318,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="cart"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-25">
+    <changeSet author="v.darmakheev" id="scheme-init-29">
         <addForeignKeyConstraint baseColumnNames="book_id"
                                  baseTableName="cart_items"
                                  constraintName="book_id_cart_items_fkey"
@@ -289,7 +329,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="books"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-26">
+    <changeSet author="v.darmakheev" id="scheme-init-30">
         <createTable tableName="files">
             <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор файла">
                 <constraints nullable="false" primaryKey="true"/>
@@ -302,7 +342,7 @@
             <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-27">
+    <changeSet author="v.darmakheev" id="scheme-init-31">
         <addForeignKeyConstraint baseColumnNames="cover_file_id"
                                  baseTableName="books"
                                  constraintName="cover_file_id_books_fkey"
@@ -313,7 +353,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="files"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-28">
+    <changeSet author="v.darmakheev" id="scheme-init-32">
         <createTable tableName="s3init">
             <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор">
                 <constraints nullable="false" primaryKey="true"/>
@@ -321,7 +361,7 @@
             <column name="init" type="BOOLEAN" remarks="был ли проинициализирован s3"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-29">
+    <changeSet author="v.darmakheev" id="scheme-init-33">
         <createTable tableName="promo_pictures">
             <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор слайдера">
                 <constraints nullable="false" primaryKey="true"/>
@@ -331,7 +371,7 @@
             <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-30">
+    <changeSet author="v.darmakheev" id="scheme-init-34">
         <addForeignKeyConstraint baseColumnNames="picture_file_id"
                                  baseTableName="promo_pictures"
                                  constraintName="picture_id_promo_pictures_fkey"
@@ -342,7 +382,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="files"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-31" dbms="postgresql">
+    <changeSet author="v.darmakheev" id="scheme-init-35" dbms="postgresql">
         <sql>
             ALTER SEQUENCE authors_id_seq RESTART with 1000000;
             ALTER SEQUENCE book_authors_id_seq RESTART with 1000000;
@@ -355,6 +395,8 @@
             ALTER SEQUENCE cities_id_seq RESTART with 1000000;
             ALTER SEQUENCE files_id_seq RESTART with 1000000;
             ALTER SEQUENCE languages_id_seq RESTART with 1000000;
+            ALTER SEQUENCE age_limits_id_seq RESTART with 1000000;
+            ALTER SEQUENCE cover_types_id_seq RESTART with 1000000;
             ALTER SEQUENCE order_items_id_seq RESTART with 1000000;
             ALTER SEQUENCE orders_id_seq RESTART with 1000000;
             ALTER SEQUENCE publishers_id_seq RESTART with 1000000;

@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 import ru.tuxoft.book.domain.BookVO;
 import ru.tuxoft.book.domain.repository.BookRepository;
 import ru.tuxoft.book.dto.BookDto;
+import ru.tuxoft.book.mapper.BookMapper;
+import ru.tuxoft.paging.ListResult;
+import ru.tuxoft.paging.Meta;
+import ru.tuxoft.paging.Paging;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -27,8 +31,11 @@ public class SearchService {
     @Autowired
     BookRepository bookRepository;
 
-    public List<BookDto> search(String query, int start, int count, String sort, String order) {
-        List<BookDto> result = new ArrayList<>();
+    @Autowired
+    BookMapper bookMapper;
+
+    public ListResult<BookDto> search(String query, int start, int pageSize, String sort, String order) {
+        ListResult<BookDto> result = new ListResult<>(new Meta(-1, new Paging(start, pageSize)), new ArrayList<>());
 
         StringBuilder tsquery = new StringBuilder();
 
@@ -60,9 +67,21 @@ public class SearchService {
 
         try (Connection conn = ds.getConnection()) {
 
+            String selectCount = "select count(*) " + from.toString() + where.toString();
+
+            log.info("Count SQL: {}", selectCount);
+
+            try (PreparedStatement ps = conn.prepareStatement(selectCount)) {
+                ps.setString(1, tsquery.toString());
+                try (ResultSet rs = ps.executeQuery()) {
+                    rs.next();
+                    result.getMeta().setTotal(rs.getInt(1));
+                }
+            }
+
             String select = fields.toString() + from.toString() + where.toString() + orderBy.toString();
 
-            log.debug("Select SQL: {}", select);
+            log.info("Select SQL: {}", select);
 
             try (PreparedStatement ps = conn.prepareStatement(select, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
                 ps.setString(1, tsquery.toString());
@@ -75,13 +94,13 @@ public class SearchService {
 
                         int i = 0;
 
-                        while (rs.next() && i++ < count) {
+                        while (rs.next() && i++ < pageSize) {
                             Long id = rs.getLong("id");
                             Optional<BookVO> book = bookRepository.findById(id);
                             if (book.isPresent()) {
-                                BookDto dto = new BookDto(book.get());
-                                result.add(dto);
-                                log.debug("Rank for {}: {}", dto.getTitle(), rs.getDouble("rank"));
+                                BookDto dto = bookMapper.bookVOToBookDto(book.get());
+                                result.getData().add(dto);
+                                log.info("Rank for {}: {}", dto.getTitle(), rs.getDouble("rank"));
                             }
                         }
                     }
@@ -92,7 +111,6 @@ public class SearchService {
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
         }
-
         return result;
     }
 }
