@@ -1,5 +1,6 @@
 package ru.tuxoft.secure;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,10 +12,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
+@Slf4j
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected void configure(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry conf) {
-        conf.antMatchers("/categoryCarousels").authenticated();
+        conf.antMatchers("/profile").hasRole("USER");
         conf.antMatchers("/**").permitAll();
     }
 
