@@ -55,7 +55,7 @@ public class BookService {
     public ListResult<BookDto> getBookList(int start, int pageSize, String sort, String order) {
         int page = start / pageSize;
         ListResult<BookDto> result = new ListResult<>(new Meta((int) bookRepository.count(), new Paging(start, pageSize)), new ArrayList<>());
-        List<BookDto> data = bookRepository.findAll(PageRequest.of(page, pageSize)).stream().map(e -> bookMapper.bookVOToBookDto(e)).collect(Collectors.toList());
+        List<BookDto> data = bookRepository.findAll(PageRequest.of(page, pageSize, Sort.Direction.ASC, sort)).stream().map(e -> bookMapper.bookVOToBookDto(e)).collect(Collectors.toList());
         result.setData(data);
         return result;
     }

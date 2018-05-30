@@ -241,7 +241,6 @@ public class S3ServiceImpl implements S3Service {
             userMetadata.put("name", originalName);
             meta.setUserMetadata(userMetadata);
             s3client.putObject(new PutObjectRequest(bucketName, keyName, is, meta));
-            return keyName;
         } catch (AmazonServiceException ase) {
             log.info("Caught an AmazonServiceException from PUT requests, rejected reasons:");
             log.info("Error Message:    " + ase.getMessage());

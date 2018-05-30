@@ -48,17 +48,17 @@ public class ContentService {
 
         List<MenuItemDto> menuTopList = getMenuItemByCategory(null, 3);
 
-        List<MenuItemDto> menuFooterList = getMenuFooterList();
+        List<MenuItemDto> menuFooterList = getMenuFromJson("menu/footer.json");
 
         menu.setTop(menuTopList);
         menu.setFooter(menuFooterList);
         return menu;
     }
 
-    private List<MenuItemDto> getMenuFooterList() throws IOException {
+    private List<MenuItemDto> getMenuFromJson(String fileName) throws IOException {
         List<MenuItemDto> result;
 
-        InputStream is = ContentController.class.getClassLoader().getResourceAsStream("menu/footer.json");
+        InputStream is = ContentController.class.getClassLoader().getResourceAsStream(fileName);
         ObjectMapper mapper = new ObjectMapper();
         result = mapper.readValue(is, new TypeReference<List<MenuItemDto>>(){});
 
@@ -141,4 +141,18 @@ public class ContentService {
         }
         return result;
     }
+
+    public MenuDto getAdminMenu() throws IOException {
+        MenuDto menu = new MenuDto();
+
+        List<MenuItemDto> menuTopList = getMenuFromJson("menu/adminHeader.json");
+
+        List<MenuItemDto> menuFooterList = getMenuFromJson("menu/adminFooter.json");
+
+        menu.setTop(menuTopList);
+        menu.setFooter(menuFooterList);
+        return menu;
+
+    }
+
 }

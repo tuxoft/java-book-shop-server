@@ -23,7 +23,7 @@ public class BookController {
     public ListResult<BookDto> getBookList(
             @RequestParam(name = "start", defaultValue = "0") int start,
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
-            @RequestParam(name = "sort", defaultValue = "title") String sort,
+            @RequestParam(name = "sort", defaultValue = "id") String sort,
             @RequestParam(name = "order", defaultValue = "a") String order
             ) {
         return bookService.getBookList(start, pageSize, sort, order);
@@ -50,7 +50,7 @@ public class BookController {
             @PathVariable("id") Long id,
             @RequestParam(name = "start", defaultValue = "0") int start,
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
-            @RequestParam(name = "sort", defaultValue = "title") String sort,
+            @RequestParam(name = "sort", defaultValue = "id") String sort,
             @RequestParam(name = "order", defaultValue = "a") String order
     ) {
         try {

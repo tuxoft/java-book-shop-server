@@ -1,0 +1,100 @@
+[
+  {
+    "name": "Книги",
+    "url": "",
+    "subItems": [
+      {
+        "name": "Создать",
+        "url": "/admin/book-edit/new"
+      },
+      {
+        "name": "Изменить",
+        "url": "/admin/book-edit-list"
+      }
+    ]
+  },
+  {
+    "name": "Авторы",
+    "url": "",
+    "subItems": [
+      {
+        "name": "Создать",
+        "url": "/admin/author-edit/new"
+      },
+      {
+        "name": "Изменить",
+        "url": "/admin/author-edit-list"
+      }
+    ]
+  },
+  {
+    "name": "Издательства",
+    "url": "",
+    "subItems": [
+      {
+        "name": "Создать",
+        "url": "/admin/publisher-edit/new"
+      },
+      {
+        "name": "Изменить",
+        "url": "/admin/publisher-edit-list"
+      }
+    ]
+  },
+  {
+    "name": "Категории",
+    "url": "",
+    "subItems": [
+      {
+        "name": "Создать",
+        "url": "/admin/category-edit/new"
+      },
+      {
+        "name": "Изменить",
+        "url": "/admin/category-edit-list"
+      }
+    ]
+  },
+  {
+    "name": "Серии книг",
+    "url": "",
+    "subItems": [
+      {
+        "name": "Создать",
+        "url": "/admin/book-series-edit/new"
+      },
+      {
+        "name": "Изменить",
+        "url": "/admin/book-series-edit-list"
+      }
+    ]
+  },
+  {
+    "name": "Города",
+    "url": "",
+    "subItems": [
+      {
+        "name": "Создать",
+        "url": "/admin/city-edit/new"
+      },
+      {
+        "name": "Изменить",
+        "url": "/admin/city-edit-list"
+      }
+    ]
+  },
+  {
+    "name": "Языки",
+    "url": "",
+    "subItems": [
+      {
+        "name": "Создать",
+        "url": "/admin/language-edit/new"
+      },
+      {
+        "name": "Изменить",
+        "url": "/admin/language-edit-list"
+      }
+    ]
+  }
+]

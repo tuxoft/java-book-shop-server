@@ -2,8 +2,10 @@ package ru.tuxoft.admin;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ru.tuxoft.admin.domain.DictionaryTypeEnum;
 import ru.tuxoft.admin.dto.DictionaryDto;
 import ru.tuxoft.book.domain.BookAuthorsVO;
@@ -14,14 +16,21 @@ import ru.tuxoft.book.mapper.BookMapper;
 import ru.tuxoft.paging.ListResult;
 import ru.tuxoft.paging.Meta;
 import ru.tuxoft.paging.Paging;
+import ru.tuxoft.s3.S3Service;
+import ru.tuxoft.s3.domain.FileVO;
+import ru.tuxoft.s3.domain.repository.FileRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class AdminService {
+
+    @Value("${s3.bucket}")
+    private String bucket;
 
     @Autowired
     PublisherRepository publisherRepository;
@@ -55,6 +64,12 @@ public class AdminService {
 
     @Autowired
     BookMapper bookMapper;
+
+    @Autowired
+    S3Service s3Service;
+
+    @Autowired
+    FileRepository fileRepository;
 
     public ListResult<DictionaryDto> getDictionary(String dictionary, Long parentId) {
         ListResult<DictionaryDto> result = new ListResult<>(new Meta(-1, new Paging(0, -1)), new ArrayList<>());
@@ -174,5 +189,17 @@ public class AdminService {
             findBookAuthors.setPosition(bookAuthors.getPosition());
             bookAuthorsRepository.saveAndFlush(findBookAuthors);
         }
+    }
+
+    public String uploadFile(MultipartFile file) {
+        FileVO fileVO = new FileVO();
+        fileVO.setName(file.getOriginalFilename());
+        fileVO.setFileSize(file.getSize());
+        fileVO.setMimeType(file.getContentType());
+        fileVO.setBucket(bucket);
+        String key = s3Service.uploadFile(file);
+        fileVO.setKey(key);
+        fileRepository.saveAndFlush(fileVO);
+        return "/api/file/s3/" + bucket + "/" + fileVO.getKey() + fileVO.getName().substring(fileVO.getName().lastIndexOf("."));
     }
 }
