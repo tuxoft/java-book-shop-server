@@ -38,7 +38,7 @@ public class DictionaryDto {
         }
         this.name = this.getName().trim();
         this.parentId = null;
-        this.type = DictionaryTypeEnum.AUTHORS.getType();
+        this.type = DictionaryTypeEnum.AUTHOR.getType();
     }
 
     public DictionaryDto(BookSeriesVO bookSeries) {
@@ -52,7 +52,7 @@ public class DictionaryDto {
         this.id = category.getId();
         this.name = category.getName();
         this.parentId = category.getParentId();
-        this.type = DictionaryTypeEnum.CATEGORIES.getType();
+        this.type = DictionaryTypeEnum.CATEGORY.getType();
     }
 
     public DictionaryDto(CityVO city) {

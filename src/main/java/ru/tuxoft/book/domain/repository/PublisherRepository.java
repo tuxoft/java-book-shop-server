@@ -15,4 +15,6 @@ public interface PublisherRepository extends JpaRepository<PublisherVO,Long> {
 
     @Query("select p from PublisherVO p where lower(p.name) like %:query% order by p.name asc")
     List<PublisherVO> findByNameLike(@Param("query") String query, Pageable pageable);
+
+    List<PublisherVO> findByIdIn(List<Long> idList);
 }

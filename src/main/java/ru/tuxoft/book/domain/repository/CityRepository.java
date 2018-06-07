@@ -15,4 +15,6 @@ public interface CityRepository extends JpaRepository<CityVO,Long> {
 
     @Query("select c from CityVO c where lower(c.name) like %:query% order by c.name asc")
     List<CityVO> findByNameLike(@Param("query") String query, Pageable pageable);
+
+    List<CityVO> findByIdIn(List<Long> idList);
 }

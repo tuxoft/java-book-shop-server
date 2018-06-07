@@ -16,4 +16,6 @@ public interface CoverTypeRepository extends JpaRepository<CoverTypeVO,Long> {
 
     @Query("select ct from CoverTypeVO ct where lower(ct.name) like %:query% order by ct.name asc")
     List<CoverTypeVO> findByNameLike(@Param("query") String query, Pageable pageable);
+
+    List<CoverTypeVO> findByIdIn(List<Long> idList);
 }

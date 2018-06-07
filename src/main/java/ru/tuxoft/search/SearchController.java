@@ -22,8 +22,8 @@ public class SearchController {
             @RequestParam(name = "start", defaultValue = "0") int start,
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
             @RequestParam(name = "sort", defaultValue = "title") String sort,
-            @RequestParam(name = "order", defaultValue = "a") String order
+            @RequestParam(name = "order", defaultValue = "ASC") String order
     ) {
-        return searchService.search(query, start, pageSize, sort, order);
+        return searchService.searchBook(query, start, pageSize, sort, order);
     }
 }

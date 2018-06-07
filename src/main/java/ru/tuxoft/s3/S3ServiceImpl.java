@@ -60,12 +60,27 @@ public class S3ServiceImpl implements S3Service {
         if (s3InitVOOptional.isPresent() && !s3InitVOOptional.get().getInit()) {
             coverBooksInitial();
             promoPicturesInitial();
+            notCoverImageInitial();
             S3InitVO s3InitVO = new S3InitVO();
             s3InitVO.setId(1L);
             s3InitVO.setInit(true);
             s3InitRepository.saveAndFlush(s3InitVO);
         }
     }
+
+    private void notCoverImageInitial() {
+        File f = new File("src/main/resources/s3/cover_books/notCoverImage.jpg");
+        if (f.isFile()) {
+            byte[] bytesArray = getFileAsBytesArray(f);
+            FileVO file = new FileVO(f);
+            file.setBucket(bucket);
+            file.setKey("notCoverImage");
+            uploadFile(file, bytesArray);
+        }
+    }
+
+
+
 
     private void promoPicturesInitial() {
         File dir = new File("src/main/resources/s3/promo_pictures");
@@ -93,7 +108,12 @@ public class S3ServiceImpl implements S3Service {
         File dir = new File("src/main/resources/s3/cover_books");
         if (dir.isDirectory()) {
             for (File f : dir.listFiles()) {
-                Long book_id = Long.valueOf(f.getName().substring(f.getName().lastIndexOf("_")+1,f.getName().lastIndexOf(".")));
+                Long book_id;
+                try {
+                    book_id = Long.valueOf(f.getName().substring(f.getName().lastIndexOf("_") + 1, f.getName().lastIndexOf(".")));
+                } catch (NumberFormatException e) {
+                    continue;
+                }
                 Optional<BookVO> book = bookRepository.findById(book_id);
                 if (book.isPresent() && book.get().getCoverFile() == null) {
                     byte[] bytesArray = getFileAsBytesArray(f);

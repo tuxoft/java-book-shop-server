@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.tuxoft.admin.dto.BookSeriesEditDto;
 import ru.tuxoft.book.domain.*;
 import ru.tuxoft.book.dto.*;
 import ru.tuxoft.s3.domain.FileVO;
@@ -26,7 +27,11 @@ public interface BookMapper {
     BookVO bookDtoToBookVO(BookDto bookDto);
 
     default String CoverFileToCoverUrl(FileVO coverFile) {
-        return "/api/file/s3/" + coverFile.getBucket() + "/" + coverFile.getKey() + "." + coverFile.getName().substring(coverFile.getName().lastIndexOf(".") + 1);
+        if (coverFile != null) {
+            return "/api/file/s3/" + coverFile.getBucket() + "/" + coverFile.getKey() + "." + coverFile.getName().substring(coverFile.getName().lastIndexOf(".") + 1);
+        } else {
+            return "/api/file/s3/bookshop/notCoverImage.jpg";
+        }
     }
 
     FileVO CoverFileToCoverUrl(String coverUrl);
@@ -114,5 +119,13 @@ public interface BookMapper {
             @Mapping(target = "deleted", ignore = true)
     })
     LanguageVO LanguageDtoToLanguageVO(LanguageDto languageDto);
+
+    BookSeriesEditDto bookSeriesVOToBookSeriesEditDto(BookSeriesVO bookSeriesVO);
+
+    @Mappings({
+            @Mapping(target = "bookList", ignore = true),
+            @Mapping(target = "deleted", ignore = true),
+    })
+    BookSeriesVO bookSeriesEditDtoToBookSeriesVO(BookSeriesEditDto bookSeriesEditDto);
 
 }

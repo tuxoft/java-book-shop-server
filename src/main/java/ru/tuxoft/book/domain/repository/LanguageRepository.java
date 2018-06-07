@@ -15,4 +15,6 @@ public interface LanguageRepository extends JpaRepository<LanguageVO,Long> {
 
     @Query("select l from LanguageVO l where lower(l.name) like %:query% order by l.name asc")
     List<LanguageVO> findByNameLike(@Param("query") String query, Pageable pageable);
+
+    List<LanguageVO> findByIdIn(List<Long> idList);
 }

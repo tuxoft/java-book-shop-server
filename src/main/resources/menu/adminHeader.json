@@ -4,12 +4,12 @@
     "url": "",
     "subItems": [
       {
-        "name": "Создать",
-        "url": "/admin/book-edit/new"
+        "name": "создать",
+        "url": "/admin/change/item/book/new"
       },
       {
-        "name": "Изменить",
-        "url": "/admin/book-edit-list"
+        "name": "найти",
+        "url": "/admin/change/list/book"
       }
     ]
   },
@@ -18,12 +18,12 @@
     "url": "",
     "subItems": [
       {
-        "name": "Создать",
-        "url": "/admin/author-edit/new"
+        "name": "создать",
+        "url": "/admin/change/item/author/new"
       },
       {
-        "name": "Изменить",
-        "url": "/admin/author-edit-list"
+        "name": "найти",
+        "url": "/admin/change/list/author"
       }
     ]
   },
@@ -32,12 +32,12 @@
     "url": "",
     "subItems": [
       {
-        "name": "Создать",
-        "url": "/admin/publisher-edit/new"
+        "name": "создать",
+        "url": "/admin/change/item/publisher/new"
       },
       {
-        "name": "Изменить",
-        "url": "/admin/publisher-edit-list"
+        "name": "найти",
+        "url": "/admin/change/list/publisher"
       }
     ]
   },
@@ -46,12 +46,12 @@
     "url": "",
     "subItems": [
       {
-        "name": "Создать",
-        "url": "/admin/category-edit/new"
+        "name": "создать",
+        "url": "/admin/change/item/category/new"
       },
       {
-        "name": "Изменить",
-        "url": "/admin/category-edit-list"
+        "name": "найти",
+        "url": "/admin/change/list/category"
       }
     ]
   },
@@ -60,12 +60,12 @@
     "url": "",
     "subItems": [
       {
-        "name": "Создать",
-        "url": "/admin/book-series-edit/new"
+        "name": "создать",
+        "url": "/admin/change/item/bookSeries/new"
       },
       {
-        "name": "Изменить",
-        "url": "/admin/book-series-edit-list"
+        "name": "найти",
+        "url": "/admin/change/list/bookSeries"
       }
     ]
   },
@@ -74,12 +74,12 @@
     "url": "",
     "subItems": [
       {
-        "name": "Создать",
-        "url": "/admin/city-edit/new"
+        "name": "создать",
+        "url": "/admin/change/item/city/new"
       },
       {
-        "name": "Изменить",
-        "url": "/admin/city-edit-list"
+        "name": "найти",
+        "url": "/admin/change/list/city"
       }
     ]
   },
@@ -88,12 +88,12 @@
     "url": "",
     "subItems": [
       {
-        "name": "Создать",
-        "url": "/admin/language-edit/new"
+        "name": "создать",
+        "url": "/admin/change/item/language/new"
       },
       {
-        "name": "Изменить",
-        "url": "/admin/language-edit-list"
+        "name": "найти",
+        "url": "/admin/change/list/language"
       }
     ]
   }

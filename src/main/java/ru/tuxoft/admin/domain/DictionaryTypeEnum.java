@@ -3,8 +3,8 @@ package ru.tuxoft.admin.domain;
 public enum DictionaryTypeEnum {
     PUBLISHER("publisher"),
     BOOKSERIES("bookSeries"),
-    AUTHORS("authors"),
-    CATEGORIES("categories"),
+    AUTHOR("author"),
+    CATEGORY("category"),
     AGELIMIT("ageLimit"),
     CITY("city"),
     LANGUAGE("language"),

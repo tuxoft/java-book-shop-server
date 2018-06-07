@@ -17,4 +17,6 @@ public interface AuthorRepository extends JpaRepository<AuthorVO, Long> {
 
     @Query("select a from AuthorVO a where lower(a.lastName) like %:query% order by a.lastName asc")
     List<AuthorVO> findByNameLike(@Param("query") String query, Pageable pageable);
+
+    List<AuthorVO> findByIdIn(List<Long> idList);
 }

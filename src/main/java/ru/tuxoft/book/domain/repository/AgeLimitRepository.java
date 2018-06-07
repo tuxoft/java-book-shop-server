@@ -15,4 +15,6 @@ public interface AgeLimitRepository extends JpaRepository<AgeLimitVO,Long> {
 
     @Query("select a from AgeLimitVO a where lower(a.name) like %:query% order by a.name asc")
     List<AgeLimitVO> findByNameLike(@Param("query") String query, Pageable pageable);
+
+    List<AgeLimitVO> findByIdIn(List<Long> idList);
 }

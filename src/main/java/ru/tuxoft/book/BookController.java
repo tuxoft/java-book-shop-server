@@ -24,7 +24,7 @@ public class BookController {
             @RequestParam(name = "start", defaultValue = "0") int start,
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
             @RequestParam(name = "sort", defaultValue = "id") String sort,
-            @RequestParam(name = "order", defaultValue = "a") String order
+            @RequestParam(name = "order", defaultValue = "ASC") String order
             ) {
         return bookService.getBookList(start, pageSize, sort, order);
     }
@@ -51,7 +51,7 @@ public class BookController {
             @RequestParam(name = "start", defaultValue = "0") int start,
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
             @RequestParam(name = "sort", defaultValue = "id") String sort,
-            @RequestParam(name = "order", defaultValue = "a") String order
+            @RequestParam(name = "order", defaultValue = "ASC") String order
     ) {
         try {
             return new ResponseEntity<>(bookService.getBookByCategory(id, start, pageSize, sort, order),HttpStatus.OK);
@@ -61,11 +61,11 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/authors")
-    public List<AuthorDto> getAuthorsList(
+    public ListResult<AuthorDto> getAuthorsList(
             @RequestParam(name = "start", defaultValue = "0") int start,
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
             @RequestParam(name = "sort", defaultValue = "title") String sort,
-            @RequestParam(name = "order", defaultValue = "a") String order
+            @RequestParam(name = "order", defaultValue = "ASC") String order
     ) {
         return bookService.getAuthorList(start, pageSize, sort, order);
     }
@@ -76,7 +76,7 @@ public class BookController {
             @RequestParam(name = "start", defaultValue = "0") int start,
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
             @RequestParam(name = "sort", defaultValue = "title") String sort,
-            @RequestParam(name = "order", defaultValue = "a") String order
+            @RequestParam(name = "order", defaultValue = "ASC") String order
     ) {
         try {
             return new ResponseEntity<>(bookService.getBookByAuthor(id, start, pageSize, sort, order),HttpStatus.OK);
