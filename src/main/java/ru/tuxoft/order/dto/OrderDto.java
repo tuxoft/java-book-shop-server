@@ -1,4 +1,4 @@
-package ru.tuxoft.book.dto;
+package ru.tuxoft.order.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
