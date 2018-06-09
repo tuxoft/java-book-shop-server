@@ -295,6 +295,7 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="user_id" type="VARCHAR(255)" remarks="уникальный идентификатор пользователя"/>
+            <column name="temporary" type="BOOLEAN" remarks="корзина не авторизованного пользователя"/>
         </createTable>
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-27">
