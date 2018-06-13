@@ -10,10 +10,7 @@ import ru.tuxoft.book.dto.AuthorDto;
 import ru.tuxoft.book.dto.BookDto;
 import ru.tuxoft.book.dto.CategoryDto;
 import ru.tuxoft.cart.CartService;
-import ru.tuxoft.order.dto.CityDto;
-import ru.tuxoft.order.dto.OrderDto;
-import ru.tuxoft.order.dto.OrderItemDto;
-import ru.tuxoft.order.dto.PickupPointDto;
+import ru.tuxoft.order.dto.*;
 import ru.tuxoft.paging.ListResult;
 
 import java.math.BigDecimal;
@@ -42,6 +39,7 @@ public class OrderController {
         od.setToPay(new BigDecimal(150));
         od.setTotalCost(new BigDecimal(200));
         od.setSendPrice(new BigDecimal(0));
+        od.setAddr(new AddressDto());
         log.info("order", od.getTotalCost());
         return new ResponseEntity<>(od, HttpStatus.OK);
     }
@@ -67,6 +65,7 @@ public class OrderController {
         od.setToPay(new BigDecimal(150));
         od.setTotalCost(new BigDecimal(200));
         od.setSendPrice(new BigDecimal(50));
+        od.setAddr(new AddressDto());
         od.setStatus("FILLED");
         log.info("order", od.getTotalCost());
         return new ResponseEntity<>(od, HttpStatus.OK);
@@ -83,7 +82,7 @@ public class OrderController {
         city.getCoords().add(107.623283);
         cities.add(city);
         CityDto city2 = new CityDto();
-        city2.setId(1L);
+        city2.setId(2L);
         city2.setName("Moscov");
         city2.setCoords(new ArrayList<>());
         city2.getCoords().add(55.76);

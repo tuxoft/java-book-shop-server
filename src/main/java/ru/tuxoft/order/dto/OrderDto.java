@@ -26,6 +26,22 @@ public class OrderDto {
 
     private String paymentMethod ="";
 
+    private String phone ="";
+
+    private String comment ="";
+
+    private String sendType ="";
+
+    private Long selfTakeOrgId;
+
+    private Boolean isAge18 = true;
+
+    private Boolean isTakeStatusSMS = false;
+
+    private Boolean isTakeStatusEmail = false;
+
+    private AddressDto addr;
+
     private BigDecimal totalCost;
 
     private BigDecimal discount;
