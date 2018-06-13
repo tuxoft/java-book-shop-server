@@ -12,19 +12,19 @@ public class OrderDto {
 
     private Long id;
 
-    private String firstName;
+    private String firstName ="";
 
-    private String middleName;
+    private String middleName ="";
 
-    private String lastName;
+    private String lastName ="";
 
-    private String email;
+    private String email ="";
 
-    private String phoneNumber;
+    private String phoneNumber ="";
 
-    private String shippingAddress;
+    private String shippingAddress ="";
 
-    private String paymentMethod;
+    private String paymentMethod ="";
 
     private BigDecimal totalCost;
 
@@ -34,7 +34,7 @@ public class OrderDto {
 
     private BigDecimal payFor;
 
-    private String status;
+    private String status ="EMPTY";
 
     private List<OrderItemDto> orderItemList;
 }

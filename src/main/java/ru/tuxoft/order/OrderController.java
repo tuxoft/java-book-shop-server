@@ -16,6 +16,7 @@ import ru.tuxoft.order.dto.OrderItemDto;
 import ru.tuxoft.order.dto.PickupPointDto;
 import ru.tuxoft.paging.ListResult;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,26 +37,36 @@ public class OrderController {
         od.setOrderItemList(new ArrayList<OrderItemDto>());
         od.getOrderItemList().addAll(cartService.getCart(userId).getCartItemList()
                 .stream().map(e -> new OrderItemDto(e)).collect(Collectors.toList()));
+        od.setDiscount(new BigDecimal(0));
+        od.setPayFor(new BigDecimal(100));
+        od.setToPay(new BigDecimal(150));
+        od.setTotalCost(new BigDecimal(200));
+        log.info("order", od.getTotalCost());
         return new ResponseEntity<>(od, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/order", produces = "application/json")
-    public ResponseEntity changeAuthor(
+    public ResponseEntity makeOrder(
             @RequestBody OrderDto orderDto
     ) {
         orderDto.setId(2L);
-        return new ResponseEntity<>(orderDto, HttpStatus.OK);
+        return new ResponseEntity<>("/pay", HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/order/{id}")
-    public ResponseEntity getBookById(
+    public ResponseEntity getOrderById(
             @PathVariable("id") Long id
     ) {
         OrderDto od = new OrderDto();
-        od.setId(id);
         od.setOrderItemList(new ArrayList<OrderItemDto>());
         od.getOrderItemList().addAll(cartService.getCart(userId).getCartItemList()
                 .stream().map(e -> new OrderItemDto(e)).collect(Collectors.toList()));
+        od.setDiscount(new BigDecimal(0));
+        od.setPayFor(new BigDecimal(100));
+        od.setToPay(new BigDecimal(150));
+        od.setTotalCost(new BigDecimal(200));
+        od.setStatus("FILLED");
+        log.info("order", od.getTotalCost());
         return new ResponseEntity<>(od, HttpStatus.OK);
     }
 
