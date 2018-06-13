@@ -171,6 +171,7 @@ public class CartService {
                         return false;
                     }
                 })) {
+                    cartItemVO.setCart(cart);
                     cart.getCartItemList().add(cartItemVO);
                 }
             }
