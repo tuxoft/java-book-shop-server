@@ -34,6 +34,8 @@ public class OrderDto {
 
     private BigDecimal payFor;
 
+    private BigDecimal sendPrice;
+
     private String status ="EMPTY";
 
     private List<OrderItemDto> orderItemList;

@@ -41,6 +41,7 @@ public class OrderController {
         od.setPayFor(new BigDecimal(100));
         od.setToPay(new BigDecimal(150));
         od.setTotalCost(new BigDecimal(200));
+        od.setSendPrice(new BigDecimal(0));
         log.info("order", od.getTotalCost());
         return new ResponseEntity<>(od, HttpStatus.OK);
     }
@@ -65,6 +66,7 @@ public class OrderController {
         od.setPayFor(new BigDecimal(100));
         od.setToPay(new BigDecimal(150));
         od.setTotalCost(new BigDecimal(200));
+        od.setSendPrice(new BigDecimal(50));
         od.setStatus("FILLED");
         log.info("order", od.getTotalCost());
         return new ResponseEntity<>(od, HttpStatus.OK);
