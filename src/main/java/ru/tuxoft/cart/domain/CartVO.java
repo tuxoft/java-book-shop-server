@@ -23,4 +23,7 @@ public class CartVO {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartItemVO> cartItemList;
 
+    @Column(name = "temporary")
+    private Boolean temporary;
+
 }

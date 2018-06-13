@@ -11,4 +11,8 @@ public interface CartRepository extends JpaRepository<CartVO, Long> {
 
 
     CartVO findByUserId(String userId);
+
+    @Query("select count (*) from CartVO c where c.userId = :userId")
+    int findCountCartByUserId(@Param("userId") String userId);
+
 }

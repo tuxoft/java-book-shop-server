@@ -1,2 +1,2 @@
-id;user_id
-1;user1
+id;user_id;temporary
+1;user1;false
