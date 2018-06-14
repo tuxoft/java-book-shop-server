@@ -34,7 +34,7 @@ public interface BookMapper {
         }
     }
 
-    FileVO CoverFileToCoverUrl(String coverUrl);
+    FileVO CoverUrlToCoverFile(String coverUrl);
 
     @Mapping(target = "bookList", ignore = true)
     AgeLimitDto AgeLimitVOToAgeLimitDto(AgeLimitVO ageLimitVO);

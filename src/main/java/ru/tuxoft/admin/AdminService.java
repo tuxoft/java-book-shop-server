@@ -8,17 +8,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tuxoft.admin.domain.DictionaryTypeEnum;
-import ru.tuxoft.admin.dto.BookSeriesEditDto;
-import ru.tuxoft.admin.dto.CategoryEditDto;
-import ru.tuxoft.admin.dto.DictionaryDto;
+import ru.tuxoft.admin.dto.*;
 import ru.tuxoft.book.BookService;
 import ru.tuxoft.book.domain.*;
 import ru.tuxoft.book.domain.repository.*;
 import ru.tuxoft.book.dto.*;
-import ru.tuxoft.book.mapper.AuthorMapper;
-import ru.tuxoft.book.mapper.BookMapper;
-import ru.tuxoft.book.mapper.CategoryMapper;
+import ru.tuxoft.book.mapper.*;
 import ru.tuxoft.cart.domain.repository.CartItemRepository;
+import ru.tuxoft.content.domain.CategoryCarouselVO;
+import ru.tuxoft.content.domain.PromoPictureVO;
+import ru.tuxoft.content.domain.repository.CategoryCarouselRepository;
+import ru.tuxoft.content.domain.repository.PromoPictureRepository;
 import ru.tuxoft.paging.ListResult;
 import ru.tuxoft.paging.Meta;
 import ru.tuxoft.paging.Paging;
@@ -92,6 +92,18 @@ public class AdminService {
 
     @Autowired
     BookService bookService;
+
+    @Autowired
+    PromoPictureRepository promoPictureRepository;
+
+    @Autowired
+    PromoPictureMapper promoPictureMapper;
+
+    @Autowired
+    CategoryCarouselRepository categoryCarouselRepository;
+
+    @Autowired
+    CategoryCarouselMapper categoryCarouselMapper;
 
     public ListResult<DictionaryDto> getDictionary(String dictionary, Long parentId, List<Long> idList) {
         ListResult<DictionaryDto> result = new ListResult<>(new Meta(-1, new Paging(0, -1)), new ArrayList<>());
@@ -371,5 +383,62 @@ public class AdminService {
             bookRepository.saveAndFlush(bookVO);
         }
         languageRepository.deleteById(languageId);
+    }
+
+    public PromoPictureEditDto getPromoPictureById(Long promoPictureId) {
+        Optional<PromoPictureVO> promoPictureOptional = promoPictureRepository.findById(promoPictureId);
+        if (promoPictureOptional.isPresent()){
+            PromoPictureEditDto promoPictureEditDto = promoPictureMapper.promoPictureVOToPromoPictureEditDto(promoPictureOptional.get());
+            return promoPictureEditDto;
+        } else {
+            throw new IllegalArgumentException("Ошибка запроса промо-картинки. Промо-картинки с указанным id в БД не обнаружено");
+        }
+    }
+
+    public PromoPictureEditDto updatePromoPicture(PromoPictureEditDto promoPictureDto) {
+        PromoPictureVO updatePromoPicture = promoPictureMapper.promoPictureEditDtoToPromoPictureVO(promoPictureDto);
+        updatePromoPicture = promoPictureRepository.saveAndFlush(updatePromoPicture);
+        return promoPictureMapper.promoPictureVOToPromoPictureEditDto(updatePromoPicture);
+    }
+
+    public void deletePromoPictureById(Long promoPictureId) {
+        promoPictureRepository.deleteById(promoPictureId);
+    }
+
+    public ListResult<PromoPictureEditDto> getPromoPictureEditList(int start, int pageSize, String sort, String order) {
+        ListResult<PromoPictureEditDto> result = new ListResult<>(new Meta((int) promoPictureRepository.count(), new Paging(start, pageSize)), new ArrayList<>());
+        int page = start / pageSize;
+        List<PromoPictureEditDto> data = promoPictureRepository.findAll(PageRequest.of(page, pageSize, Sort.Direction.fromString(order), sort)).stream().map(e -> promoPictureMapper.promoPictureVOToPromoPictureEditDto(e)).collect(Collectors.toList());
+        result.setData(data);
+        return result;
+    }
+
+    public CategoryCarouselEditDto getCategoryCarouselById(Long categoryCarouselId) {
+        Optional<CategoryCarouselVO> categoryCarouselOptional = categoryCarouselRepository.findById(categoryCarouselId);
+        if (categoryCarouselOptional.isPresent()){
+            CategoryCarouselEditDto categoryCarouselEditDto = categoryCarouselMapper.categoryCarouselVOToCategoryCarouselEditDto(categoryCarouselOptional.get());
+            return categoryCarouselEditDto;
+        } else {
+            throw new IllegalArgumentException("Ошибка запроса карусели-категории. Карусели-категории с указанным id в БД не обнаружено");
+        }
+    }
+
+    public CategoryCarouselEditDto updateCategoryCarousel(CategoryCarouselEditDto categoryCarouselDto) {
+        CategoryCarouselVO updateCategoryCarousel = categoryCarouselMapper.categoryCarouselEditDtoToCategoryCarouselVO(categoryCarouselDto);
+        updateCategoryCarousel = categoryCarouselRepository.saveAndFlush(updateCategoryCarousel);
+        return categoryCarouselMapper.categoryCarouselVOToCategoryCarouselEditDto(updateCategoryCarousel);
+
+    }
+
+    public void deleteCategoryCarouselById(Long categoryCarouselId) {
+        categoryCarouselRepository.deleteById(categoryCarouselId);
+    }
+
+    public ListResult<CategoryCarouselEditDto> getCategoryCarouselEditList(int start, int pageSize, String sort, String order) {
+        ListResult<CategoryCarouselEditDto> result = new ListResult<>(new Meta((int) categoryCarouselRepository.count(), new Paging(start, pageSize)), new ArrayList<>());
+        int page = start / pageSize;
+        List<CategoryCarouselEditDto> data = categoryCarouselRepository.findAll(PageRequest.of(page, pageSize, Sort.Direction.fromString(order), sort)).stream().map(e -> categoryCarouselMapper.categoryCarouselVOToCategoryCarouselEditDto(e)).collect(Collectors.toList());
+        result.setData(data);
+        return result;
     }
 }

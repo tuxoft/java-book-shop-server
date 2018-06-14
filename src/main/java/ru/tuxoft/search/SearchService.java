@@ -7,15 +7,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.tuxoft.admin.AdminService;
 import ru.tuxoft.admin.dto.BookSeriesEditDto;
+import ru.tuxoft.admin.dto.CategoryCarouselEditDto;
 import ru.tuxoft.admin.dto.CategoryEditDto;
+import ru.tuxoft.admin.dto.PromoPictureEditDto;
 import ru.tuxoft.book.BookService;
 import ru.tuxoft.book.domain.AuthorVO;
 import ru.tuxoft.book.domain.BookVO;
 import ru.tuxoft.book.domain.repository.*;
 import ru.tuxoft.book.dto.*;
-import ru.tuxoft.book.mapper.AuthorMapper;
-import ru.tuxoft.book.mapper.BookMapper;
-import ru.tuxoft.book.mapper.CategoryMapper;
+import ru.tuxoft.book.mapper.*;
+import ru.tuxoft.content.domain.repository.CategoryCarouselRepository;
+import ru.tuxoft.content.domain.repository.PromoPictureRepository;
 import ru.tuxoft.paging.ListResult;
 import ru.tuxoft.paging.Meta;
 import ru.tuxoft.paging.Paging;
@@ -73,6 +75,18 @@ public class SearchService {
 
     @Autowired
     AdminService adminService;
+
+    @Autowired
+    PromoPictureRepository promoPictureRepository;
+
+    @Autowired
+    PromoPictureMapper promoPictureMapper;
+
+    @Autowired
+    CategoryCarouselRepository categoryCarouselRepository;
+
+    @Autowired
+    CategoryCarouselMapper categoryCarouselMapper;
 
     public ListResult<BookDto> searchBook(String query, int start, int pageSize, String sort, String order) {
         if (query.trim().isEmpty()) {
@@ -322,6 +336,30 @@ public class SearchService {
         ListResult<LanguageDto> result = new ListResult<>(new Meta(languageRepository.findCountByNameLike(query), new Paging(start, pageSize)), new ArrayList<>());
         int page = start / pageSize;
         List<LanguageDto> data = languageRepository.findByNameLike(query, PageRequest.of(page, pageSize, Sort.Direction.fromString(order), sort)).stream().map(e -> bookMapper.LanguageVOToLanguageDto(e)).collect(Collectors.toList());
+        result.setData(data);
+        return result;
+    }
+
+    public ListResult<PromoPictureEditDto> searchPromoPicture(String query, int start, int pageSize, String sort, String order) {
+        if (query.trim().isEmpty()) {
+            return adminService.getPromoPictureEditList(start, pageSize, sort, order);
+        }
+        query = query.replace('-', ' ').replaceAll("\\s+", " ").trim().toLowerCase().replace('ё', 'е').replace('й', 'и');
+        ListResult<PromoPictureEditDto> result = new ListResult<>(new Meta(promoPictureRepository.findCountByUrlLike(query), new Paging(start, pageSize)), new ArrayList<>());
+        int page = start / pageSize;
+        List<PromoPictureEditDto> data = promoPictureRepository.findByUrlLike(query, PageRequest.of(page, pageSize, Sort.Direction.fromString(order), sort)).stream().map(e -> promoPictureMapper.promoPictureVOToPromoPictureEditDto(e)).collect(Collectors.toList());
+        result.setData(data);
+        return result;
+    }
+
+    public ListResult<CategoryCarouselEditDto> searchCategoryCarousel(String query, int start, int pageSize, String sort, String order) {
+        if (query.trim().isEmpty()) {
+            return adminService.getCategoryCarouselEditList(start, pageSize, sort, order);
+        }
+        query = query.replace('-', ' ').replaceAll("\\s+", " ").trim().toLowerCase().replace('ё', 'е').replace('й', 'и');
+        ListResult<CategoryCarouselEditDto> result = new ListResult<>(new Meta(categoryCarouselRepository.findCountByCategoryNameLike(query), new Paging(start, pageSize)), new ArrayList<>());
+        int page = start / pageSize;
+        List<CategoryCarouselEditDto> data = categoryCarouselRepository.findByCategoryNameLike(query, PageRequest.of(page, pageSize, Sort.Direction.fromString(order), sort)).stream().map(e -> categoryCarouselMapper.categoryCarouselVOToCategoryCarouselEditDto(e)).collect(Collectors.toList());
         result.setData(data);
         return result;
     }

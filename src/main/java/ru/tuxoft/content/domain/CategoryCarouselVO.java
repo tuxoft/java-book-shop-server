@@ -2,23 +2,24 @@ package ru.tuxoft.content.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.tuxoft.s3.domain.FileVO;
+import ru.tuxoft.book.domain.CategoryVO;
 
 import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "promo_pictures")
-public class PromoPictureVO {
+@Table(name = "category_carousels")
+public class CategoryCarouselVO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "url")
-    private String url;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private CategoryVO category;
 
     @Column(name = "active")
     private Boolean active;
@@ -26,8 +27,5 @@ public class PromoPictureVO {
     @Column(name = "deleted")
     private Boolean deleted = false;
 
-    @ManyToOne
-    @JoinColumn(name = "picture_file_id")
-    private FileVO picture;
 
 }

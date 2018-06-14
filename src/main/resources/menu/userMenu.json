@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Мой профиль",
+    "url": "/profile",
+    "subItems": []
+  },
+  {
+    "name": "На главную",
+    "url": "/home",
+    "subItems": []
+  },
+  {
+    "name": "Администрирование контента",
+    "url": "/admin",
+    "subItems": []
+  }
+]

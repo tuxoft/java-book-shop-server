@@ -96,5 +96,34 @@
         "url": "/admin/change/list/language"
       }
     ]
+  },
+  {
+    "name": "Промо-слайдер",
+    "url": "",
+    "subItems": [
+      {
+        "name": "создать",
+        "url": "/admin/change/item/promoPicture/new"
+      },
+      {
+        "name": "найти",
+        "url": "/admin/change/list/promoPicture"
+      }
+    ]
+  },
+  {
+    "name": "Карусели",
+    "url": "",
+    "subItems": [
+      {
+        "name": "создать",
+        "url": "/admin/change/item/categoryCarousel/new"
+      },
+      {
+        "name": "найти",
+        "url": "/admin/change/list/categoryCarousel"
+      }
+    ]
   }
+
 ]

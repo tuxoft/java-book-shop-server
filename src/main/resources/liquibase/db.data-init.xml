@@ -184,6 +184,17 @@
         <loadData
                 encoding="UTF-8"
                 relativeToChangelogFile="true"
+                file="data/category_carousels.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="category_carousels">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-18">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
                 file="data/s3init.csv"
                 quotchar="'"
                 schemaName="public"

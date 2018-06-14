@@ -6,9 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.tuxoft.admin.dto.BookSeriesEditDto;
-import ru.tuxoft.admin.dto.CategoryEditDto;
-import ru.tuxoft.admin.dto.DictionaryDto;
+import ru.tuxoft.admin.dto.*;
 import ru.tuxoft.book.BookService;
 import ru.tuxoft.book.dto.*;
 import ru.tuxoft.content.ContentService;
@@ -263,6 +261,70 @@ public class AdminController {
             @RequestParam(name = "order", defaultValue = "ASC") String order
     ) {
         return searchService.searchLanguage(query, start, pageSize, sort, order);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/promoPictures/{id}")
+    public PromoPictureEditDto getPromoPicture(
+            @PathVariable("id") Long promoPictureId
+    ) {
+        return adminService.getPromoPictureById(promoPictureId);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/promoPictures", produces = "application/json")
+    public PromoPictureEditDto changePromoPicture(
+            @RequestBody PromoPictureEditDto promoPictureDto
+    ) {
+        return adminService.updatePromoPicture(promoPictureDto);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, path = "/promoPictures/{id}")
+    public void deletePromoPicture(
+            @PathVariable("id") Long promoPictureId
+    ) {
+        adminService.deletePromoPictureById(promoPictureId);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/promoPictures")
+    public ListResult<PromoPictureEditDto> getPromoPictureList(
+            @RequestParam(name = "start", defaultValue = "0") int start,
+            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+            @RequestParam(name = "sort", defaultValue = "id") String sort,
+            @RequestParam(name = "query", defaultValue = "") String query,
+            @RequestParam(name = "order", defaultValue = "ASC") String order
+    ) {
+        return searchService.searchPromoPicture(query, start, pageSize, sort, order);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/categoryCarousels/{id}")
+    public CategoryCarouselEditDto getCategoryCarousels(
+            @PathVariable("id") Long categoryCarouselId
+    ) {
+        return adminService.getCategoryCarouselById(categoryCarouselId);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/categoryCarousels", produces = "application/json")
+    public CategoryCarouselEditDto changeCategoryCarousel(
+            @RequestBody CategoryCarouselEditDto categoryCarouselDto
+    ) {
+        return adminService.updateCategoryCarousel(categoryCarouselDto);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, path = "/categoryCarousels/{id}")
+    public void deleteCategoryCarousel(
+            @PathVariable("id") Long categoryCarouselId
+    ) {
+        adminService.deleteCategoryCarouselById(categoryCarouselId);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/categoryCarousels")
+    public ListResult<CategoryCarouselEditDto> getCategoryCarouselList(
+            @RequestParam(name = "start", defaultValue = "0") int start,
+            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+            @RequestParam(name = "sort", defaultValue = "id") String sort,
+            @RequestParam(name = "query", defaultValue = "") String query,
+            @RequestParam(name = "order", defaultValue = "ASC") String order
+    ) {
+        return searchService.searchCategoryCarousel(query, start, pageSize, sort, order);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/dictionary")

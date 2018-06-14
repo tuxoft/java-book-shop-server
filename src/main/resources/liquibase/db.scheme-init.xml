@@ -369,6 +369,7 @@
             </column>
             <column name="url" type="VARCHAR(255)" remarks="ссылка на которую ведет слайдер"/>
             <column name="picture_file_id" type="BIGINT" remarks="id файла картинки слайдера"/>
+            <column name="active" type="BOOLEAN" defaultValue="true" remarks="признак активности"/>
             <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
         </createTable>
     </changeSet>
@@ -383,7 +384,28 @@
                                  referencedColumnNames="id"
                                  referencedTableName="files"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-35" dbms="postgresql">
+    <changeSet author="v.darmakheev" id="scheme-init-35">
+        <createTable tableName="category_carousels">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор карусели">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="category_id" type="BIGINT" remarks="id категории для карусели"/>
+            <column name="active" type="BOOLEAN" defaultValue="true" remarks="признак активности"/>
+            <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-36">
+        <addForeignKeyConstraint baseColumnNames="category_id"
+                                 baseTableName="category_carousels"
+                                 constraintName="category_id_category_carousels_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="categories"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-37" dbms="postgresql">
         <sql>
             ALTER SEQUENCE authors_id_seq RESTART with 1000000;
             ALTER SEQUENCE book_authors_id_seq RESTART with 1000000;
@@ -402,6 +424,7 @@
             ALTER SEQUENCE orders_id_seq RESTART with 1000000;
             ALTER SEQUENCE publishers_id_seq RESTART with 1000000;
             ALTER SEQUENCE promo_pictures_id_seq RESTART with 1000000;
+            ALTER SEQUENCE category_carousels_id_seq RESTART with 1000000;
             ALTER SEQUENCE s3init_id_seq RESTART with 1000000;
         </sql>
     </changeSet>

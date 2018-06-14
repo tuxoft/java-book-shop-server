@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.tuxoft.book.domain.CategoryVO;
@@ -12,6 +14,8 @@ import ru.tuxoft.book.dto.BookDto;
 import ru.tuxoft.book.dto.CategoryDto;
 import ru.tuxoft.book.mapper.BookMapper;
 import ru.tuxoft.book.mapper.CategoryMapper;
+import ru.tuxoft.book.mapper.PromoPictureMapper;
+import ru.tuxoft.content.domain.repository.CategoryCarouselRepository;
 import ru.tuxoft.content.domain.repository.PromoPictureRepository;
 import ru.tuxoft.content.dto.MenuDto;
 import ru.tuxoft.content.dto.MenuItemDto;
@@ -23,6 +27,7 @@ import ru.tuxoft.paging.Paging;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,6 +47,12 @@ public class ContentService {
 
     @Autowired
     CategoryMapper categoryMapper;
+
+    @Autowired
+    PromoPictureMapper promoPictureMapper;
+
+    @Autowired
+    CategoryCarouselRepository categoryCarouselRepository;
 
     public MenuDto getMenu(String userId) throws IOException {
         MenuDto menu = new MenuDto();
@@ -84,16 +95,20 @@ public class ContentService {
 
 
     public List<CategoryDto> getCategoriesListForCarousel(String userId) {
-        return categoryRepository.findByParentId(3L).stream().map(e -> {
-            CategoryDto categoryDto = categoryMapper.categoryVOToCategoryDto(e);
-            List<BookDto> bookDtoList = e.getBookList().stream().map(bookVO -> bookMapper.bookVOToBookDto(bookVO)).collect(Collectors.toList());
-            categoryDto.setBookList(bookDtoList);
-            return categoryDto;
+        return categoryCarouselRepository.findByDeletedIsFalseAndActiveIsTrue().stream().map(e -> {
+            if (e.getCategory() != null) {
+                CategoryDto categoryDto = categoryMapper.categoryVOToCategoryDto(e.getCategory());
+                List<BookDto> bookDtoList = e.getCategory().getBookList().stream().map(bookVO -> bookMapper.bookVOToBookDto(bookVO)).collect(Collectors.toList());
+                categoryDto.setBookList(bookDtoList);
+                return categoryDto;
+            } else {
+                return null;
+            }
         }).collect(Collectors.toList());
     }
 
     public List<PromoPictureDto> getPromoPictures(String userId) {
-        return promoPictureRepository.findByDeletedIsFalse().stream().map(promoPictureVO -> new PromoPictureDto(promoPictureVO)).collect(Collectors.toList());
+        return promoPictureRepository.findByDeletedIsFalseAndActiveIsTrue().stream().map(promoPictureVO -> promoPictureMapper.promoPictureVOToPromoPictureDto(promoPictureVO)).collect(Collectors.toList());
     }
 
     public List<MenuItemDto> getCategoryNavigationMenuTopItemList(Long categoryId, String userId) {
@@ -155,4 +170,23 @@ public class ContentService {
 
     }
 
+    public List<MenuItemDto> getUserMenuItemList(String userId, Collection<GrantedAuthority> roles) throws IOException {
+        MenuDto menu = new MenuDto();
+
+        List<MenuItemDto> userMenuItemList = getMenuFromJson("menu/userMenu.json");
+
+        boolean isAdmin = false;
+        for (GrantedAuthority role : roles) {
+            log.debug("have role - {}",role.getAuthority());
+            if (role.getAuthority().equals("ROLE_Admin")) {
+                isAdmin = true;
+            }
+        }
+        if (!isAdmin) {
+            userMenuItemList.removeIf(item -> item.getUrl().equals("/admin") );
+        }
+
+        return userMenuItemList;
+
+    }
 }
