@@ -22,11 +22,7 @@ public class OrderDto {
 
     private String phoneNumber ="";
 
-    private String shippingAddress ="";
-
     private String paymentMethod ="";
-
-    private String phone ="";
 
     private String comment ="";
 
@@ -34,7 +30,7 @@ public class OrderDto {
 
     private Long selfTakeOrgId;
 
-    private Boolean isAge18 = true;
+    private Boolean isAge18 = false;
 
     private Boolean isTakeStatusSMS = false;
 

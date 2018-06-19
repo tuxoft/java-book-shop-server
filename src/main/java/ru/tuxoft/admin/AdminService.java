@@ -19,6 +19,7 @@ import ru.tuxoft.content.domain.CategoryCarouselVO;
 import ru.tuxoft.content.domain.PromoPictureVO;
 import ru.tuxoft.content.domain.repository.CategoryCarouselRepository;
 import ru.tuxoft.content.domain.repository.PromoPictureRepository;
+import ru.tuxoft.order.domain.repository.OrderItemRepository;
 import ru.tuxoft.paging.ListResult;
 import ru.tuxoft.paging.Meta;
 import ru.tuxoft.paging.Paging;
@@ -29,7 +30,6 @@ import ru.tuxoft.s3.domain.repository.FileRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service

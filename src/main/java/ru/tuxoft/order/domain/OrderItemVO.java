@@ -1,7 +1,9 @@
-package ru.tuxoft.book.domain;
+package ru.tuxoft.order.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.tuxoft.book.domain.BookVO;
+import ru.tuxoft.order.domain.OrderVO;
 
 import javax.persistence.*;
 

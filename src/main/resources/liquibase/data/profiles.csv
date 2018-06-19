@@ -1,0 +1,2 @@
+id;user_id;deleted;first_name;middle_name;last_name;email;phone_number;addr_index;addr_city;addr_street;addr_house;addr_housing;addr_building;addr_room
+1;user1;false;Владимир;Владимирович;Путин;prezident@mail.ru;+79000000001;100000;Москва;Кремль;1;1;1;1

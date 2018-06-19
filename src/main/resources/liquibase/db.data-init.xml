@@ -202,5 +202,37 @@
                 tableName="s3init">
         </loadData>
     </changeSet>
-
+    <changeSet author="v.darmakheev" id="data-init-19">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/shop_cities.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="shop_cities">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-20">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/pickup_points.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="pickup_points">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-21">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/profiles.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="profiles">
+        </loadData>
+    </changeSet>
 </databaseChangeLog>

@@ -1,4 +1,4 @@
-package ru.tuxoft.book.domain;
+package ru.tuxoft.order.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,9 +39,6 @@ public class OrderVO {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "shippingAddress")
-    private String shippingAddress;
-
     @Column(name = "payment_method")
     private String paymentMethod;
 
@@ -62,4 +59,26 @@ public class OrderVO {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItemVO> orderItemList;
+
+    @Column(name = "addr_index")
+    private String addrIndex;
+
+    @Column(name = "addr_city")
+    private String addrCity;
+
+    @Column(name = "addr_street")
+    private String addrStreet;
+
+    @Column(name = "addr_house")
+    private String addrHouse;
+
+    @Column(name = "addr_housing")
+    private String addrHousing;
+
+    @Column(name = "addr_building")
+    private String addrBuilding;
+
+    @Column(name = "addr_room")
+    private String addrRoom;
+
 }

@@ -1,2 +1,2 @@
-id;user_id;deleted;first_name;middle_name;last_name;email;phone_number;shipping_address;payment_method;total_cost;discount;to_pay;pay_for;status
-1;1;false;Владимир;Владимирович;Путин;prezident@mail.ru;+79000000001;100000, Москва, Кремль;visa;710;210;500;500;shipping
+id;user_id;deleted;first_name;middle_name;last_name;email;phone_number;payment_method;total_cost;discount;to_pay;pay_for;status;addr_index;addr_city;addr_street;addr_house;addr_housing;addr_building;addr_room
+1;1;false;Владимир;Владимирович;Путин;prezident@mail.ru;+79000000001;visa;710;210;500;500;shipping;100000;Москва;Кремль;1;1;1;1

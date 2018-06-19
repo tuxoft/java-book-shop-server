@@ -241,20 +241,26 @@
             <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор заказа">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="user_id" type="BIGINT" remarks="уникальный идентификатор пользователя"/>
+            <column name="user_id" type="VARCHAR(255)" remarks="уникальный идентификатор пользователя"/>
             <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
             <column name="first_name" type="VARCHAR(255)" remarks="имя получателя заказа"/>
             <column name="middle_name" type="VARCHAR(255)" remarks="отчество получателя заказа"/>
             <column name="last_name" type="VARCHAR(255)" remarks="фамилия получателя заказа"/>
             <column name="email" type="VARCHAR(255)" remarks="email получателя заказа"/>
             <column name="phone_number" type="VARCHAR(255)" remarks="телефон получателя заказа"/>
-            <column name="shipping_address" type="VARCHAR(255)" remarks="телефон получателя заказа"/>
             <column name="payment_method" type="VARCHAR(255)" remarks="способ оплаты заказа"/>
             <column name="total_cost" type="DECIMAL" remarks="общая стоимость"/>
             <column name="discount" type="DECIMAL" remarks="скидка"/>
             <column name="to_pay" type="DECIMAL" remarks="к оплате"/>
             <column name="pay_for" type="DECIMAL" remarks="оплачено"/>
             <column name="status" type="VARCHAR(255)" remarks="статус заказа"/>
+            <column name="addr_index" type="VARCHAR(255)" remarks="адрес получателя (индекс)"/>
+            <column name="addr_city" type="VARCHAR(255)" remarks="адрес получателя (город)"/>
+            <column name="addr_street" type="VARCHAR(255)" remarks="адрес получателя (улица)"/>
+            <column name="addr_house" type="VARCHAR(255)" remarks="адрес получателя (дом)"/>
+            <column name="addr_housing" type="VARCHAR(255)" remarks="адрес получателя (корпус)"/>
+            <column name="addr_building" type="VARCHAR(255)" remarks="адрес получателя (строение)"/>
+            <column name="addr_room" type="VARCHAR(255)" remarks="адрес получателя (квартира)"/>
         </createTable>
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-23">
@@ -405,7 +411,78 @@
                                  referencedColumnNames="id"
                                  referencedTableName="categories"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-37" dbms="postgresql">
+    <changeSet author="v.darmakheev" id="scheme-init-37">
+        <createTable tableName="shop_cities">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор города точек выдачи">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="coord_x" type="DOUBLE" remarks="координата города по широте"/>
+            <column name="coord_y" type="DOUBLE" remarks="координата города по долготе"/>
+            <column name="name" type="VARCHAR(255)" remarks="название города"/>
+            <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-38">
+        <createTable tableName="pickup_points">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор точки выдачи товара">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="coord_x" type="DOUBLE" remarks="координата точки выдачи по широте"/>
+            <column name="coord_y" type="DOUBLE" remarks="координата точки выдачи по долготе"/>
+            <column name="name" type="VARCHAR(255)" remarks="название точки выдачи"/>
+            <column name="shop_city_id" type="BIGINT" remarks="идентификатор города точки выдачи"/>
+            <column name="work_period" type="VARCHAR(255)" remarks="период работы"/>
+            <column name="icon_file_id" type="BIGINT" remarks="идентификатор файла иконки точки выдачи"/>
+            <column name="addr" type="VARCHAR(255)" remarks="адрес точки выдачи"/>
+            <column name="pay_case" type="VARCHAR(255)" remarks="способы оплаты доступные в точке выдачи"/>
+            <column name="send_price" type="DECIMAL" remarks="стоимость доставки в точку выдачи"/>
+            <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-39">
+        <addForeignKeyConstraint baseColumnNames="shop_city_id"
+                                 baseTableName="pickup_points"
+                                 constraintName="shop_city_id_pickup_points_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="shop_cities"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-40">
+        <addForeignKeyConstraint baseColumnNames="icon_file_id"
+                                 baseTableName="pickup_points"
+                                 constraintName="icon_file_id_pickup_points_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="files"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-41">
+        <createTable tableName="profiles">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор профиля">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_id" type="VARCHAR(255)" remarks="уникальный идентификатор пользователя"/>
+            <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
+            <column name="first_name" type="VARCHAR(255)" remarks="имя"/>
+            <column name="middle_name" type="VARCHAR(255)" remarks="отчество"/>
+            <column name="last_name" type="VARCHAR(255)" remarks="фамилия"/>
+            <column name="email" type="VARCHAR(255)" remarks="email"/>
+            <column name="phone_number" type="VARCHAR(255)" remarks="телефон"/>
+            <column name="addr_index" type="VARCHAR(255)" remarks="адрес (индекс)"/>
+            <column name="addr_city" type="VARCHAR(255)" remarks="адрес (город)"/>
+            <column name="addr_street" type="VARCHAR(255)" remarks="адрес (улица)"/>
+            <column name="addr_house" type="VARCHAR(255)" remarks="адрес (дом)"/>
+            <column name="addr_housing" type="VARCHAR(255)" remarks="адрес (корпус)"/>
+            <column name="addr_building" type="VARCHAR(255)" remarks="адрес (строение)"/>
+            <column name="addr_room" type="VARCHAR(255)" remarks="адрес (квартира)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-42" dbms="postgresql">
         <sql>
             ALTER SEQUENCE authors_id_seq RESTART with 1000000;
             ALTER SEQUENCE book_authors_id_seq RESTART with 1000000;
@@ -425,6 +502,9 @@
             ALTER SEQUENCE publishers_id_seq RESTART with 1000000;
             ALTER SEQUENCE promo_pictures_id_seq RESTART with 1000000;
             ALTER SEQUENCE category_carousels_id_seq RESTART with 1000000;
+            ALTER SEQUENCE shop_cities_id_seq RESTART with 1000000;
+            ALTER SEQUENCE pickup_points_id_seq RESTART with 1000000;
+            ALTER SEQUENCE profiles_id_seq RESTART with 1000000;
             ALTER SEQUENCE s3init_id_seq RESTART with 1000000;
         </sql>
     </changeSet>

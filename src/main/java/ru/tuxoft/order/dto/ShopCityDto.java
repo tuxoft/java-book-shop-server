@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class CityDto {
+public class ShopCityDto {
 
     private Long id;
 
