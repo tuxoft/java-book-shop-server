@@ -3,11 +3,7 @@ package ru.tuxoft.profile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import ru.tuxoft.order.dto.OrderDto;
+import org.springframework.web.bind.annotation.*;
 import ru.tuxoft.profile.dto.ProfileDto;
 
 @RestController
@@ -21,6 +17,13 @@ public class ProfileController {
     public ProfileDto getProfile(
     ) {
         return profileService.getProfileByUserId(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/profile", produces = "application/json")
+    public ProfileDto updateOrder(
+            @RequestBody ProfileDto profileDto
+    ) {
+        return profileService.saveProfile(profileDto);
     }
 
 }

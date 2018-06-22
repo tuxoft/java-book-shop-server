@@ -18,7 +18,7 @@ public class ProfileVO {
     private Long id;
 
     @Column(name = "user_id")
-    private String userId;
+    private String userId = "";
 
     @ManyToOne
     @JoinColumn(name = "shop_city_id")
@@ -28,39 +28,45 @@ public class ProfileVO {
     private Boolean deleted = false;
 
     @Column(name = "first_name")
-    private String firstName;
+    private String firstName = "";
 
     @Column(name = "middle_name")
-    private String middleName;
+    private String middleName = "";
 
     @Column(name = "last_name")
-    private String lastName;
+    private String lastName = "";
 
     @Column(name = "email")
-    private String email;
+    private String email = "";
 
     @Column(name = "phone_number")
-    private String phoneNumber;
+    private String phoneNumber = "";
+
+    @Column(name = "sex")
+    private String sex = "";
+
+    @Column(name = "birthdate")
+    private String birthdate = "";
 
     @Column(name = "addr_index")
-    private String addrIndex;
+    private String addrIndex = "";
 
     @Column(name = "addr_city")
-    private String addrCity;
+    private String addrCity = "";
 
     @Column(name = "addr_street")
-    private String addrStreet;
+    private String addrStreet = "";
 
     @Column(name = "addr_house")
-    private String addrHouse;
+    private String addrHouse = "";
 
     @Column(name = "addr_housing")
-    private String addrHousing;
+    private String addrHousing = "";
 
     @Column(name = "addr_building")
-    private String addrBuilding;
+    private String addrBuilding = "";
 
     @Column(name = "addr_room")
-    private String addrRoom;
+    private String addrRoom = "";
 
 }
