@@ -473,6 +473,8 @@
             <column name="last_name" type="VARCHAR(255)" remarks="фамилия"/>
             <column name="email" type="VARCHAR(255)" remarks="email"/>
             <column name="phone_number" type="VARCHAR(255)" remarks="телефон"/>
+            <column name="sex" type="VARCHAR(255)" remarks="пол"/>
+            <column name="birthdate" type="VARCHAR(255)" remarks="дата рождения"/>
             <column name="addr_index" type="VARCHAR(255)" remarks="адрес (индекс)"/>
             <column name="addr_city" type="VARCHAR(255)" remarks="адрес (город)"/>
             <column name="addr_street" type="VARCHAR(255)" remarks="адрес (улица)"/>

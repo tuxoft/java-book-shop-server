@@ -27,6 +27,10 @@ public class ProfileDto {
 
     private String phoneNumber;
 
+    private String sex;
+
+    private String birthdate;
+
     private AddressDto addr;
 
 }

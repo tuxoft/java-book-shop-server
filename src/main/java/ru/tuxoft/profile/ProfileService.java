@@ -20,6 +20,23 @@ public class ProfileService {
     ProfileMapper profileMapper;
 
     public ProfileDto getProfileByUserId(String userId) {
-        return profileMapper.profileVOToProfileDto(profileRepository.findByUserId(userId));
+        ProfileVO profile = profileRepository.findByUserId(userId);
+        if(profile == null){
+            profile = new ProfileVO();
+            profile.setUserId(userId);
+            profile = saveProfile(profile);
+        }
+        return profileMapper.profileVOToProfileDto(profile);
     }
+
+    public ProfileDto saveProfile(ProfileDto profile) {
+        ProfileVO newProfileVo = profileMapper.profileDtoToProfileVO(profile);
+        newProfileVo = profileRepository.saveAndFlush(newProfileVo);
+        return profileMapper.profileVOToProfileDto(newProfileVo);
+    }
+
+    public ProfileVO saveProfile(ProfileVO profile) {
+        return profileRepository.saveAndFlush(profile);
+    }
+
 }
