@@ -1,9 +1,10 @@
-package ru.tuxoft.admin.dto;
+package ru.tuxoft.dictionary.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.tuxoft.admin.domain.DictionaryTypeEnum;
+import ru.tuxoft.dictionary.domain.DictionaryTypeEnum;
 import ru.tuxoft.book.domain.*;
+import ru.tuxoft.order.domain.ShopCityVO;
 
 @Data
 @NoArgsConstructor
@@ -77,5 +78,11 @@ public class DictionaryDto {
         this.id = ageLimit.getId();
         this.name = ageLimit.getName();
         this.type = DictionaryTypeEnum.AGELIMIT.getType();
+    }
+
+    public DictionaryDto(ShopCityVO shopCity) {
+        this.id = shopCity.getId();
+        this.name = shopCity.getName();
+        this.type = DictionaryTypeEnum.SHOPCITY.getType();
     }
 }

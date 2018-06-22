@@ -10,19 +10,13 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "pickup_points")
-public class PickupPointVO {
+@Table(name = "mail_services")
+public class MailServiceVO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @Column(name = "coord_x")
-    private Double coordX;
-
-    @Column(name = "coord_y")
-    private Double coordY;
 
     @Column(name = "name")
     private String name;
@@ -30,23 +24,18 @@ public class PickupPointVO {
     @Column(name = "shop_city_id")
     private Long shopCityId;
 
-    @Column(name = "work_period")
-    private String workPeriod;
-
     @ManyToOne
     @JoinColumn(name = "icon_file_id")
     private FileVO iconFile;
 
-    @Column(name = "addr")
-    private String addr;
+    @Column(name = "send_price_cost")
+    private BigDecimal sendPriceCost;
 
-    @Column(name = "pay_case")
-    private String payCase;
-
-    @Column(name = "send_price")
-    private BigDecimal sendPrice;
+    @Column(name = "send_price_commission")
+    private BigDecimal sendPriceCommission;
 
     @Column(name = "deleted")
     private Boolean deleted = false;
+
 
 }

@@ -1,0 +1,4 @@
+id;name;shop_city_id;pay_case;send_price;max_weight;deleted
+1;DHL;1;Наличные и банковская карта;310;31;false
+2;UPS;1;Только наличные;150;15;false
+3;DPD;1;Только наличные;220;35;false

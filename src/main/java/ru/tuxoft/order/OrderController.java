@@ -2,22 +2,12 @@ package ru.tuxoft.order;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import ru.tuxoft.book.BookService;
-import ru.tuxoft.book.dto.AuthorDto;
-import ru.tuxoft.book.dto.BookDto;
-import ru.tuxoft.book.dto.CategoryDto;
-import ru.tuxoft.cart.CartService;
+import ru.tuxoft.order.enums.SendTypeEnum;
 import ru.tuxoft.order.dto.*;
-import ru.tuxoft.paging.ListResult;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -50,9 +40,33 @@ public class OrderController {
         return orderService.getShopCities();
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/pickupPoint")
-    public List<PickupPointDto> getPickupPoint() {
-        return orderService.getPickupPoint();
+    @RequestMapping(method = RequestMethod.GET, path = "/pickupPoint/{id}")
+    public List<PickupPointDto> getPickupPoint(
+            @PathVariable("id") Long cityId
+    ) {
+        return orderService.getPickupPoint(cityId);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/courierService/{id}")
+    public List<CourierServiceDto> getCourierService(
+            @PathVariable("id") Long cityId
+    ) {
+        return orderService.getCourierService(cityId);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/mailService/{id}")
+    public List<MailServiceDto> getMailService(
+            @PathVariable("id") Long cityId
+    ) {
+        return orderService.getMailService(cityId);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/paymentMethod")
+    public List<PaymentMethodDto> getPaymentMethod(
+            @RequestParam(name = "sendType")String sendType,
+            @RequestParam(name = "sendOrgId") Long sendOrgId
+            ) {
+        return orderService.getPaymentMethod(sendType, sendOrgId);
     }
 
 }

@@ -235,4 +235,37 @@
                 tableName="profiles">
         </loadData>
     </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-22">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/courier_services.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="courier_services">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-23">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/mail_services.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="mail_services">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-24">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/payment_methods.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="payment_methods">
+        </loadData>
+    </changeSet>
 </databaseChangeLog>

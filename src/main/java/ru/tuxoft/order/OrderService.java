@@ -5,14 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.tuxoft.book.domain.repository.BookRepository;
 import ru.tuxoft.cart.CartService;
+import ru.tuxoft.order.domain.MailServiceVO;
 import ru.tuxoft.order.domain.OrderVO;
-import ru.tuxoft.order.domain.repository.OrderRepository;
-import ru.tuxoft.order.domain.repository.PickupPointRepository;
-import ru.tuxoft.order.domain.repository.ShopCityRepository;
+import ru.tuxoft.order.domain.PaymentMethodVO;
+import ru.tuxoft.order.domain.repository.*;
 import ru.tuxoft.order.dto.*;
-import ru.tuxoft.order.mapper.OrderMapper;
-import ru.tuxoft.order.mapper.PickupPointMapper;
-import ru.tuxoft.order.mapper.ShopCityMapper;
+import ru.tuxoft.order.enums.DeliveryServiceTypeEnum;
+import ru.tuxoft.order.enums.PaymentMethodEnum;
+import ru.tuxoft.order.enums.SendTypeEnum;
+import ru.tuxoft.order.mapper.*;
 import ru.tuxoft.profile.domain.ProfileVO;
 import ru.tuxoft.profile.domain.repository.ProfileRepository;
 
@@ -53,6 +54,21 @@ public class OrderService {
     @Autowired
     BookRepository bookRepository;
 
+    @Autowired
+    CourierServiceRepository courierServiceRepository;
+
+    @Autowired
+    CourierServiceMapper courierServiceMapper;
+
+    @Autowired
+    MailServiceRepository mailServiceRepository;
+
+    @Autowired
+    MailServiceMapper mailServiceMapper;
+
+    @Autowired
+    PaymentMethodRepository paymentMethodRepository;
+
     public OrderDto getTemplateOrder(String userId) {
         OrderDto templateOrder = new OrderDto();
         setInformationFromCart(templateOrder, userId);
@@ -79,6 +95,7 @@ public class OrderService {
         templateOrder.setLastName(profile.getLastName());
         templateOrder.setEmail(profile.getEmail());
         templateOrder.setPhoneNumber(profile.getPhoneNumber());
+        templateOrder.setShopCity(shopCityMapper.shopCityVOToShopCityDto(profile.getShopCity()));
         AddressDto addr = new AddressDto();
         addr.setIndex(profile.getAddrIndex());
         addr.setCity(profile.getAddrCity());
@@ -129,7 +146,35 @@ public class OrderService {
 
     }
 
-    public List<PickupPointDto> getPickupPoint() {
-        return pickupPointRepository.findByDeletedIsFalse().stream().map((pickupPointVO) -> pickupPointMapper.pickupPointVOToPickupPointDto(pickupPointVO)).collect(Collectors.toList());
+    public List<PickupPointDto> getPickupPoint(Long cityId) {
+        return pickupPointRepository.findByShopCityIdAndDeletedIsFalse(cityId).stream().map((pickupPointVO) -> pickupPointMapper.pickupPointVOToPickupPointDto(pickupPointVO)).collect(Collectors.toList());
+    }
+
+    public List<CourierServiceDto> getCourierService(Long cityId) {
+        return courierServiceRepository.findByShopCityIdAndDeletedIsFalse(cityId).stream().map((courierServiceVO -> courierServiceMapper.courierServiceVOToCourierServiceDto(courierServiceVO))).collect(Collectors.toList());
+
+    }
+
+    public List<MailServiceDto> getMailService(Long cityId) {
+        return mailServiceRepository.findByShopCityIdAndDeletedIsFalse(cityId).stream().map((mailServiceVO -> mailServiceMapper.mailServiceVOToMailServiceDto(mailServiceVO))).collect(Collectors.toList());
+    }
+
+    public List<PaymentMethodDto> getPaymentMethod(String sendType, Long sendOrgId) {
+        for (DeliveryServiceTypeEnum deliveryServiceTypeEnum: DeliveryServiceTypeEnum.values()) {
+            if (deliveryServiceTypeEnum.getValue().equals(sendType)) {
+                List<PaymentMethodDto> result = new ArrayList<>();
+                List<PaymentMethodVO> paymentMethodVOList = paymentMethodRepository.findByDeliveryServiceTypeAndDeliveryServiceId(deliveryServiceTypeEnum.getValue(),sendOrgId);
+                for (PaymentMethodVO paymentMethodVO: paymentMethodVOList) {
+                    for (PaymentMethodEnum paymentMethodEnum: PaymentMethodEnum.values()) {
+                        if (paymentMethodEnum.getValue().equals(paymentMethodVO.getPaymentMethod())) {
+                            result.add(new PaymentMethodDto() {{setName(paymentMethodEnum.getText()); setComment(paymentMethodEnum.getComment());}});
+                            break;
+                        }
+                    }
+                }
+                return result;
+            }
+        }
+        return null;
     }
 }

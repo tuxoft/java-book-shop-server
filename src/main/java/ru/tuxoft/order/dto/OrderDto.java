@@ -12,6 +12,8 @@ public class OrderDto {
 
     private Long id;
 
+    private ShopCityDto shopCity;
+
     private String firstName ="";
 
     private String middleName ="";
@@ -28,7 +30,7 @@ public class OrderDto {
 
     private String sendType ="";
 
-    private Long selfTakeOrgId;
+    private Long sendOrgId;
 
     private Boolean isAge18 = false;
 

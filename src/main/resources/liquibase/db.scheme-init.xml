@@ -242,6 +242,7 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="user_id" type="VARCHAR(255)" remarks="уникальный идентификатор пользователя"/>
+            <column name="shop_city_id" type="BIGINT" remarks="уникальный идентификатор региона отправки"/>
             <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
             <column name="first_name" type="VARCHAR(255)" remarks="имя получателя заказа"/>
             <column name="middle_name" type="VARCHAR(255)" remarks="отчество получателя заказа"/>
@@ -249,6 +250,12 @@
             <column name="email" type="VARCHAR(255)" remarks="email получателя заказа"/>
             <column name="phone_number" type="VARCHAR(255)" remarks="телефон получателя заказа"/>
             <column name="payment_method" type="VARCHAR(255)" remarks="способ оплаты заказа"/>
+            <column name="comment" type="VARCHAR(2000)" remarks="комментарий к заказу"/>
+            <column name="send_type" type="VARCHAR(255)" remarks="тип доставки"/>
+            <column name="send_org_id" type="BIGINT" remarks="ид организации осуществляющей доставку"/>
+            <column name="is_age_18" type="BOOLEAN" defaultValue="false" remarks="подтверждение совершенолетия"/>
+            <column name="is_take_status_sms" type="BOOLEAN" defaultValue="false" remarks="оповещение по смс"/>
+            <column name="is_take_status_email" type="BOOLEAN" defaultValue="false" remarks="оповещение по почте"/>
             <column name="total_cost" type="DECIMAL" remarks="общая стоимость"/>
             <column name="discount" type="DECIMAL" remarks="скидка"/>
             <column name="to_pay" type="DECIMAL" remarks="к оплате"/>
@@ -451,6 +458,17 @@
                                  referencedTableName="shop_cities"/>
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-40">
+        <addForeignKeyConstraint baseColumnNames="shop_city_id"
+                                 baseTableName="orders"
+                                 constraintName="shop_city_id_orders_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="shop_cities"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-41">
         <addForeignKeyConstraint baseColumnNames="icon_file_id"
                                  baseTableName="pickup_points"
                                  constraintName="icon_file_id_pickup_points_fkey"
@@ -461,12 +479,13 @@
                                  referencedColumnNames="id"
                                  referencedTableName="files"/>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-41">
+    <changeSet author="v.darmakheev" id="scheme-init-42">
         <createTable tableName="profiles">
             <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор профиля">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="user_id" type="VARCHAR(255)" remarks="уникальный идентификатор пользователя"/>
+            <column name="shop_city_id" type="BIGINT" remarks="уникальный идентификатор региона отправки"/>
             <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
             <column name="first_name" type="VARCHAR(255)" remarks="имя"/>
             <column name="middle_name" type="VARCHAR(255)" remarks="отчество"/>
@@ -482,7 +501,99 @@
             <column name="addr_room" type="VARCHAR(255)" remarks="адрес (квартира)"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-42" dbms="postgresql">
+    <changeSet author="v.darmakheev" id="scheme-init-43">
+        <addForeignKeyConstraint baseColumnNames="shop_city_id"
+                                 baseTableName="profiles"
+                                 constraintName="shop_city_id_profiles_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="shop_cities"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-44">
+        <createTable tableName="courier_services">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор курьерской службы">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)" remarks="название курьерской службы"/>
+            <column name="shop_city_id" type="BIGINT" remarks="идентификатор города курьерской службы"/>
+            <column name="icon_file_id" type="BIGINT" remarks="идентификатор файла иконки курьерской службы"/>
+            <column name="pay_case" type="VARCHAR(255)" remarks="способы оплаты доступные у курьерской службы"/>
+            <column name="send_price" type="DECIMAL" remarks="стоимость доставки курьерской службой"/>
+            <column name="max_weight" type="BIGINT" remarks="максимальный вес посылки"/>
+            <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-45">
+        <addForeignKeyConstraint baseColumnNames="shop_city_id"
+                                 baseTableName="courier_services"
+                                 constraintName="shop_city_id_courier_services_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="shop_cities"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-46">
+        <addForeignKeyConstraint baseColumnNames="icon_file_id"
+                                 baseTableName="courier_services"
+                                 constraintName="icon_file_id_courier_services_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="files"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-47">
+        <createTable tableName="mail_services">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор почтового отправления">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)" remarks="название почтового отправления"/>
+            <column name="shop_city_id" type="BIGINT" remarks="идентификатор города почтового отправления"/>
+            <column name="icon_file_id" type="BIGINT" remarks="идентификатор файла иконки почтового отправления"/>
+            <column name="send_price_cost" type="DECIMAL" remarks="стоимость доставки почтового отправления"/>
+            <column name="send_price_commission" type="DECIMAL" remarks="размер коммисии почтового отправления"/>
+            <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-48">
+        <addForeignKeyConstraint baseColumnNames="shop_city_id"
+                                 baseTableName="mail_services"
+                                 constraintName="shop_city_id_mail_services_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="shop_cities"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-49">
+        <addForeignKeyConstraint baseColumnNames="icon_file_id"
+                                 baseTableName="mail_services"
+                                 constraintName="icon_file_id_mail_services_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="files"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-50">
+        <createTable tableName="payment_methods">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор способа оплаты">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="delivery_service_type" type="VARCHAR(255)" remarks="тип способа доставки"/>
+            <column name="delivery_service_id" type="BIGINT" remarks="ил организации осуществлющей доставку"/>
+            <column name="payment_method" type="VARCHAR(255)" remarks="способ оплаты"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-51" dbms="postgresql">
         <sql>
             ALTER SEQUENCE authors_id_seq RESTART with 1000000;
             ALTER SEQUENCE book_authors_id_seq RESTART with 1000000;
@@ -504,7 +615,10 @@
             ALTER SEQUENCE category_carousels_id_seq RESTART with 1000000;
             ALTER SEQUENCE shop_cities_id_seq RESTART with 1000000;
             ALTER SEQUENCE pickup_points_id_seq RESTART with 1000000;
+            ALTER SEQUENCE courier_services_id_seq RESTART with 1000000;
+            ALTER SEQUENCE mail_services_id_seq RESTART with 1000000;
             ALTER SEQUENCE profiles_id_seq RESTART with 1000000;
+            ALTER SEQUENCE payment_methods_id_seq RESTART with 1000000;
             ALTER SEQUENCE s3init_id_seq RESTART with 1000000;
         </sql>
     </changeSet>

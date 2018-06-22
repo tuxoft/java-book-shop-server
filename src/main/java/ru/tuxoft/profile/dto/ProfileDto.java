@@ -2,7 +2,9 @@ package ru.tuxoft.profile.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.tuxoft.order.domain.ShopCityVO;
 import ru.tuxoft.order.dto.AddressDto;
+import ru.tuxoft.order.dto.ShopCityDto;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -16,6 +18,8 @@ public class ProfileDto {
     private Long id;
 
     private String userId;
+
+    private ShopCityDto shopCity;
 
     private String firstName;
 

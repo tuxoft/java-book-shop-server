@@ -6,23 +6,18 @@ import ru.tuxoft.s3.domain.FileVO;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "pickup_points")
-public class PickupPointVO {
+@Table(name = "courier_services")
+public class CourierServiceVO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @Column(name = "coord_x")
-    private Double coordX;
-
-    @Column(name = "coord_y")
-    private Double coordY;
 
     @Column(name = "name")
     private String name;
@@ -30,21 +25,18 @@ public class PickupPointVO {
     @Column(name = "shop_city_id")
     private Long shopCityId;
 
-    @Column(name = "work_period")
-    private String workPeriod;
-
     @ManyToOne
     @JoinColumn(name = "icon_file_id")
     private FileVO iconFile;
-
-    @Column(name = "addr")
-    private String addr;
 
     @Column(name = "pay_case")
     private String payCase;
 
     @Column(name = "send_price")
     private BigDecimal sendPrice;
+
+    @Column(name = "max_weight")
+    private Integer maxWeight;
 
     @Column(name = "deleted")
     private Boolean deleted = false;

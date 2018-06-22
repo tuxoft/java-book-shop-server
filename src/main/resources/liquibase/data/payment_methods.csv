@@ -1,0 +1,10 @@
+id;delivery_service_type;delivery_service_id;payment_method
+1;courierService;1;paymentInSite
+2;courierService;1;paymentInRecieve
+3;courierService;2;paymentInRecieve
+4;courierService;3;paymentInSite
+5;pickuPoint;1;paymentInSite
+6;pickuPoint;1;paymentInRecieve
+7;pickuPoint;2;paymentInSite
+8;pickuPoint;3;paymentInRecieve
+9;mailService;1;paymentInRecieve

@@ -1,0 +1,3 @@
+id;name;shop_city_id;send_price_cost;send_price_commission;deleted
+1;Бандероль наложенным платежом;1;100;0.7;false
+2;Бандероль наложенным платежом;2;200;0.7;false

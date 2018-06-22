@@ -2,6 +2,7 @@ package ru.tuxoft.profile.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.tuxoft.order.domain.ShopCityVO;
 
 import javax.persistence.*;
 
@@ -18,6 +19,10 @@ public class ProfileVO {
 
     @Column(name = "user_id")
     private String userId;
+
+    @ManyToOne
+    @JoinColumn(name = "shop_city_id")
+    private ShopCityVO shopCity;
 
     @Column(name = "deleted")
     private Boolean deleted = false;

@@ -2,6 +2,9 @@ package ru.tuxoft.order.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.tuxoft.order.enums.PaymentMethodEnum;
+import ru.tuxoft.order.enums.SendTypeEnum;
+import ru.tuxoft.order.enums.StatusEnum;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -20,6 +23,10 @@ public class OrderVO {
 
     @Column(name = "user_id")
     private String userId;
+
+    @ManyToOne
+    @JoinColumn(name = "shop_city_id")
+    private ShopCityVO shopCity;
 
     @Column(name = "deleted")
     private Boolean deleted = false;
@@ -40,7 +47,27 @@ public class OrderVO {
     private String phoneNumber;
 
     @Column(name = "payment_method")
-    private String paymentMethod;
+    @Enumerated(EnumType.STRING)
+    private PaymentMethodEnum paymentMethod;
+
+    @Column(name = "comment")
+    private String comment;
+
+    @Column(name = "send_type")
+    @Enumerated(EnumType.STRING)
+    private SendTypeEnum sendType;
+
+    @Column(name = "send_org_id")
+    private Long sendOrgId;
+
+    @Column(name = "is_age_18")
+    private Boolean isAge18 = false;
+
+    @Column(name = "is_take_status_sms")
+    private Boolean isTakeStatusSMS = false;
+
+    @Column(name = "is_take_status_email")
+    private Boolean isTakeStatusEmail = false;
 
     @Column(name = "total_cost")
     private BigDecimal totalCost;
@@ -55,7 +82,8 @@ public class OrderVO {
     private BigDecimal payFor;
 
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusEnum status;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItemVO> orderItemList;

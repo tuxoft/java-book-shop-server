@@ -1,4 +1,4 @@
-package ru.tuxoft.admin.domain;
+package ru.tuxoft.dictionary.domain;
 
 public enum DictionaryTypeEnum {
     PUBLISHER("publisher"),
@@ -8,7 +8,8 @@ public enum DictionaryTypeEnum {
     AGELIMIT("ageLimit"),
     CITY("city"),
     LANGUAGE("language"),
-    COVERTYPE("coverType");
+    COVERTYPE("coverType"),
+    SHOPCITY("shopCity");
 
     String type;
 

@@ -327,26 +327,6 @@ public class AdminController {
         return searchService.searchCategoryCarousel(query, start, pageSize, sort, order);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/dictionary")
-    public ListResult<DictionaryDto> getDictionary(
-            @RequestParam(name = "dictionary") String dictionary,
-            @RequestParam(name = "parentId", required = false) Long parentId,
-            @RequestParam(name = "idList[]", required = false) List<Long> idList
-    ) {
-        return adminService.getDictionary(dictionary, parentId, idList);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/dictionary/search")
-    public ListResult<DictionaryDto> searchDictionary(
-            @RequestParam(name = "dictionary") String dictionary,
-            @RequestParam(name = "query") String query,
-            @RequestParam(name = "parentId", required = false) Long parentId,
-            @RequestParam(name = "start", defaultValue = "0") int start,
-            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize
-    ) {
-        return adminService.searchDictionary(dictionary, query, parentId, start, pageSize);
-    }
-
     @RequestMapping(method = RequestMethod.POST, path = "/file")
     public ResponseEntity uploadPicture(@RequestParam("file") MultipartFile file) {
         return new ResponseEntity<>(adminService.uploadFile(file), HttpStatus.OK);
