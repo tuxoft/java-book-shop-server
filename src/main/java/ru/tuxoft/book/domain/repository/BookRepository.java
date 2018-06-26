@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import ru.tuxoft.book.domain.BookVO;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
@@ -30,4 +31,8 @@ public interface BookRepository extends JpaRepository<BookVO, Long> {
 
     @Query("select b from BookVO b join b.language l where l.id = (:languageId)")
     List<BookVO> findBookByLanguageId(@Param("languageId") Long languageId);
+
+    @Query("select b.price from BookVO b where b.id = (:id)")
+    BigDecimal findPriceById(@Param("id") Long id);
+
 }

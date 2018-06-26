@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PaymentMethodDto {
 
+    private String value;
+
     private String name;
 
     private String comment;

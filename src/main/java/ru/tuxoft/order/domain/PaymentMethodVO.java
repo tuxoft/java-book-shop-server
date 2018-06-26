@@ -2,8 +2,8 @@ package ru.tuxoft.order.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.tuxoft.order.enums.DeliveryServiceTypeEnum;
 import ru.tuxoft.order.enums.PaymentMethodEnum;
+import ru.tuxoft.order.enums.SendTypeEnum;
 
 import javax.persistence.*;
 
@@ -18,12 +18,12 @@ public class PaymentMethodVO {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "delivery_service_type")
+    @Column(name = "send_type")
     @Enumerated(EnumType.STRING)
-    private DeliveryServiceTypeEnum deliveryServiceType;
+    private SendTypeEnum sendType;
 
-    @Column(name = "delivery_service_id")
-    private Long deliveryServiceId;
+    @Column(name = "send_org_id")
+    private Long sendOrgId;
 
     @Column(name = "payment_method")
     @Enumerated(EnumType.STRING)

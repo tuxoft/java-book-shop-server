@@ -7,7 +7,7 @@ import ru.tuxoft.book.mapper.BookMapper;
 import ru.tuxoft.order.domain.ShopCityVO;
 import ru.tuxoft.order.dto.ShopCityDto;
 
-@Mapper(componentModel = "spring", uses = {BookMapper.class})
+@Mapper(componentModel = "spring", uses = {OrderMapperResolver.class} )
 public interface ShopCityMapper {
 
     @Mappings({
@@ -15,5 +15,10 @@ public interface ShopCityMapper {
     })
     ShopCityDto shopCityVOToShopCityDto(ShopCityVO vo);
 
+    @Mappings({
+            @Mapping(target = "coordX", ignore = true),
+            @Mapping(target = "coordY", ignore = true),
+            @Mapping(target = "deleted", ignore = true)
+    })
     ShopCityVO shopCityDtoToShopCityVO(ShopCityDto dto);
 }

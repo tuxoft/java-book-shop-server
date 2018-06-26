@@ -590,8 +590,8 @@
             <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор способа оплаты">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="delivery_service_type" type="VARCHAR(255)" remarks="тип способа доставки"/>
-            <column name="delivery_service_id" type="BIGINT" remarks="ил организации осуществлющей доставку"/>
+            <column name="send_type" type="VARCHAR(255)" remarks="тип способа доставки"/>
+            <column name="send_org_id" type="BIGINT" remarks="ил организации осуществлющей доставку"/>
             <column name="payment_method" type="VARCHAR(255)" remarks="способ оплаты"/>
         </createTable>
     </changeSet>

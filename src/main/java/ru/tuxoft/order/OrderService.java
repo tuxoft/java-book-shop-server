@@ -5,14 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.tuxoft.book.domain.repository.BookRepository;
 import ru.tuxoft.cart.CartService;
-import ru.tuxoft.order.domain.MailServiceVO;
-import ru.tuxoft.order.domain.OrderVO;
-import ru.tuxoft.order.domain.PaymentMethodVO;
+import ru.tuxoft.cart.domain.CartItemVO;
+import ru.tuxoft.order.domain.*;
 import ru.tuxoft.order.domain.repository.*;
 import ru.tuxoft.order.dto.*;
-import ru.tuxoft.order.enums.DeliveryServiceTypeEnum;
 import ru.tuxoft.order.enums.PaymentMethodEnum;
 import ru.tuxoft.order.enums.SendTypeEnum;
+import ru.tuxoft.order.enums.StatusEnum;
 import ru.tuxoft.order.mapper.*;
 import ru.tuxoft.profile.domain.ProfileVO;
 import ru.tuxoft.profile.domain.repository.ProfileRepository;
@@ -114,18 +113,6 @@ public class OrderService {
     }
 
     public OrderDto getOrderById(String userId, Long orderId) throws IllegalArgumentException {
-        /*OrderDto od = new OrderDto();
-        od.setOrderItemList(new ArrayList<OrderItemDto>());
-        od.getOrderItemList().addAll(cartService.getCart(userId).getCartItemList()
-                .stream().map(e -> new OrderItemDto(e)).collect(Collectors.toList()));
-        od.setDiscount(new BigDecimal(0));
-        od.setPayFor(new BigDecimal(100));
-        od.setToPay(new BigDecimal(150));
-        od.setTotalCost(new BigDecimal(200));
-        od.setSendPrice(new BigDecimal(50));
-        od.setAddr(new AddressDto());
-        od.setStatus("FILLED");
-        log.info("order", od.getTotalCost());*/
         OrderVO order = orderRepository.findByIdAndUserId(orderId, userId);
         if (order != null) {
             return orderMapper.orderVOToOrderDto(order);
@@ -135,10 +122,66 @@ public class OrderService {
     }
 
     public String updateOrder(OrderDto orderDto) {
-        String redirectUrl = "/pay";
         OrderVO orderVO = orderMapper.orderDtoToOrderVO(orderDto);
+        orderVO.getOrderItemList().forEach(e -> e.setOrder(orderVO));
+        String redirectUrl = "";
+        if (orderVO.getPaymentMethod().equals(PaymentMethodEnum.PAYMENT_IN_SITE)) {
+            redirectUrl = "/pay";
+        } else if (orderVO.getPaymentMethod().equals(PaymentMethodEnum.PAYMENT_IN_RECEIVE)) {
+            redirectUrl = "/home";
+        } else {
+            throw new IllegalArgumentException("Ошибка сохранения заказа. Неверный метод оплаты");
+        }
+        validateOrder(orderVO);
+        cleanCart(orderVO.getUserId());
         orderRepository.saveAndFlush(orderVO);
         return redirectUrl;
+    }
+
+    private void cleanCart(String userId) {
+        cartService.cleanCart(userId);
+    }
+
+    private void validateOrder(OrderVO orderVO) {
+        BigDecimal totalCost = BigDecimal.ZERO;
+        for (OrderItemVO orderItem: orderVO.getOrderItemList()) {
+            orderItem.getBook().setPrice(bookRepository.findPriceById(orderItem.getBook().getId()));
+            totalCost = totalCost.add(orderItem.getBook().getPrice().multiply(new BigDecimal(orderItem.getCount())));
+        }
+        if (orderVO.getSendType().equals(SendTypeEnum.COURIER_SERVICE)) {
+            Optional<BigDecimal> courierServiceSendPriceOptional = courierServiceRepository.findSendPriceById(orderVO.getSendOrgId());
+            if (courierServiceSendPriceOptional.isPresent()) {
+                totalCost = totalCost.add(courierServiceSendPriceOptional.get());
+            } else {
+                throw new IllegalArgumentException("Ошибка сохранения заказа. Неверный sendOrgId");
+            }
+
+        } else if (orderVO.getSendType().equals(SendTypeEnum.MAIL_SERVICE)){
+            Optional<MailServiceVO> mailServiceOptional = mailServiceRepository.findById(orderVO.getSendOrgId());
+            if (mailServiceOptional.isPresent()) {
+                totalCost = totalCost.add(mailServiceOptional.get().getSendPriceCost());
+                totalCost = totalCost.add(mailServiceOptional.get().getSendPriceCost().multiply(mailServiceOptional.get().getSendPriceCommission()));
+            } else {
+                throw new IllegalArgumentException("Ошибка сохранения заказа. Неверный sendOrgId");
+            }
+
+        } else if (orderVO.getSendType().equals(SendTypeEnum.PICKUP_POINT)){
+            Optional<BigDecimal> pickupPointSendPriceOptional = pickupPointRepository.findSendPriceById(orderVO.getSendOrgId());
+            if (pickupPointSendPriceOptional.isPresent()) {
+                totalCost = totalCost.add(pickupPointSendPriceOptional.get());
+            } else {
+                throw new IllegalArgumentException("Ошибка сохранения заказа. Неверный sendOrgId");
+            }
+        }
+        if (totalCost.compareTo(orderVO.getTotalCost()) != 0) {
+            throw new IllegalArgumentException("Ошибка сохранения заказа. Неверный totalCost");
+        }
+        if (orderVO.getToPay().compareTo(totalCost) != 0) {
+            throw new IllegalArgumentException("Ошибка сохранения заказа. Неверный toPay");
+        }
+        if (orderVO.getPayFor().compareTo(BigDecimal.ZERO) != 0) {
+            throw new IllegalArgumentException("Ошибка сохранения заказа. Неверный payFor");
+        }
     }
 
     public List<ShopCityDto> getShopCities() {
@@ -160,17 +203,12 @@ public class OrderService {
     }
 
     public List<PaymentMethodDto> getPaymentMethod(String sendType, Long sendOrgId) {
-        for (DeliveryServiceTypeEnum deliveryServiceTypeEnum: DeliveryServiceTypeEnum.values()) {
-            if (deliveryServiceTypeEnum.getValue().equals(sendType)) {
+        for (SendTypeEnum sendTypeEnum: SendTypeEnum.values()) {
+            if (sendTypeEnum.getValue().equals(sendType)) {
                 List<PaymentMethodDto> result = new ArrayList<>();
-                List<PaymentMethodVO> paymentMethodVOList = paymentMethodRepository.findByDeliveryServiceTypeAndDeliveryServiceId(deliveryServiceTypeEnum.getValue(),sendOrgId);
+                List<PaymentMethodVO> paymentMethodVOList = paymentMethodRepository.findBySendTypeAndSendOrgId(sendTypeEnum,sendOrgId);
                 for (PaymentMethodVO paymentMethodVO: paymentMethodVOList) {
-                    for (PaymentMethodEnum paymentMethodEnum: PaymentMethodEnum.values()) {
-                        if (paymentMethodEnum.getValue().equals(paymentMethodVO.getPaymentMethod())) {
-                            result.add(new PaymentMethodDto() {{setName(paymentMethodEnum.getText()); setComment(paymentMethodEnum.getComment());}});
-                            break;
-                        }
-                    }
+                    result.add(new PaymentMethodDto() {{setValue(paymentMethodVO.getPaymentMethod().getValue()); setName(paymentMethodVO.getPaymentMethod().getText()); setComment(paymentMethodVO.getPaymentMethod().getComment());}});
                 }
                 return result;
             }

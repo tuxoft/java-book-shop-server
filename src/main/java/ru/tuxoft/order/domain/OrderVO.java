@@ -73,7 +73,7 @@ public class OrderVO {
     private BigDecimal totalCost;
 
     @Column(name = "discount")
-    private String discount;
+    private BigDecimal discount;
 
     @Column(name = "to_pay")
     private BigDecimal toPay;

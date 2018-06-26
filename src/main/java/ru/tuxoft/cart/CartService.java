@@ -175,7 +175,7 @@ public class CartService {
                     cart.getCartItemList().add(cartItemVO);
                 }
             }
-            cartItemRepository.deleteByUserId(temporaryCard.getId());
+            cartItemRepository.deleteByCartId(temporaryCard.getId());
             cartItemRepository.flush();
             temporaryCard.setCartItemList(null);
         }
@@ -184,5 +184,13 @@ public class CartService {
             cartItemRepository.flush();
         }
 
+    }
+
+    public void cleanCart(String userId) {
+        CartVO cart = cartRepository.findByUserId(userId);
+        cartItemRepository.deleteByCartId(cart.getId());
+        cartItemRepository.flush();
+        cart.setCartItemList(new ArrayList<>());
+        cartRepository.saveAndFlush(cart);
     }
 }

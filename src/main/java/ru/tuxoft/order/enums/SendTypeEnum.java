@@ -4,9 +4,9 @@ package ru.tuxoft.order.enums;
  * Created by Valera on 20.06.2018.
  */
 public enum SendTypeEnum {
-    MAILSERVICE("mailService","Почтой"),
-    COURIERSERVICE("courierService","Курьерской службой"),
-    SELFTAKE("selfTake","Самовывоз");
+    COURIER_SERVICE("courierService", "Курьерская служба"),
+    MAIL_SERVICE("mailService", "Почтовая служба"),
+    PICKUP_POINT("pickupPoint", "Точка выдачи");
 
     private String value;
 
