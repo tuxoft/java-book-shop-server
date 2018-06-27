@@ -21,11 +21,18 @@ public class OrderController {
         return orderService.getTemplateOrder(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/orders/{type}")
+    public List<OrderDto> getOrderList(
+            @PathVariable("type") String type
+    ) {
+        return orderService.getOrderList(SecurityContextHolder.getContext().getAuthentication().getName(),type);
+    }
+
     @RequestMapping(method = RequestMethod.PUT, path = "/order", produces = "application/json")
-    public String updateOrder(
+    public String createOrder(
             @RequestBody OrderDto orderDto
     ) {
-        return orderService.updateOrder(orderDto);
+        return orderService.createOrder(orderDto);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/order/{id}")

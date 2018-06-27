@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -26,11 +27,15 @@ public class OrderDto {
 
     private String paymentMethod ="";
 
+    private String paymentMethodText ="";
+
     private String comment ="";
 
     private String sendType ="";
 
     private Long sendOrgId;
+
+    private String sendOrgName;
 
     private Boolean isAge18 = false;
 
@@ -53,4 +58,9 @@ public class OrderDto {
     private String status ="unPayd";
 
     private List<OrderItemDto> orderItemList;
+
+    private Date createDate;
+
+    private Date deliveryDate;
+
 }

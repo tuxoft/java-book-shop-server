@@ -268,6 +268,8 @@
             <column name="addr_housing" type="VARCHAR(255)" remarks="адрес получателя (корпус)"/>
             <column name="addr_building" type="VARCHAR(255)" remarks="адрес получателя (строение)"/>
             <column name="addr_room" type="VARCHAR(255)" remarks="адрес получателя (квартира)"/>
+            <column name="create_date" type="DATETIME" remarks="дата создания ордера"/>
+            <column name="delivery_date" type="DATETIME" remarks="дата доставки"/>
         </createTable>
     </changeSet>
     <changeSet author="v.darmakheev" id="scheme-init-23">

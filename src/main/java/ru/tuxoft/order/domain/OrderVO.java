@@ -8,6 +8,7 @@ import ru.tuxoft.order.enums.StatusEnum;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -108,5 +109,11 @@ public class OrderVO {
 
     @Column(name = "addr_room")
     private String addrRoom;
+
+    @Column(name = "create_date")
+    private Date createDate;
+
+    @Column(name = "delivery_date")
+    private Date deliveryDate;
 
 }

@@ -17,9 +17,7 @@ import ru.tuxoft.profile.domain.ProfileVO;
 import ru.tuxoft.profile.domain.repository.ProfileRepository;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,6 +65,12 @@ public class OrderService {
 
     @Autowired
     PaymentMethodRepository paymentMethodRepository;
+
+    public static final List<StatusEnum> ACTIVE_STATUS_LIST = Collections.unmodifiableList(Arrays.asList(StatusEnum.PAYD, StatusEnum.SHIPPING, StatusEnum.UNPAID));
+
+    public static final List<StatusEnum> CLOSED_STATUS_LIST = Collections.unmodifiableList(Arrays.asList(StatusEnum.DELIVERY));
+
+    public static final List<StatusEnum> CANCELED_STATUS_LIST = Collections.unmodifiableList(Arrays.asList(StatusEnum.CANCELED));
 
     public OrderDto getTemplateOrder(String userId) {
         OrderDto templateOrder = new OrderDto();
@@ -121,7 +125,7 @@ public class OrderService {
         }
     }
 
-    public String updateOrder(OrderDto orderDto) {
+    public String createOrder(OrderDto orderDto) {
         OrderVO orderVO = orderMapper.orderDtoToOrderVO(orderDto);
         orderVO.getOrderItemList().forEach(e -> e.setOrder(orderVO));
         String redirectUrl = "";
@@ -182,6 +186,7 @@ public class OrderService {
         if (orderVO.getPayFor().compareTo(BigDecimal.ZERO) != 0) {
             throw new IllegalArgumentException("Ошибка сохранения заказа. Неверный payFor");
         }
+        orderVO.setCreateDate(new Date());
     }
 
     public List<ShopCityDto> getShopCities() {
@@ -214,5 +219,21 @@ public class OrderService {
             }
         }
         return null;
+    }
+
+    public List<OrderDto> getOrderList(String userId, String type) {
+        List<StatusEnum> statusList = new ArrayList<>();
+        if (type.equals("active")) {
+            statusList = ACTIVE_STATUS_LIST;
+        } else if (type.equals("all")) {
+            for (StatusEnum statusEnum: StatusEnum.values()) {
+                statusList.add(statusEnum);
+            }
+        } else if (type.equals("closed")) {
+            statusList = CLOSED_STATUS_LIST;
+        } if (type.equals("canceled")) {
+            statusList = CANCELED_STATUS_LIST;
+        }
+        return orderRepository.findByUserIdAndStatusIn(userId, statusList).stream().map(orderVO -> orderMapper.orderVOToOrderDto(orderVO)).collect(Collectors.toList());
     }
 }

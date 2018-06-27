@@ -7,7 +7,8 @@ public enum StatusEnum {
     PAYD("payd","Оплачено"),
     SHIPPING("shipping","Отправлено"),
     DELIVERY("delivery","Доставлено"),
-    UNPAID("unPayd","Не оплачено");
+    UNPAID("unPayd","Не оплачено"),
+    CANCELED("canceled","Отменен");
 
     private String value;
 

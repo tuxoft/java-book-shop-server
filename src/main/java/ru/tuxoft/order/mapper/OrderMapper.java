@@ -10,9 +10,15 @@ import ru.tuxoft.order.enums.PaymentMethodEnum;
 import ru.tuxoft.order.enums.SendTypeEnum;
 import ru.tuxoft.order.enums.StatusEnum;
 
-@Mapper(componentModel = "spring", uses = {OrderMapperResolver.class, ShopCityMapper.class})
+@Mapper(componentModel = "spring", uses = {OrderMapperResolver.class, ShopCityMapper.class, BookMapper.class})
 public interface OrderMapper {
 
+    @Mappings({
+            @Mapping(target = "paymentMethodText", ignore= true),
+            @Mapping(target = "addr", ignore= true),
+            @Mapping(target = "sendPrice", ignore= true),
+            @Mapping(target = "sendOrgName", ignore= true)
+    })
     OrderDto orderVOToOrderDto(OrderVO vo);
 
     @Mappings({
@@ -64,7 +70,7 @@ public interface OrderMapper {
     };
 
     default String statusEnumToStatusString(StatusEnum statusEnum) {
-        return statusEnum.getValue();
+        return statusEnum.getText();
     };
 
 }
