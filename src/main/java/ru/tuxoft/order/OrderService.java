@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.tuxoft.book.domain.repository.BookRepository;
 import ru.tuxoft.cart.CartService;
 import ru.tuxoft.cart.domain.CartItemVO;
+import ru.tuxoft.cart.dto.CartDto;
 import ru.tuxoft.order.domain.*;
 import ru.tuxoft.order.domain.repository.*;
 import ru.tuxoft.order.dto.*;
@@ -93,6 +94,9 @@ public class OrderService {
 
     private void setInformationFromProfile(OrderDto templateOrder, String userId) {
         ProfileVO profile = profileRepository.findByUserId(userId);
+        if(profile==null){
+            profile = new ProfileVO();
+        }
         templateOrder.setFirstName(profile.getFirstName());
         templateOrder.setMiddleName(profile.getMiddleName());
         templateOrder.setLastName(profile.getLastName());
@@ -112,7 +116,11 @@ public class OrderService {
 
     private void setInformationFromCart(OrderDto templateOrder, String userId) {
         templateOrder.setOrderItemList(new ArrayList<OrderItemDto>());
-        templateOrder.getOrderItemList().addAll(cartService.getCart(userId).getCartItemList()
+        CartDto cart = cartService.getCart(userId);
+        if(cart.getCartItemList()==null){
+            cart.setCartItemList(new ArrayList<>());
+        }
+        templateOrder.getOrderItemList().addAll(cart.getCartItemList()
                 .stream().map(e -> new OrderItemDto(e)).collect(Collectors.toList()));
     }
 

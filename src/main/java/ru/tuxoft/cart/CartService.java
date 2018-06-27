@@ -42,6 +42,7 @@ public class CartService {
     public CartDto getCart(String id) {
         log.debug("userId {}", id);
         CartVO cart = cartRepository.findByUserId(id);
+        if(cart== null)cart=new CartVO();
         if (cart.getCartItemList() != null) {
             cart.getCartItemList().sort((left, right) -> left.getId() > right.getId() ? -1 : (left.getId() < right.getId()) ? 1 : 0);
         }
