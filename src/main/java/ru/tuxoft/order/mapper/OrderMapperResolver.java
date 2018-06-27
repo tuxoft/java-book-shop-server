@@ -12,7 +12,7 @@ public class OrderMapperResolver {
     @ObjectFactory
     public ShopCityVO resolve(ShopCityDto shopCityDto, @TargetType Class<ShopCityVO> type) {
         ShopCityVO shopCityVO = new ShopCityVO();
-        if (shopCityDto.getCoords().size() == 2) {
+        if (shopCityDto != null && shopCityDto.getCoords() != null && shopCityDto.getCoords().size() == 2) {
             shopCityVO.setCoordX(shopCityDto.getCoords().get(0));
             shopCityVO.setCoordY(shopCityDto.getCoords().get(1));
         }
