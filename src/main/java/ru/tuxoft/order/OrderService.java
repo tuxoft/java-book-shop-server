@@ -16,6 +16,10 @@ import ru.tuxoft.order.enums.StatusEnum;
 import ru.tuxoft.order.mapper.*;
 import ru.tuxoft.profile.domain.ProfileVO;
 import ru.tuxoft.profile.domain.repository.ProfileRepository;
+import ru.tuxoft.seller.domain.ActionVO;
+import ru.tuxoft.seller.domain.OrderWorkInfo;
+import ru.tuxoft.seller.domain.enums.WorkStatusEnum;
+import ru.tuxoft.seller.domain.repository.OrderWorkInfoRepository;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -67,7 +71,10 @@ public class OrderService {
     @Autowired
     PaymentMethodRepository paymentMethodRepository;
 
-    public static final List<StatusEnum> ACTIVE_STATUS_LIST = Collections.unmodifiableList(Arrays.asList(StatusEnum.PAYD, StatusEnum.SHIPPING, StatusEnum.UNPAID));
+    @Autowired
+    OrderWorkInfoRepository orderWorkInfoRepository;
+
+    public static final List<StatusEnum> ACTIVE_STATUS_LIST = Collections.unmodifiableList(Arrays.asList(StatusEnum.SHIPPING, StatusEnum.RECEIVE));
 
     public static final List<StatusEnum> CLOSED_STATUS_LIST = Collections.unmodifiableList(Arrays.asList(StatusEnum.DELIVERY));
 
@@ -75,6 +82,7 @@ public class OrderService {
 
     public OrderDto getTemplateOrder(String userId) {
         OrderDto templateOrder = new OrderDto();
+        templateOrder.setStatus(StatusEnum.RECEIVE.getText());
         setInformationFromCart(templateOrder, userId);
         setInformationFromProfile(templateOrder, userId);
         setInformationAboutPayment(templateOrder, userId);
@@ -135,7 +143,9 @@ public class OrderService {
 
     public String createOrder(OrderDto orderDto) {
         OrderVO orderVO = orderMapper.orderDtoToOrderVO(orderDto);
-        orderVO.getOrderItemList().forEach(e -> e.setOrder(orderVO));
+        for (OrderItemVO orderItemVO: orderVO.getOrderItemList()) {
+            orderItemVO.setOrder(orderVO);
+        }
         String redirectUrl = "";
         if (orderVO.getPaymentMethod().equals(PaymentMethodEnum.PAYMENT_IN_SITE)) {
             redirectUrl = "/pay";
@@ -146,8 +156,18 @@ public class OrderService {
         }
         validateOrder(orderVO);
         cleanCart(orderVO.getUserId());
-        orderRepository.saveAndFlush(orderVO);
+        orderVO = orderRepository.saveAndFlush(orderVO);
+        createOrderEditInfo(orderVO);
+
         return redirectUrl;
+    }
+
+    private void createOrderEditInfo(OrderVO orderVO) {
+        OrderWorkInfo orderWorkInfo = new OrderWorkInfo();
+        orderWorkInfo.setWorkStatus(WorkStatusEnum.NEW);
+        orderWorkInfo.setOrder(orderVO);
+        orderWorkInfoRepository.saveAndFlush(orderWorkInfo);
+        ActionVO createAction = new ActionVO();
     }
 
     private void cleanCart(String userId) {

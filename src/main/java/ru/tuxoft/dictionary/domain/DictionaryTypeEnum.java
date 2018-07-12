@@ -9,7 +9,8 @@ public enum DictionaryTypeEnum {
     CITY("city"),
     LANGUAGE("language"),
     COVERTYPE("coverType"),
-    SHOPCITY("shopCity");
+    SHOPCITY("shopCity"),
+    ORDERSTATUS("orderStatus");
 
     String type;
 

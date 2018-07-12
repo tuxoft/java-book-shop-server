@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import ru.tuxoft.dictionary.domain.DictionaryTypeEnum;
 import ru.tuxoft.book.domain.*;
 import ru.tuxoft.order.domain.ShopCityVO;
+import ru.tuxoft.order.enums.StatusEnum;
 
 @Data
 @NoArgsConstructor
@@ -84,5 +85,11 @@ public class DictionaryDto {
         this.id = shopCity.getId();
         this.name = shopCity.getName();
         this.type = DictionaryTypeEnum.SHOPCITY.getType();
+    }
+
+    public DictionaryDto(StatusEnum e) {
+        this.id = null;
+        this.name = e.getText();
+        this.type = DictionaryTypeEnum.ORDERSTATUS.getType();
     }
 }

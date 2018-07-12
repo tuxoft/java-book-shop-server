@@ -4,10 +4,9 @@ package ru.tuxoft.order.enums;
  * Created by Valera on 20.06.2018.
  */
 public enum StatusEnum {
-    PAYD("payd","Оплачено"),
+    RECEIVE("receive","Принят"),
     SHIPPING("shipping","Отправлено"),
     DELIVERY("delivery","Доставлено"),
-    UNPAID("unPayd","Не оплачено"),
     CANCELED("canceled","Отменен");
 
     private String value;

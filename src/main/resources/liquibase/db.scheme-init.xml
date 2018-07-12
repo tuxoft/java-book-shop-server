@@ -442,7 +442,13 @@
             <column name="shop_city_id" type="BIGINT" remarks="идентификатор города точки выдачи"/>
             <column name="work_period" type="VARCHAR(255)" remarks="период работы"/>
             <column name="icon_file_id" type="BIGINT" remarks="идентификатор файла иконки точки выдачи"/>
-            <column name="addr" type="VARCHAR(255)" remarks="адрес точки выдачи"/>
+            <column name="addr_index" type="VARCHAR(255)" remarks="адрес точки выдачи (индекс)"/>
+            <column name="addr_city" type="VARCHAR(255)" remarks="адрес точки выдачи (город)"/>
+            <column name="addr_street" type="VARCHAR(255)" remarks="адрес точки выдачи (улица)"/>
+            <column name="addr_house" type="VARCHAR(255)" remarks="адрес точки выдачи (дом)"/>
+            <column name="addr_housing" type="VARCHAR(255)" remarks="адрес точки выдачи (корпус)"/>
+            <column name="addr_building" type="VARCHAR(255)" remarks="адрес точки выдачи (строение)"/>
+            <column name="addr_room" type="VARCHAR(255)" remarks="адрес точки выдачи (квартира)"/>
             <column name="pay_case" type="VARCHAR(255)" remarks="способы оплаты доступные в точке выдачи"/>
             <column name="send_price" type="DECIMAL" remarks="стоимость доставки в точку выдачи"/>
             <column name="deleted" type="BOOLEAN" defaultValue="false" remarks="признак удаления"/>
@@ -597,7 +603,65 @@
             <column name="payment_method" type="VARCHAR(255)" remarks="способ оплаты"/>
         </createTable>
     </changeSet>
-    <changeSet author="v.darmakheev" id="scheme-init-51" dbms="postgresql">
+    <changeSet author="v.darmakheev" id="scheme-init-51">
+        <createTable tableName="history_actions">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="change_field" type="VARCHAR(255)" remarks="изменяемое поле"/>
+            <column name="old_value" type="VARCHAR(255)" remarks="старое значение"/>
+            <column name="new_value" type="VARCHAR(255)" remarks="новое значение"/>
+            <column name="description" type="VARCHAR(255)" remarks="комментарий к изменению"/>
+            <column name="worker_id" type="BIGINT" remarks="id работника совершившего изменения"/>
+            <column name="change_date" type="DATETIME" remarks="дата изменения"/>
+            <column name="order_id" type="BIGINT" remarks="id ордера"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-52">
+        <addForeignKeyConstraint baseColumnNames="worker_id"
+                                 baseTableName="history_actions"
+                                 constraintName="worker_id_history_actions_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="profiles"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-53">
+        <addForeignKeyConstraint baseColumnNames="order_id"
+                                 baseTableName="history_actions"
+                                 constraintName="order_id_history_actions_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="orders"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-54">
+        <createTable tableName="order_work_info">
+            <column autoIncrement="true" name="id" type="BIGINT" remarks="уникальный идентификатор">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="work_status" type="VARCHAR(255)" remarks="рабочий статус ордера"/>
+            <column name="work_status_description" type="VARCHAR(255)" remarks="коментарий к рабочему статусу"/>
+            <column name="worker_id" type="BIGINT" remarks="id работника совершившего изменения"/>
+            <column name="order_id" type="BIGINT" remarks="id ордера"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-55">
+        <addForeignKeyConstraint baseColumnNames="order_id"
+                                 baseTableName="order_work_info"
+                                 constraintName="order_id_order_work_info_fkey"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="orders"/>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="scheme-init-56" dbms="postgresql">
         <sql>
             ALTER SEQUENCE authors_id_seq RESTART with 1000000;
             ALTER SEQUENCE book_authors_id_seq RESTART with 1000000;
@@ -623,6 +687,8 @@
             ALTER SEQUENCE mail_services_id_seq RESTART with 1000000;
             ALTER SEQUENCE profiles_id_seq RESTART with 1000000;
             ALTER SEQUENCE payment_methods_id_seq RESTART with 1000000;
+            ALTER SEQUENCE history_actions_id_seq RESTART with 1000000;
+            ALTER SEQUENCE order_work_info_id_seq RESTART with 1000000;
             ALTER SEQUENCE s3init_id_seq RESTART with 1000000;
         </sql>
     </changeSet>

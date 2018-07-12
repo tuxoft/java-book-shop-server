@@ -176,16 +176,22 @@ public class ContentService {
         List<MenuItemDto> userMenuItemList = getMenuFromJson("menu/userMenu.json");
 
         boolean isAdmin = false;
+        boolean isWorker = false;
         for (GrantedAuthority role : roles) {
             log.debug("have role - {}",role.getAuthority());
             if (role.getAuthority().equals("ROLE_Admin")) {
                 isAdmin = true;
             }
+            if (role.getAuthority().equals("ROLE_Worker")) {
+                isWorker = true;
+            }
         }
         if (!isAdmin) {
             userMenuItemList.removeIf(item -> item.getUrl().equals("/admin") );
         }
-
+        if (!isWorker) {
+            userMenuItemList.removeIf(item -> item.getUrl().equals("/seller") );
+        }
         return userMenuItemList;
 
     }

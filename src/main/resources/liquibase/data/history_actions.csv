@@ -1,0 +1,7 @@
+id;change_field;old_value;new_value;description;worker_id;order_id;change_date
+1;workStatus;NEW;INWORK;;1;1;2018-01-01 02:01:01
+2;payFor;0;500;перевод номер 1 по визe;1;1;2018-01-01 02:02:01
+3;toPay;500;0;перевод номер 1 по визе;1;1;2018-01-01 02:02:01
+4;orderStatus;RECEIVE;SHIPPING;трекер номер для отслеживания посылки 1;1;1;2018-01-02 03:03:01
+5;orderStatus;RECEIVE;CANCELED;нет оплаты в течении часа;1;2;2017-11-11 12:11:11
+6;workStatus;NEW;FINISH;заказ отменен;1;2;2017-11-11 12:11:12

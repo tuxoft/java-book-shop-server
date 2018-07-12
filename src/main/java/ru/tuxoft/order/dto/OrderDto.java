@@ -55,7 +55,7 @@ public class OrderDto {
 
     private BigDecimal sendPrice;
 
-    private String status ="unPayd";
+    private String status ="";
 
     private List<OrderItemDto> orderItemList;
 

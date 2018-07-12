@@ -8,11 +8,13 @@ import ru.tuxoft.book.domain.repository.*;
 import ru.tuxoft.dictionary.domain.DictionaryTypeEnum;
 import ru.tuxoft.dictionary.dto.DictionaryDto;
 import ru.tuxoft.order.domain.repository.ShopCityRepository;
+import ru.tuxoft.order.enums.StatusEnum;
 import ru.tuxoft.paging.ListResult;
 import ru.tuxoft.paging.Meta;
 import ru.tuxoft.paging.Paging;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,6 +70,8 @@ public class DictionaryService {
                 result.setData(coverTypeRepository.findAll().stream().map(e -> new DictionaryDto(e)).collect(Collectors.toList()));
             } else if (dictionary.equals(DictionaryTypeEnum.SHOPCITY.getType())) {
                 result.setData(shopCityRepository.findAll().stream().map(e -> new DictionaryDto(e)).collect(Collectors.toList()));
+            } else if (dictionary.equals(DictionaryTypeEnum.ORDERSTATUS.getType())) {
+                result.setData(Arrays.stream(StatusEnum.values()).map(e -> new DictionaryDto(e)).collect(Collectors.toList()));
             }
         } else {
             if (dictionary.equals(DictionaryTypeEnum.PUBLISHER.getType())) {

@@ -23,6 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry conf) {
         conf.antMatchers("/profile").hasRole("User");
         conf.antMatchers("/admin/**").hasRole("Admin");
+        conf.antMatchers("/work/**").hasRole("Worker");
         conf.antMatchers("/**").permitAll();
     }
 

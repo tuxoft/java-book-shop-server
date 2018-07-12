@@ -268,4 +268,26 @@
                 tableName="payment_methods">
         </loadData>
     </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-25">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/history_actions.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="history_actions">
+        </loadData>
+    </changeSet>
+    <changeSet author="v.darmakheev" id="data-init-26">
+        <loadData
+                encoding="UTF-8"
+                relativeToChangelogFile="true"
+                file="data/order_work_info.csv"
+                quotchar="'"
+                schemaName="public"
+                separator=";"
+                tableName="order_work_info">
+        </loadData>
+    </changeSet>
 </databaseChangeLog>

@@ -22,7 +22,7 @@ public class PickupPointDto {
 
     private String iconUrl;
 
-    private String addr;
+    private AddressDto addr;
 
     private String payCase;
 

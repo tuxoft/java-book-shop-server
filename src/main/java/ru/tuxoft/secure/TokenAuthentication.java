@@ -13,9 +13,12 @@ public class TokenAuthentication implements Authentication {
 
     boolean authenticated = true;
 
-    public TokenAuthentication(Collection<? extends GrantedAuthority> authorities, boolean isAuthenticated, String userName) {
+    Principal principal;
+
+    public TokenAuthentication(Collection<? extends GrantedAuthority> authorities, boolean isAuthenticated, String userName, String firstName, String lastName, String email) {
         this.authorities = authorities;
         this.userName = userName;
+        this.principal = new Principal(userName, firstName, lastName, email);
     }
 
     @Override
@@ -35,7 +38,7 @@ public class TokenAuthentication implements Authentication {
 
     @Override
     public Object getPrincipal() {
-        return null;
+        return principal;
     }
 
     @Override

@@ -25,6 +25,7 @@
         <keycloak.version>3.2.1.Final</keycloak.version>
 		<docker.image.prefix>book-shop</docker.image.prefix>
 		<org.mapstruct.version>1.2.0.CR2</org.mapstruct.version>
+		<resteasy.version>3.0.9.Final</resteasy.version>
 	</properties>
 
 	<dependencies>
@@ -54,6 +55,30 @@
             <artifactId>keycloak-tomcat8-adapter</artifactId>
             <version>3.1.0.Final</version>
         </dependency>
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-admin-client</artifactId>
+			<version>4.0.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>jaxrs-api</artifactId>
+			<version>${resteasy.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-client</artifactId>
+			<version>${resteasy.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson-provider</artifactId>
+			<version>${resteasy.version}</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>

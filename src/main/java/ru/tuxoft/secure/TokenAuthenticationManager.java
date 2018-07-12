@@ -209,6 +209,9 @@ public class TokenAuthenticationManager {
     private TokenAuthentication buildFullTokenAuthentication(DecodedJWT jwt) {
         String userName = ((Claim)jwt.getClaims().get("preferred_username")).asString();
         List roles = this.getRoles(((Claim)jwt.getClaims().get("realm_access")).asMap());
+        String firstName = ((Claim)jwt.getClaims().get("given_name")).asString();
+        String lastName = ((Claim)jwt.getClaims().get("family_name")).asString();
+        String email = ((Claim)jwt.getClaims().get("email")).asString();
         if(userName != null && !userName.isEmpty()) {
             ArrayList authorities = new ArrayList();
             Iterator fullTokenAuthentication = roles.iterator();
@@ -218,7 +221,7 @@ public class TokenAuthenticationManager {
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + r));
             }
 
-            TokenAuthentication fullTokenAuthentication1 = new TokenAuthentication(authorities, true, userName);
+            TokenAuthentication fullTokenAuthentication1 = new TokenAuthentication(authorities, true, userName, firstName, lastName, email);
             return fullTokenAuthentication1;
         } else {
             throw new AuthenticationServiceException("Bad token");

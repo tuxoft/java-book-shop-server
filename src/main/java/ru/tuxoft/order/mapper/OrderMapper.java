@@ -62,7 +62,7 @@ public interface OrderMapper {
 
     default StatusEnum statusStringToStatusEnum(String statusString) {
         for (StatusEnum statusEnum: StatusEnum.values()) {
-            if (statusEnum.getValue().equals(statusString)) {
+            if (statusEnum.getText().equals(statusString)) {
                 return statusEnum;
             }
         }

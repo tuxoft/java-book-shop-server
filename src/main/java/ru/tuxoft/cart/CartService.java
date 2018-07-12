@@ -14,6 +14,9 @@ import ru.tuxoft.cart.domain.repository.CartItemRepository;
 import ru.tuxoft.cart.domain.repository.CartRepository;
 import ru.tuxoft.cart.dto.CartDto;
 import ru.tuxoft.cart.mapper.CartMapper;
+import ru.tuxoft.profile.domain.ProfileVO;
+import ru.tuxoft.profile.domain.repository.ProfileRepository;
+import ru.tuxoft.secure.Principal;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +45,6 @@ public class CartService {
     public CartDto getCart(String id) {
         log.debug("userId {}", id);
         CartVO cart = cartRepository.findByUserId(id);
-        if(cart== null)cart=new CartVO();
         if (cart.getCartItemList() != null) {
             cart.getCartItemList().sort((left, right) -> left.getId() > right.getId() ? -1 : (left.getId() < right.getId()) ? 1 : 0);
         }
@@ -120,7 +122,7 @@ public class CartService {
 
     public String getUserId(String cartCookies, HttpServletResponse response) {
         String user;
-        boolean isAuthenticated = SecurityContextHolder.getContext().getAuthentication().getPrincipal() == null;
+        boolean isAuthenticated = Principal.class.isInstance(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         if (isAuthenticated) {
             user = SecurityContextHolder.getContext().getAuthentication().getName();
             if (cartCookies != null) {
@@ -143,6 +145,7 @@ public class CartService {
             CartVO cart = new CartVO();
             cart.setUserId(user);
             cart.setTemporary(!isAuthenticated);
+            cartRepository.saveAndFlush(cart);
             if (isAuthenticated && cartCookies != null) {
                 moveCartItemFromTemproraryCartToUserCart(cart, cartCookies);
             }
@@ -176,11 +179,12 @@ public class CartService {
                     cart.getCartItemList().add(cartItemVO);
                 }
             }
-            cartItemRepository.deleteByCartId(temporaryCard.getId());
             cartItemRepository.flush();
             temporaryCard.setCartItemList(null);
         }
+
         if (temporaryCard != null) {
+            cartItemRepository.deleteByCartId(temporaryCard.getId());
             cartRepository.deleteById(temporaryCard.getId());
             cartItemRepository.flush();
         }

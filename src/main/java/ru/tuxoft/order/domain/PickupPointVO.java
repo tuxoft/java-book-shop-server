@@ -37,8 +37,26 @@ public class PickupPointVO {
     @JoinColumn(name = "icon_file_id")
     private FileVO iconFile;
 
-    @Column(name = "addr")
-    private String addr;
+    @Column(name = "addr_index")
+    private String addrIndex;
+
+    @Column(name = "addr_city")
+    private String addrCity;
+
+    @Column(name = "addr_street")
+    private String addrStreet;
+
+    @Column(name = "addr_house")
+    private String addrHouse;
+
+    @Column(name = "addr_housing")
+    private String addrHousing;
+
+    @Column(name = "addr_building")
+    private String addrBuilding;
+
+    @Column(name = "addr_room")
+    private String addrRoom;
 
     @Column(name = "pay_case")
     private String payCase;
